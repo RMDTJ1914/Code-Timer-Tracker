@@ -1,0 +1,21 @@
+{
+  "name": "code-timer-tracker",
+  "version": "2.0.0",
+  "description": "Developer productivity, session tracking, and project analytics suite",
+  "main": "script.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/test_engine.js"
+  },
+  "keywords": [
+    "developer-tools",
+    "time-tracker",
+    "productivity",
+    "pomodoro",
+    "analytics",
+    "local-first"
+  ],
+  "author": "Mohammad Abu Khashreef",
+  "license": "MIT",
+  "homepage": "https://mohammad.code-elta6ur.com/"
+}

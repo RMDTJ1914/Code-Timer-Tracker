@@ -1,359 +1,1168 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code Timer Tracker - متتبع وقت البرمجة</title>
+    <title>Code Timer Tracker — Developer Productivity &amp; Time Tracking</title>
+    <meta name="description" content="Professional developer time tracking, session management, productivity analytics, and project activity tool.">
+    <meta name="author" content="Mohammad Abu Khashreef">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
-    <div class="container">
-        <header>
-            <div class="header-main">
-                <h1><i class="fas fa-code"></i> Code Timer Tracker</h1>
-                <div class="header-controls">
-                    <button id="themeToggle" class="btn-icon">
-                        <i class="fas fa-moon"></i>
+    <div id="app" class="app-layout">
+        <!-- Top App Bar -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="brand">
+                    <span class="brand-icon"><i class="fas fa-terminal"></i></span>
+                    <div class="brand-text">
+                        <span class="brand-name">Code Timer Tracker</span>
+                        <span class="brand-sub">by Mohammad Abu Khashreef</span>
+                    </div>
+                </div>
+
+                <!-- Global Active Timer Banner / Pill in Header -->
+                <div id="headerTimerPill" class="header-timer-pill hidden">
+                    <span class="pill-dot pulse"></span>
+                    <span id="pillProjectName" class="pill-project">No Project</span>
+                    <span id="pillTimerDisplay" class="pill-time">00:00:00</span>
+                    <button id="pillPauseBtn" class="pill-btn" title="Pause / Resume Session">
+                        <i class="fas fa-pause"></i>
                     </button>
-                    <button id="syncBtn" class="btn-secondary">
-                        <i class="fas fa-sync"></i> مزامنة
-                    </button>
-                    <button id="exportBtn" class="btn-secondary">
-                        <i class="fas fa-download"></i> تصدير
+                    <button id="pillStopBtn" class="pill-btn pill-btn-danger" title="Stop &amp; Save Session">
+                        <i class="fas fa-stop"></i>
                     </button>
                 </div>
             </div>
+
+            <div class="header-actions">
+                <button id="cmdPaletteBtn" class="btn-ghost" title="Open Command Palette (Ctrl+K)">
+                    <i class="fas fa-search"></i>
+                    <span class="btn-label">Search / Actions</span>
+                    <kbd class="kbd-hint">Ctrl+K</kbd>
+                </button>
+                <button id="focusModeBtn" class="btn-ghost" title="Distraction-Free Focus Mode (Ctrl+B)">
+                    <i class="fas fa-expand"></i>
+                    <span class="btn-label">Focus</span>
+                </button>
+                <button id="logManualBtn" class="btn-ghost" title="Log Past Session" onclick="window.appEngine.openManualSessionModal()">
+                    <i class="fas fa-plus-circle"></i>
+                    <span class="btn-label">Log Time</span>
+                </button>
+                <button id="themeToggle" class="btn-icon" title="Toggle Theme (Dark / Light)">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
         </header>
 
-        <nav class="main-nav">
-            <button class="nav-btn active" data-page="dashboard">
-                <i class="fas fa-chart-line"></i>
-                <span>لوحة التحكم</span>
-            </button>
-            <button class="nav-btn" data-page="timer">
-                <i class="fas fa-play"></i>
-                <span>المؤقت النشط</span>
-            </button>
-            <button class="nav-btn" data-page="projects">
-                <i class="fas fa-folder"></i>
-                <span>المشاريع</span>
-            </button>
-            <button class="nav-btn" data-page="sessions">
-                <i class="fas fa-history"></i>
-                <span>سجل الجلسات</span>
-            </button>
-            <button class="nav-btn" data-page="reports">
-                <i class="fas fa-chart-bar"></i>
-                <span>التقارير</span>
-            </button>
+        <!-- Navigation Tabs -->
+        <nav class="app-nav" aria-label="Main Navigation">
+            <div class="nav-container">
+                <button class="nav-tab active" data-page="dashboard" id="nav-dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                    <span class="nav-shortcut">1</span>
+                </button>
+                <button class="nav-tab" data-page="timer" id="nav-timer">
+                    <i class="fas fa-stopwatch"></i>
+                    <span>Timer Console</span>
+                    <span class="nav-shortcut">2</span>
+                </button>
+                <button class="nav-tab" data-page="projects" id="nav-projects">
+                    <i class="fas fa-folder-tree"></i>
+                    <span>Projects &amp; Tasks</span>
+                    <span class="nav-shortcut">3</span>
+                </button>
+                <button class="nav-tab" data-page="sessions" id="nav-sessions">
+                    <i class="fas fa-list-check"></i>
+                    <span>Session Logs</span>
+                    <span class="nav-shortcut">4</span>
+                </button>
+                <button class="nav-tab" data-page="reports" id="nav-reports">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Analytics</span>
+                    <span class="nav-shortcut">5</span>
+                </button>
+                <button class="nav-tab" data-page="settings" id="nav-settings">
+                    <i class="fas fa-sliders"></i>
+                    <span>Settings &amp; Backup</span>
+                </button>
+                <button class="nav-tab" data-page="about" id="nav-about">
+                    <i class="fas fa-circle-info"></i>
+                    <span>About</span>
+                </button>
+            </div>
         </nav>
 
-        <main class="main-content">
-            <section id="dashboard" class="page active">
-                <div class="dashboard-grid">
-                    <div class="stats-grid">
-                        <div class="stat-card primary">
-                            <div class="stat-icon">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <div class="stat-content">
-                                <div class="stat-value" id="todayTime">0h 0m</div>
-                                <div class="stat-label">اليوم</div>
-                            </div>
-                        </div>
-                        <div class="stat-card success">
-                            <div class="stat-icon">
-                                <i class="fas fa-calendar-week"></i>
-                            </div>
-                            <div class="stat-content">
-                                <div class="stat-value" id="weekTime">0h 0m</div>
-                                <div class="stat-label">هذا الأسبوع</div>
-                            </div>
-                        </div>
-                        <div class="stat-card warning">
-                            <div class="stat-icon">
-                                <i class="fas fa-dollar-sign"></i>
-                            </div>
-                            <div class="stat-content">
-                                <div class="stat-value" id="billableAmount">0</div>
-                                <div class="stat-label">قابل للفوترة</div>
-                            </div>
-                        </div>
-                        <div class="stat-card info">
-                            <div class="stat-icon">
-                                <i class="fas fa-project-diagram"></i>
-                            </div>
-                            <div class="stat-content">
-                                <div class="stat-value" id="activeProjects">0</div>
-                                <div class="stat-label">مشاريع نشطة</div>
-                            </div>
-                        </div>
+        <!-- Main Content Views -->
+        <main class="app-content">
+
+            <!-- 1. DASHBOARD VIEW -->
+            <section id="dashboardPage" class="page-view active">
+                <div class="dashboard-header">
+                    <div>
+                        <h1 class="page-title">Developer Overview</h1>
+                        <p class="page-subtitle">Tracked coding activity, active commitments, and focus consistency.</p>
                     </div>
-
-                    <div class="quick-timer-card">
-                        <h3>بدء جلسة سريعة</h3>
-                        <div class="quick-actions">
-                            <button class="template-btn" data-duration="25">
-                                <i class="fas fa-bug"></i>
-                                <span>إصلاح أخطاء (25د)</span>
-                            </button>
-                            <button class="template-btn" data-duration="45">
-                                <i class="fas fa-code"></i>
-                                <span>ميزة جديدة (45د)</span>
-                            </button>
-                            <button class="template-btn" data-duration="60">
-                                <i class="fas fa-search"></i>
-                                <span>بحث (60د)</span>
-                            </button>
-                            <button class="template-btn" data-duration="30">
-                                <i class="fas fa-eye"></i>
-                                <span>مراجعة كود (30د)</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="chart-card">
-                        <h3>الوقت حسب المشاريع</h3>
-                        <div class="chart-container">
-                            <canvas id="projectsChart"></canvas>
-                        </div>
-                    </div>
-
-                    <div class="recent-sessions">
-                        <h3>آخر الجلسات</h3>
-                        <div class="sessions-list" id="recentSessionsList">
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="timer" class="page">
-                <div class="timer-container">
-                    <div class="current-session" id="currentSession">
-                        <div class="session-header">
-                            <h3>لا توجد جلسة نشطة</h3>
-                            <div class="session-tags">
-                                <span class="tag billable">قابل للفوترة</span>
-                                <span class="tag pomodoro">بومودورو</span>
-                            </div>
-                        </div>
-
-                        <div class="timer-display">
-                            <div class="time" id="currentTimer">00:00:00</div>
-                            <div class="session-info">
-                                <span id="sessionProject">لم يتم تعيين مشروع</span>
-                                <span id="sessionTask">لا توجد مهمة</span>
-                            </div>
-                        </div>
-
-                        <div class="timer-controls">
-                            <button id="startTimer" class="btn-primary btn-large">
-                                <i class="fas fa-play"></i> بدء
-                            </button>
-                            <button id="pauseTimer" class="btn-secondary btn-large" disabled>
-                                <i class="fas fa-pause"></i> إيقاف مؤقت
-                            </button>
-                            <button id="stopTimer" class="btn-danger btn-large" disabled>
-                                <i class="fas fa-stop"></i> إنهاء
-                            </button>
-                        </div>
-
-                        <div class="session-settings">
-                            <div class="setting-group">
-                                <label for="sessionProjectSelect">المشروع</label>
-                                <select id="sessionProjectSelect">
-                                    <option value="">اختر مشروع...</option>
-                                </select>
-                            </div>
-                            <div class="setting-group">
-                                <label for="sessionTaskSelect">المهمة</label>
-                                <select id="sessionTaskSelect">
-                                    <option value="">اختر مهمة...</option>
-                                </select>
-                            </div>
-                            <div class="setting-group">
-                                <label for="sessionTags">الوسوم</label>
-                                <input type="text" id="sessionTags" placeholder="مثال: bugfix, feature">
-                            </div>
-                            <div class="setting-group">
-                                <label>
-                                    <input type="checkbox" id="sessionBillable">
-                                    قابل للفوترة
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="session-notes">
-                            <label for="sessionNotes">ملاحظات الجلسة</label>
-                            <textarea id="sessionNotes" placeholder="ما الذي تعمل عليه؟ أي تحديات واجهتك؟"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="pomodoro-timer">
-                        <h4>مؤقت البومودورو</h4>
-                        <div class="pomodoro-display">
-                            <div class="pomodoro-time" id="pomodoroTimer">25:00</div>
-                            <div class="pomodoro-phase" id="pomodoroPhase">وقت العمل</div>
-                        </div>
-                        <div class="pomodoro-controls">
-                            <button id="startPomodoro" class="btn-primary">
-                                <i class="fas fa-play"></i> بدء
-                            </button>
-                            <button id="resetPomodoro" class="btn-secondary">
-                                <i class="fas fa-redo"></i> إعادة تعيين
-                            </button>
-                        </div>
-                        <div class="pomodoro-settings">
-                            <div class="setting-group">
-                                <label>وقت العمل (دقائق)</label>
-                                <input type="number" id="workDuration" value="25" min="5" max="60">
-                            </div>
-                            <div class="setting-group">
-                                <label>وقت الراحة (دقائق)</label>
-                                <input type="number" id="breakDuration" value="5" min="1" max="30">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="projects" class="page">
-                <div class="page-header">
-                    <h2>إدارة المشاريع</h2>
-                    <button id="addProjectBtn" class="btn-primary">
-                        <i class="fas fa-plus"></i> مشروع جديد
-                    </button>
-                </div>
-
-                <div class="projects-grid" id="projectsList">
-                </div>
-            </section>
-
-            <section id="sessions" class="page">
-                <div class="page-header">
-                    <h2>سجل الجلسات</h2>
-                    <div class="filters">
-                        <select id="sessionProjectFilter">
-                            <option value="all">جميع المشاريع</option>
-                        </select>
-                        <select id="sessionDateFilter">
-                            <option value="today">اليوم</option>
-                            <option value="week">هذا الأسبوع</option>
-                            <option value="month">هذا الشهر</option>
-                            <option value="all">كل الوقت</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="sessions-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>المشروع</th>
-                                <th>المهمة</th>
-                                <th>المدة</th>
-                                <th>التاريخ</th>
-                                <th>الوسوم</th>
-                                <th>قابل للفوترة</th>
-                                <th>الإجراءات</th>
-                            </tr>
-                        </thead>
-                        <tbody id="sessionsTableBody">
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <section id="reports" class="page">
-                <div class="page-header">
-                    <h2>التقارير والتحليلات</h2>
-                    <div class="report-controls">
-                        <select id="reportPeriod">
-                            <option value="week">أسبوع</option>
-                            <option value="month">شهر</option>
-                            <option value="quarter">ربع سنة</option>
-                            <option value="year">سنة</option>
-                        </select>
-                        <button id="generateReport" class="btn-primary">
-                            <i class="fas fa-file-pdf"></i> تصدير PDF
+                    <div class="dashboard-quick-actions">
+                        <button id="dashStartTimerBtn" class="btn-primary">
+                            <i class="fas fa-play"></i> Start Timer
+                        </button>
+                        <button id="dashNewProjectBtn" class="btn-secondary" onclick="window.appEngine.openProjectModal()">
+                            <i class="fas fa-plus"></i> New Project
                         </button>
                     </div>
                 </div>
 
-                <div class="reports-grid">
-                    <div class="report-card">
-                        <h3>الإنتاجية الأسبوعية</h3>
-                        <div class="chart-container">
-                            <canvas id="weeklyChart"></canvas>
+                <!-- Key Metrics Grid -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <span class="metric-title">Today's Coding Time</span>
+                            <span class="metric-badge" id="todayProgressBadge">0% Goal</span>
+                        </div>
+                        <div class="metric-value" id="dashTodayTime">0h 0m</div>
+                        <div class="metric-progress-bar">
+                            <div class="progress-fill" id="dailyGoalProgress" style="width: 0%"></div>
+                        </div>
+                        <div class="metric-sub" id="dailyGoalText">Goal: 4h 0m</div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <span class="metric-title">This Week's Total</span>
+                            <span class="metric-badge" id="weekProgressBadge">0% Goal</span>
+                        </div>
+                        <div class="metric-value" id="dashWeekTime">0h 0m</div>
+                        <div class="metric-progress-bar">
+                            <div class="progress-fill fill-cyan" id="weeklyGoalProgress" style="width: 0%"></div>
+                        </div>
+                        <div class="metric-sub" id="weeklyGoalText">Goal: 25h 0m</div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <span class="metric-title">Billable Earnings</span>
+                            <span class="metric-icon-wrap"><i class="fas fa-dollar-sign"></i></span>
+                        </div>
+                        <div class="metric-value" id="dashBillableAmount">$0.00</div>
+                        <div class="metric-sub" id="dashBillableTime">0h 0m billable tracked</div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <span class="metric-title">Focus Consistency</span>
+                            <span class="metric-icon-wrap"><i class="fas fa-fire"></i></span>
+                        </div>
+                        <div class="metric-value" id="dashActiveStreak">0 Days</div>
+                        <div class="metric-sub" id="dashActiveProjectsCount">0 Active Projects</div>
+                    </div>
+                </div>
+
+                <!-- Dashboard 2-Column Section -->
+                <div class="dash-columns">
+                    <!-- Left: Active Timer Quick Card & Quick Starters -->
+                    <div class="dash-col-main">
+                        <div class="card active-quick-card" id="dashActiveSessionCard">
+                            <div class="card-header">
+                                <div class="card-title-group">
+                                    <h2 class="card-title"><i class="fas fa-clock"></i> Active Session</h2>
+                                    <span id="dashActiveSessionStatus" class="status-badge idle">Idle</span>
+                                </div>
+                                <button id="dashGoToTimerBtn" class="btn-text">Open Console <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                            <div class="active-quick-body">
+                                <div class="active-timer-display" id="dashTimerClock">00:00:00</div>
+                                <div class="active-meta-display">
+                                    <div class="active-meta-item">
+                                        <span class="label">Project:</span>
+                                        <span id="dashMetaProject" class="val">None selected</span>
+                                    </div>
+                                    <div class="active-meta-item">
+                                        <span class="label">Task:</span>
+                                        <span id="dashMetaTask" class="val">General development</span>
+                                    </div>
+                                </div>
+                                <div class="active-quick-controls">
+                                    <button id="dashTimerToggleBtn" class="btn-primary btn-large">
+                                        <i class="fas fa-play"></i> Start Tracking
+                                    </button>
+                                    <button id="dashTimerPauseBtn" class="btn-secondary btn-large" disabled>
+                                        <i class="fas fa-pause"></i> Pause
+                                    </button>
+                                    <button id="dashTimerStopBtn" class="btn-danger btn-large" disabled>
+                                        <i class="fas fa-stop"></i> Stop &amp; Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Launch Workflows -->
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                <h2 class="card-title"><i class="fas fa-bolt"></i> Quick Workflow Presets</h2>
+                                <span class="card-hint">Sets task context &amp; starts accurate timer</span>
+                            </div>
+                            <div class="quick-presets-grid">
+                                <button class="preset-btn" data-task="Feature Implementation" data-tag="feature">
+                                    <i class="fas fa-code"></i>
+                                    <div class="preset-info">
+                                        <span class="preset-title">Feature Implementation</span>
+                                        <span class="preset-sub">New module or component</span>
+                                    </div>
+                                </button>
+                                <button class="preset-btn" data-task="Bug Investigation &amp; Fix" data-tag="bugfix">
+                                    <i class="fas fa-bug"></i>
+                                    <div class="preset-info">
+                                        <span class="preset-title">Bug Investigation &amp; Fix</span>
+                                        <span class="preset-sub">Debugging &amp; error resolution</span>
+                                    </div>
+                                </button>
+                                <button class="preset-btn" data-task="Code Review &amp; Refactor" data-tag="review">
+                                    <i class="fas fa-code-pull-request"></i>
+                                    <div class="preset-info">
+                                        <span class="preset-title">Code Review &amp; Refactor</span>
+                                        <span class="preset-sub">PR review, cleanup, docs</span>
+                                    </div>
+                                </button>
+                                <button class="preset-btn" data-task="Architecture &amp; Research" data-tag="research">
+                                    <i class="fas fa-microchip"></i>
+                                    <div class="preset-info">
+                                        <span class="preset-title">Tech Spike / Research</span>
+                                        <span class="preset-sub">Architecture planning &amp; tests</span>
+                                    </div>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div class="report-card">
-                        <h3>توزيع الوقت</h3>
-                        <div class="chart-container">
-                            <canvas id="distributionChart"></canvas>
+
+                    <!-- Right: Today's Time Distribution & Recent Sessions -->
+                    <div class="dash-col-side">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title"><i class="fas fa-chart-pie"></i> Time by Project (Today)</h2>
+                            </div>
+                            <div class="chart-box-compact">
+                                <canvas id="dashProjectsChart"></canvas>
+                                <div id="dashProjectsEmpty" class="chart-empty-msg">
+                                    <i class="fas fa-chart-simple"></i>
+                                    <p>No sessions recorded today.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                <h2 class="card-title"><i class="fas fa-history"></i> Recent Sessions</h2>
+                                <button id="viewAllSessionsBtn" class="btn-text">View All</button>
+                            </div>
+                            <div id="dashRecentSessionsList" class="recent-sessions-compact">
+                                <!-- Populated dynamically -->
+                            </div>
                         </div>
                     </div>
-                    <div class="report-card">
-                        <h3>مقارنة المشاريع</h3>
-                        <div class="chart-container">
-                            <canvas id="comparisonChart"></canvas>
+                </div>
+            </section>
+
+            <!-- 2. LIVE TIMER CONSOLE VIEW -->
+            <section id="timerPage" class="page-view">
+                <div class="timer-console-grid">
+                    <!-- Main Timer Workbench -->
+                    <div class="console-main card">
+                        <div class="console-header">
+                            <div class="session-badge-row">
+                                <span id="consoleSessionStatusBadge" class="status-badge idle">Ready</span>
+                                <span id="consoleBillableBadge" class="badge-tag">Non-Billable</span>
+                                <span id="consoleCategoryBadge" class="badge-tag badge-category">Development</span>
+                            </div>
+                            <div class="console-actions">
+                                <button id="consoleFullscreenBtn" class="btn-icon-subtle" title="Distraction Free Fullscreen">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="main-clock-container">
+                            <div class="digital-clock" id="consoleMainClock">00:00:00</div>
+                            <div class="clock-sub-stats">
+                                <span>Started: <strong id="consoleStartTimeText">--:--</strong></span>
+                                <span>Paused: <strong id="consolePausedTimeText">0m</strong></span>
+                                <span>Elapsed Session Time</span>
+                            </div>
+                        </div>
+
+                        <div class="console-controls-row">
+                            <button id="consoleStartBtn" class="btn-primary btn-giant">
+                                <i class="fas fa-play"></i> Start Session
+                            </button>
+                            <button id="consolePauseBtn" class="btn-secondary btn-giant" disabled>
+                                <i class="fas fa-pause"></i> Pause
+                            </button>
+                            <button id="consoleStopBtn" class="btn-danger btn-giant" disabled>
+                                <i class="fas fa-stop"></i> Stop &amp; Save
+                            </button>
+                        </div>
+
+                        <!-- Session Metadata Inputs -->
+                        <div class="session-inputs-grid">
+                            <div class="input-field">
+                                <label for="timerProjectSelect">Project</label>
+                                <div class="select-with-add">
+                                    <select id="timerProjectSelect" class="form-control">
+                                        <option value="">-- Select Project --</option>
+                                    </select>
+                                    <button id="quickAddProjectBtn" class="btn-secondary btn-icon-only" title="Create New Project">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="input-field">
+                                <label for="timerTaskSelect">Task / Ticket</label>
+                                <div class="select-with-add">
+                                    <select id="timerTaskSelect" class="form-control">
+                                        <option value="">General Coding (No specific task)</option>
+                                    </select>
+                                    <button id="quickAddTaskBtn" class="btn-secondary btn-icon-only" title="Create New Task">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="input-field">
+                                <label for="timerTagsInput">Tags (comma separated)</label>
+                                <input type="text" id="timerTagsInput" class="form-control" placeholder="e.g. backend, auth, api">
+                            </div>
+
+                            <div class="input-field checkbox-field">
+                                <label class="checkbox-container">
+                                    <input type="checkbox" id="timerBillableCheck">
+                                    <span class="checkmark"></span>
+                                    <span class="checkbox-label">Billable Coding Work</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="input-field mt-3">
+                            <label for="timerNotesInput">Session Notes &amp; Commit Reference</label>
+                            <textarea id="timerNotesInput" class="form-control" rows="3" placeholder="Describe progress, blocker resolved, PR link, or Git branch..."></textarea>
                         </div>
                     </div>
-                    <div class="report-card">
-                        <h3>الاتجاه الزمني</h3>
-                        <div class="chart-container">
-                            <canvas id="trendChart"></canvas>
+
+                    <!-- Side: Companion Pomodoro & Session Target -->
+                    <div class="console-side">
+                        <div class="card companion-card">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fas fa-brain"></i> Focus Interval Companion</h3>
+                                <span class="card-hint">Non-blocking interval alerts</span>
+                            </div>
+                            <div class="pomodoro-box">
+                                <div class="pomodoro-clock" id="pomoClock">25:00</div>
+                                <div class="pomo-status" id="pomoPhase">Work Interval</div>
+                                <div class="pomo-controls">
+                                    <button id="pomoToggleBtn" class="btn-secondary">
+                                        <i class="fas fa-play"></i> Start Interval
+                                    </button>
+                                    <button id="pomoResetBtn" class="btn-ghost">
+                                        <i class="fas fa-rotate-left"></i> Reset
+                                    </button>
+                                </div>
+                                <div class="pomo-settings-row">
+                                    <div class="pomo-input-grp">
+                                        <label for="pomoWorkDuration">Work (m)</label>
+                                        <input type="number" id="pomoWorkDuration" value="25" min="5" max="120" class="form-control-sm">
+                                    </div>
+                                    <div class="pomo-input-grp">
+                                        <label for="pomoBreakDuration">Break (m)</label>
+                                        <input type="number" id="pomoBreakDuration" value="5" min="1" max="60" class="form-control-sm">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Active Project Summary Details -->
+                        <div class="card mt-4" id="activeProjectSummaryCard">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fas fa-info-circle"></i> Project Snapshot</h3>
+                            </div>
+                            <div id="activeProjectDetailsBody" class="project-snapshot-body">
+                                <p class="text-muted">Select a project to inspect rates, total tracked time, and open tasks.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. PROJECTS & TASKS VIEW -->
+            <section id="projectsPage" class="page-view">
+                <div class="page-toolbar">
+                    <div>
+                        <h1 class="page-title">Projects &amp; Tasks</h1>
+                        <p class="page-subtitle">Organize development repositories, track estimates against actual time, and launch sessions.</p>
+                    </div>
+                    <div class="toolbar-actions">
+                        <div class="filter-group">
+                            <label for="projectFilterStatus" class="sr-only">Filter Status</label>
+                            <select id="projectFilterStatus" class="form-control-sm">
+                                <option value="active">Active Projects</option>
+                                <option value="archived">Archived Projects</option>
+                                <option value="all">All Projects</option>
+                            </select>
+                        </div>
+                        <button id="createProjectBtn" class="btn-primary" onclick="window.appEngine.openProjectModal()">
+                            <i class="fas fa-plus"></i> New Project
+                        </button>
+                    </div>
+                </div>
+
+                <div id="projectsContainer" class="projects-grid">
+                    <!-- Populated dynamically -->
+                </div>
+            </section>
+
+            <!-- 4. SESSION LOGS VIEW -->
+            <section id="sessionsPage" class="page-view">
+                <div class="page-toolbar">
+                    <div>
+                        <h1 class="page-title">Session History</h1>
+                        <p class="page-subtitle">Audit, filter, edit, or export recorded developer sessions.</p>
+                    </div>
+                    <div class="toolbar-actions">
+                        <button id="openManualSessionModalBtn" class="btn-secondary">
+                            <i class="fas fa-calendar-plus"></i> Log Past Session
+                        </button>
+                        <button id="exportCsvBtn" class="btn-secondary">
+                            <i class="fas fa-file-csv"></i> Export CSV
+                        </button>
+                        <button id="exportJsonBtn" class="btn-secondary">
+                            <i class="fas fa-file-code"></i> Export JSON
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Session Filters Bar -->
+                <div class="card filter-bar-card">
+                    <div class="filter-row">
+                        <div class="filter-input-wrap">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" id="sessionSearchInput" class="form-control" placeholder="Search notes, task title, tags...">
+                        </div>
+                        <div class="filter-select-wrap">
+                            <select id="sessionFilterProject" class="form-control">
+                                <option value="all">All Projects</option>
+                            </select>
+                        </div>
+                        <div class="filter-select-wrap">
+                            <select id="sessionFilterPeriod" class="form-control">
+                                <option value="all">All Dates</option>
+                                <option value="today">Today</option>
+                                <option value="yesterday">Yesterday</option>
+                                <option value="this_week">This Week</option>
+                                <option value="last_week">Last Week</option>
+                                <option value="this_month">This Month</option>
+                            </select>
+                        </div>
+                        <div class="filter-select-wrap">
+                            <select id="sessionFilterBillable" class="form-control">
+                                <option value="all">All Billable Types</option>
+                                <option value="billable">Billable Only</option>
+                                <option value="non_billable">Non-Billable Only</option>
+                            </select>
+                        </div>
+                        <button id="resetSessionFiltersBtn" class="btn-ghost" title="Reset Filters">
+                            <i class="fas fa-rotate-left"></i> Reset
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sessions Table Card -->
+                <div class="card mt-3">
+                    <div class="table-responsive">
+                        <table class="data-table" id="sessionsTable">
+                            <thead>
+                                <tr>
+                                    <th>Date &amp; Time</th>
+                                    <th>Project</th>
+                                    <th>Task</th>
+                                    <th>Duration</th>
+                                    <th>Tags</th>
+                                    <th>Billable</th>
+                                    <th>Notes</th>
+                                    <th class="text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sessionsTableBody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Table Pagination & Counter -->
+                    <div class="table-footer">
+                        <div class="table-count" id="sessionTableCount">Showing 0 of 0 sessions</div>
+                        <div class="pagination-controls" id="sessionPagination">
+                            <button id="sessionPrevPageBtn" class="btn-ghost btn-sm" disabled><i class="fas fa-chevron-left"></i> Prev</button>
+                            <span id="sessionCurrentPageText" class="page-indicator">Page 1 of 1</span>
+                            <button id="sessionNextPageBtn" class="btn-ghost btn-sm" disabled>Next <i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. ANALYTICS & REPORTS VIEW -->
+            <section id="reportsPage" class="page-view">
+                <div class="page-toolbar">
+                    <div>
+                        <h1 class="page-title">Productivity Analytics</h1>
+                        <p class="page-subtitle">Verified metrics calculated from your real tracked coding sessions.</p>
+                    </div>
+                    <div class="toolbar-actions">
+                        <div class="period-selector-grp">
+                            <button class="period-btn active" data-period="week">This Week</button>
+                            <button class="period-btn" data-period="month">This Month</button>
+                            <button class="period-btn" data-period="30days">Last 30 Days</button>
+                            <button class="period-btn" data-period="all">All Time</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics Summary Row -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-title">Period Coding Time</div>
+                        <div class="metric-value" id="analyticsTotalTime">0h 0m</div>
+                        <div class="metric-sub" id="analyticsComparisonText">Calculated from actual sessions</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">Average Session Length</div>
+                        <div class="metric-value" id="analyticsAvgSession">0m</div>
+                        <div class="metric-sub" id="analyticsTotalSessionsCount">0 total sessions</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">Billable Value</div>
+                        <div class="metric-value" id="analyticsBillableEarned">$0.00</div>
+                        <div class="metric-sub" id="analyticsBillableHours">0h 0m billable</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">Top Active Tech/Project</div>
+                        <div class="metric-value" id="analyticsTopProject">--</div>
+                        <div class="metric-sub" id="analyticsTopProjectHours">0h 0m logged</div>
+                    </div>
+                </div>
+
+                <!-- 4 Real Charts Grid -->
+                <div class="reports-charts-grid mt-4">
+                    <div class="card chart-card">
+                        <div class="card-header">
+                            <h2 class="card-title"><i class="fas fa-chart-pie"></i> Time Distribution by Project</h2>
+                            <span class="card-hint">Selected Period</span>
+                        </div>
+                        <div class="chart-canvas-wrap">
+                            <canvas id="chartProjectsDistribution"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card chart-card">
+                        <div class="card-header">
+                            <h2 class="card-title"><i class="fas fa-chart-column"></i> Daily Coding Volume (Hours)</h2>
+                            <span class="card-hint">Day-by-day distribution</span>
+                        </div>
+                        <div class="chart-canvas-wrap">
+                            <canvas id="chartDailyVolume"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card chart-card">
+                        <div class="card-header">
+                            <h2 class="card-title"><i class="fas fa-chart-line"></i> Cumulative Focus Trend</h2>
+                            <span class="card-hint">Timeline progress</span>
+                        </div>
+                        <div class="chart-canvas-wrap">
+                            <canvas id="chartCumulativeTrend"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card chart-card">
+                        <div class="card-header">
+                            <h2 class="card-title"><i class="fas fa-layer-group"></i> Time by Category / Tech Stack</h2>
+                            <span class="card-hint">Skill distribution</span>
+                        </div>
+                        <div class="chart-canvas-wrap">
+                            <canvas id="chartCategoryBreakdown"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. SETTINGS & BACKUP VIEW -->
+            <section id="settingsPage" class="page-view">
+                <div class="page-toolbar">
+                    <div>
+                        <h1 class="page-title">Settings &amp; Data Management</h1>
+                        <p class="page-subtitle">Configure productivity targets, audio cues, and export or restore local backups.</p>
+                    </div>
+                </div>
+
+                <div class="settings-grid">
+                    <!-- Goals & Preferences -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title"><i class="fas fa-bullseye"></i> Productivity Targets &amp; Schedule</h2>
+                        </div>
+                        <form id="settingsForm" class="settings-form">
+                            <div class="form-group">
+                                <label for="settingDailyGoalHours">Daily Coding Target (Hours)</label>
+                                <input type="number" id="settingDailyGoalHours" class="form-control" min="1" max="16" step="0.5" value="4">
+                                <span class="field-hint">Used to calculate progress bars and daily completion.</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="settingWeeklyGoalHours">Weekly Coding Target (Hours)</label>
+                                <input type="number" id="settingWeeklyGoalHours" class="form-control" min="5" max="80" step="1" value="25">
+                                <span class="field-hint">Weekly productivity objective across all repositories.</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="settingWeekStart">Week Starts On</label>
+                                <select id="settingWeekStart" class="form-control">
+                                    <option value="sunday">Sunday</option>
+                                    <option value="monday">Monday</option>
+                                    <option value="saturday">Saturday</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="settingTimeFormat">Time Display Format</label>
+                                <select id="settingTimeFormat" class="form-control">
+                                    <option value="24h">24-Hour (14:30)</option>
+                                    <option value="12h">12-Hour (2:30 PM)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="checkbox-container">
+                                    <input type="checkbox" id="settingSoundToggle" checked>
+                                    <span class="checkmark"></span>
+                                    <span class="checkbox-label">Enable procedural synthesizer audio cues (Web Audio API)</span>
+                                </label>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="checkbox-container">
+                                    <input type="checkbox" id="settingNotificationsToggle">
+                                    <span class="checkmark"></span>
+                                    <span class="checkbox-label">Request browser desktop notifications for intervals</span>
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn-primary">
+                                <i class="fas fa-save"></i> Save Preferences
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Local Storage & Backup Management -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title"><i class="fas fa-database"></i> Storage &amp; Data Portability</h2>
+                        </div>
+                        <div class="storage-info-box">
+                            <div class="storage-status-row">
+                                <span>Persistence Model:</span>
+                                <strong>Local-first (Browser Storage)</strong>
+                            </div>
+                            <div class="storage-status-row">
+                                <span>Recorded Sessions:</span>
+                                <strong id="storageSessionsCount">0 sessions</strong>
+                            </div>
+                            <div class="storage-status-row">
+                                <span>Configured Projects:</span>
+                                <strong id="storageProjectsCount">0 projects</strong>
+                            </div>
+                            <p class="storage-disclaimer">
+                                All session records and project details are stored exclusively inside your browser's private local storage. No code, keystrokes, or telemetry are ever sent to remote servers. Make regular JSON backups to preserve your data across computers.
+                            </p>
+                        </div>
+
+                        <div class="backup-actions mt-4">
+                            <h3 class="subsection-title">Data Backup &amp; Restore</h3>
+                            <div class="btn-group-row">
+                                <button id="btnDownloadBackup" class="btn-secondary">
+                                    <i class="fas fa-download"></i> Download JSON Backup
+                                </button>
+                                <label for="importBackupInput" class="btn-secondary file-upload-label">
+                                    <i class="fas fa-upload"></i> Restore from JSON
+                                    <input type="file" id="importBackupInput" accept=".json" class="sr-only">
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="danger-zone mt-4">
+                            <h3 class="subsection-title text-danger">Reset Workspace</h3>
+                            <p class="text-muted text-sm">Clear all locally recorded sessions, projects, and tasks after saving a backup.</p>
+                            <button id="btnResetAllData" class="btn-danger-outline btn-sm">
+                                <i class="fas fa-trash-can"></i> Clear All Stored Data
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7. ABOUT & CODE ELTA6UR ECOSYSTEM VIEW -->
+            <section id="aboutPage" class="page-view">
+                <div class="about-container">
+                    <div class="card about-hero-card">
+                        <div class="about-hero-header">
+                            <div class="about-logo-icon"><i class="fas fa-terminal"></i></div>
+                            <div>
+                                <h1 class="about-title">Code Timer Tracker</h1>
+                                <p class="about-tagline">High-Precision Time Tracking &amp; Productivity Intelligence for Software Engineers</p>
+                            </div>
+                        </div>
+                        <div class="about-meta-grid">
+                            <div class="about-meta-item">
+                                <span class="meta-label">Lead Architect &amp; Developer</span>
+                                <strong class="meta-val">Mohammad Abu Khashreef</strong>
+                            </div>
+                            <div class="about-meta-item">
+                                <span class="meta-label">Parent Organization</span>
+                                <strong class="meta-val">Code Elta6ur</strong>
+                            </div>
+                            <div class="about-meta-item">
+                                <span class="meta-label">Software Architecture</span>
+                                <strong class="meta-val">Local-First Client Engine</strong>
+                            </div>
+                            <div class="about-meta-item">
+                                <span class="meta-label">Licensing</span>
+                                <strong class="meta-val">MIT License</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Code Elta6ur Verified Ecosystem -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title"><i class="fas fa-globe"></i> Code Elta6ur Ecosystem</h2>
+                                <p class="card-hint">Verified platforms, engineering tools, and development properties.</p>
+                            </div>
+                        </div>
+                        <div class="ecosystem-links-grid">
+                            <a href="https://code-elta6ur.com/" target="_blank" rel="noopener noreferrer" class="ecosystem-card">
+                                <div class="eco-icon"><i class="fas fa-graduation-cap"></i></div>
+                                <div class="eco-body">
+                                    <h3 class="eco-name">Code Elta6ur</h3>
+                                    <span class="eco-category">Educational Platform</span>
+                                    <span class="eco-url">code-elta6ur.com <i class="fas fa-arrow-up-right-from-square"></i></span>
+                                </div>
+                            </a>
+
+                            <a href="https://code-elta6ur.net/" target="_blank" rel="noopener noreferrer" class="ecosystem-card">
+                                <div class="eco-icon"><i class="fas fa-building"></i></div>
+                                <div class="eco-body">
+                                    <h3 class="eco-name">Code Elta6ur</h3>
+                                    <span class="eco-category">Software Company</span>
+                                    <span class="eco-url">code-elta6ur.net <i class="fas fa-arrow-up-right-from-square"></i></span>
+                                </div>
+                            </a>
+
+                            <a href="https://portfolio.code-elta6ur.net/" target="_blank" rel="noopener noreferrer" class="ecosystem-card">
+                                <div class="eco-icon"><i class="fas fa-id-card"></i></div>
+                                <div class="eco-body">
+                                    <h3 class="eco-name">Portfolio Builder</h3>
+                                    <span class="eco-category">Developer Showcase Platform</span>
+                                    <span class="eco-url">portfolio.code-elta6ur.net <i class="fas fa-arrow-up-right-from-square"></i></span>
+                                </div>
+                            </a>
+
+                            <a href="https://code-ora.com/" target="_blank" rel="noopener noreferrer" class="ecosystem-card">
+                                <div class="eco-icon"><i class="fas fa-cube"></i></div>
+                                <div class="eco-body">
+                                    <h3 class="eco-name">Code Ora</h3>
+                                    <span class="eco-category">Platform &amp; Tools</span>
+                                    <span class="eco-url">code-ora.com <i class="fas fa-arrow-up-right-from-square"></i></span>
+                                </div>
+                            </a>
+
+                            <a href="https://hardwarebase.code-elta6ur.com/" target="_blank" rel="noopener noreferrer" class="ecosystem-card">
+                                <div class="eco-icon"><i class="fas fa-server"></i></div>
+                                <div class="eco-body">
+                                    <h3 class="eco-name">HardwareBase</h3>
+                                    <span class="eco-category">Hardware &amp; System Directory</span>
+                                    <span class="eco-url">hardwarebase.code-elta6ur.com <i class="fas fa-arrow-up-right-from-square"></i></span>
+                                </div>
+                            </a>
+
+                            <a href="https://code-elta6ur.sy/" target="_blank" rel="noopener noreferrer" class="ecosystem-card">
+                                <div class="eco-icon"><i class="fas fa-flag"></i></div>
+                                <div class="eco-body">
+                                    <h3 class="eco-name">Code Elta6ur Syria</h3>
+                                    <span class="eco-category">Regional Platform</span>
+                                    <span class="eco-url">code-elta6ur.sy <i class="fas fa-arrow-up-right-from-square"></i></span>
+                                </div>
+                            </a>
+
+                            <a href="https://mohammad.code-elta6ur.com/" target="_blank" rel="noopener noreferrer" class="ecosystem-card">
+                                <div class="eco-icon"><i class="fas fa-user-tie"></i></div>
+                                <div class="eco-body">
+                                    <h3 class="eco-name">Mohammad Abu Khashreef</h3>
+                                    <span class="eco-category">Engineer Portfolio</span>
+                                    <span class="eco-url">mohammad.code-elta6ur.com <i class="fas fa-arrow-up-right-from-square"></i></span>
+                                </div>
+                            </a>
+
+                            <a href="https://github.com/mokashreef" target="_blank" rel="noopener noreferrer" class="ecosystem-card">
+                                <div class="eco-icon"><i class="fab fa-github"></i></div>
+                                <div class="eco-body">
+                                    <h3 class="eco-name">GitHub / mokashreef</h3>
+                                    <span class="eco-category">Open-Source &amp; Repositories</span>
+                                    <span class="eco-url">github.com/mokashreef <i class="fas fa-arrow-up-right-from-square"></i></span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Keyboard Shortcuts Quick Guide -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h2 class="card-title"><i class="fas fa-keyboard"></i> Built-in Keyboard Shortcuts</h2>
+                        </div>
+                        <div class="shortcuts-table-grid">
+                            <div class="shortcut-row">
+                                <span class="shortcut-desc">Start / Pause / Resume Active Timer</span>
+                                <kbd>Space</kbd>
+                            </div>
+                            <div class="shortcut-row">
+                                <span class="shortcut-desc">Stop &amp; Save Running Session</span>
+                                <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>
+                            </div>
+                            <div class="shortcut-row">
+                                <span class="shortcut-desc">Open Command Palette</span>
+                                <kbd>Ctrl</kbd> + <kbd>K</kbd>
+                            </div>
+                            <div class="shortcut-row">
+                                <span class="shortcut-desc">Toggle Distraction-Free Focus Mode</span>
+                                <kbd>Ctrl</kbd> + <kbd>B</kbd>
+                            </div>
+                            <div class="shortcut-row">
+                                <span class="shortcut-desc">Navigate to Views (1 to 5)</span>
+                                <kbd>Ctrl</kbd> + <kbd>1-5</kbd>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
         </main>
+
+        <!-- App Footer -->
+        <footer class="app-footer">
+            <div class="footer-left">
+                <span>Developed by <strong>Mohammad Abu Khashreef</strong></span>
+                <span class="footer-sep">•</span>
+                <span>Part of <strong>Code Elta6ur</strong></span>
+                <span class="footer-sep">•</span>
+                <span>Code Timer Tracker v2.0.0</span>
+            </div>
+            <div class="footer-right">
+                <a href="https://github.com/mokashreef/Code-Timer-Tracker" target="_blank" rel="noopener noreferrer" class="footer-link">
+                    <i class="fab fa-github"></i> Repository
+                </a>
+                <span class="footer-sep">•</span>
+                <button id="footerShortcutsBtn" class="footer-link-btn">
+                    <i class="fas fa-keyboard"></i> Shortcuts
+                </button>
+            </div>
+        </footer>
     </div>
 
-    <div id="projectModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="projectModalTitle">مشروع جديد</h2>
-                <button class="close-btn">&times;</button>
+    <!-- COMMAND PALETTE MODAL (Ctrl+K) -->
+    <div id="commandPaletteModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="cmdPaletteTitle">
+        <div class="cmd-palette-box">
+            <div class="cmd-palette-header">
+                <i class="fas fa-search cmd-search-icon"></i>
+                <input type="text" id="cmdPaletteInput" placeholder="Type a command, jump to page, or search actions..." autocomplete="off">
+                <kbd class="cmd-esc-hint">ESC</kbd>
             </div>
-            <form id="projectForm" class="modal-form">
+            <div class="cmd-palette-results" id="cmdPaletteResults">
+                <!-- Populated dynamically -->
+            </div>
+            <div class="cmd-palette-footer">
+                <span>Use <kbd>&uarr;</kbd> <kbd>&darr;</kbd> to navigate</span>
+                <span><kbd>&crarr;</kbd> to select</span>
+                <span><kbd>ESC</kbd> to close</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- DISTRACTION-FREE FOCUS MODE OVERLAY (Ctrl+B) -->
+    <div id="focusModeOverlay" class="focus-overlay hidden">
+        <div class="focus-header">
+            <div class="focus-brand">
+                <i class="fas fa-terminal"></i>
+                <span>Focus Console</span>
+            </div>
+            <button id="focusExitBtn" class="btn-ghost focus-exit-btn" title="Exit Focus Mode (ESC)">
+                <i class="fas fa-compress"></i> Exit Focus (ESC)
+            </button>
+        </div>
+        <div class="focus-body">
+            <div class="focus-project-pill" id="focusProjectPill">General Session</div>
+            <div class="focus-task-title" id="focusTaskTitle">Focused Coding</div>
+            <div class="focus-clock" id="focusClock">00:00:00</div>
+            <div class="focus-sub-status" id="focusSubStatus">Tracking in progress...</div>
+            <div class="focus-controls">
+                <button id="focusTogglePauseBtn" class="btn-primary btn-large">
+                    <i class="fas fa-pause"></i> Pause
+                </button>
+                <button id="focusStopBtn" class="btn-danger btn-large">
+                    <i class="fas fa-stop"></i> Stop &amp; Save
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: PROJECT (CREATE / EDIT) -->
+    <div id="projectModal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h2 id="projectModalTitle" class="modal-title">New Project</h2>
+                <button class="btn-close modal-close-trigger" aria-label="Close dialog">&times;</button>
+            </div>
+            <form id="projectForm" class="modal-body">
+                <input type="hidden" id="editProjectId" value="">
                 <div class="form-group">
-                    <label for="projectName">اسم المشروع</label>
-                    <input type="text" id="projectName" required>
+                    <label for="projectNameInput">Project Name *</label>
+                    <input type="text" id="projectNameInput" class="form-control" required placeholder="e.g. Code Timer Tracker Rebuild">
                 </div>
                 <div class="form-group">
-                    <label for="projectDescription">الوصف</label>
-                    <textarea id="projectDescription" rows="3"></textarea>
+                    <label for="projectDescInput">Description</label>
+                    <textarea id="projectDescInput" class="form-control" rows="2" placeholder="Summary of project scope and tech goals..."></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-half">
+                        <label for="projectCategorySelect">Category</label>
+                        <select id="projectCategorySelect" class="form-control">
+                            <option value="Frontend">Frontend</option>
+                            <option value="Backend">Backend</option>
+                            <option value="Full-Stack">Full-Stack</option>
+                            <option value="Mobile">Mobile</option>
+                            <option value="DevOps">DevOps</option>
+                            <option value="Architecture">Architecture</option>
+                            <option value="Open Source">Open Source</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-half">
+                        <label for="projectColorInput">Color Badge</label>
+                        <input type="color" id="projectColorInput" class="form-control color-picker-input" value="#10b981">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-half">
+                        <label for="projectRateInput">Hourly Billing Rate ($/hr)</label>
+                        <input type="number" id="projectRateInput" class="form-control" min="0" step="1" placeholder="e.g. 60">
+                    </div>
+                    <div class="form-group col-half">
+                        <label for="projectEstimateInput">Estimated Hours</label>
+                        <input type="number" id="projectEstimateInput" class="form-control" min="0" step="0.5" placeholder="e.g. 20">
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="projectRate">السعر بالساعة ($)</label>
-                    <input type="number" id="projectRate" min="0" step="0.01">
+                    <label for="projectTechStackInput">Tech Stack (comma separated)</label>
+                    <input type="text" id="projectTechStackInput" class="form-control" placeholder="e.g. JavaScript, Chart.js, HTML5, CSS3">
                 </div>
-                <div class="form-group">
-                    <label for="projectColor">لون المشروع</label>
-                    <input type="color" id="projectColor" value="#3498db">
-                </div>
-                <div class="form-actions">
-                    <button type="submit" class="btn-primary">حفظ المشروع</button>
-                    <button type="button" class="btn-secondary cancel-btn">إلغاء</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary modal-close-trigger">Cancel</button>
+                    <button type="submit" class="btn-primary" id="saveProjectBtn">Save Project</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <audio id="sessionStartSound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="sessionEndSound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-completion-of-a-level-2063.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="pomodoroEndSound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3" type="audio/mpeg">
-    </audio>
+    <!-- MODAL: TASK (CREATE / EDIT) -->
+    <div id="taskModal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h2 id="taskModalTitle" class="modal-title">New Task</h2>
+                <button class="btn-close modal-close-trigger" aria-label="Close dialog">&times;</button>
+            </div>
+            <form id="taskForm" class="modal-body">
+                <input type="hidden" id="editTaskId" value="">
+                <div class="form-group">
+                    <label for="taskProjectSelect">Associated Project *</label>
+                    <select id="taskProjectSelect" class="form-control" required>
+                        <!-- Populated dynamically -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="taskTitleInput">Task Title *</label>
+                    <input type="text" id="taskTitleInput" class="form-control" required placeholder="e.g. Implement RFC 4180 CSV export">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-half">
+                        <label for="taskPrioritySelect">Priority</label>
+                        <select id="taskPrioritySelect" class="form-control">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-half">
+                        <label for="taskStatusSelect">Status</label>
+                        <select id="taskStatusSelect" class="form-control">
+                            <option value="todo" selected>To Do</option>
+                            <option value="in_progress">In Progress</option>
+                            <option value="done">Completed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-half">
+                        <label for="taskEstimatedMins">Estimated Time (Minutes)</label>
+                        <input type="number" id="taskEstimatedMins" class="form-control" min="5" step="5" placeholder="e.g. 60">
+                    </div>
+                    <div class="form-group col-half">
+                        <label for="taskDeadlineInput">Deadline (Optional)</label>
+                        <input type="date" id="taskDeadlineInput" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary modal-close-trigger">Cancel</button>
+                    <button type="submit" class="btn-primary" id="saveTaskBtn">Save Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: MANUAL PAST SESSION LOG -->
+    <div id="manualSessionModal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h2 class="modal-title">Log Past Coding Session</h2>
+                <button class="btn-close modal-close-trigger" aria-label="Close dialog">&times;</button>
+            </div>
+            <form id="manualSessionForm" class="modal-body">
+                <div class="form-row">
+                    <div class="form-group col-half">
+                        <label for="manualProjectSelect">Project *</label>
+                        <select id="manualProjectSelect" class="form-control" required>
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group col-half">
+                        <label for="manualTaskInput">Task Title</label>
+                        <input type="text" id="manualTaskInput" class="form-control" placeholder="e.g. Database schema migration">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-half">
+                        <label for="manualDateInput">Date *</label>
+                        <input type="date" id="manualDateInput" class="form-control" required>
+                    </div>
+                    <div class="form-group col-half">
+                        <label for="manualDurationMins">Duration (Minutes) *</label>
+                        <input type="number" id="manualDurationMins" class="form-control" min="1" max="1440" required placeholder="e.g. 90">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-half">
+                        <label for="manualTagsInput">Tags</label>
+                        <input type="text" id="manualTagsInput" class="form-control" placeholder="e.g. devops, docker">
+                    </div>
+                    <div class="form-group col-half checkbox-align">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="manualBillableCheck">
+                            <span class="checkmark"></span>
+                            <span class="checkbox-label">Billable Work</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="manualNotesInput">Session Notes</label>
+                    <textarea id="manualNotesInput" class="form-control" rows="2" placeholder="What did you complete during this session?"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary modal-close-trigger">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Recorded Session</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: EDIT EXISTING SESSION -->
+    <div id="editSessionModal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h2 class="modal-title">Edit Session Record</h2>
+                <button class="btn-close modal-close-trigger" aria-label="Close dialog">&times;</button>
+            </div>
+            <form id="editSessionForm" class="modal-body">
+                <input type="hidden" id="editSessionId" value="">
+                <div class="form-row">
+                    <div class="form-group col-half">
+                        <label for="editSessionProjectSelect">Project</label>
+                        <select id="editSessionProjectSelect" class="form-control">
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group col-half">
+                        <label for="editSessionTaskInput">Task</label>
+                        <input type="text" id="editSessionTaskInput" class="form-control">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-half">
+                        <label for="editSessionDurationMins">Duration (Minutes)</label>
+                        <input type="number" id="editSessionDurationMins" class="form-control" min="1" required>
+                    </div>
+                    <div class="form-group col-half checkbox-align">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="editSessionBillableCheck">
+                            <span class="checkmark"></span>
+                            <span class="checkbox-label">Billable</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="editSessionTagsInput">Tags</label>
+                    <input type="text" id="editSessionTagsInput" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="editSessionNotesInput">Notes</label>
+                    <textarea id="editSessionNotesInput" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary modal-close-trigger">Cancel</button>
+                    <button type="submit" class="btn-primary">Update Record</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: CONFIRM ACTION -->
+    <div id="confirmModal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-header">
+                <h2 id="confirmModalTitle" class="modal-title">Confirm Action</h2>
+                <button class="btn-close modal-close-trigger">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmModalMessage" class="confirm-message">Are you sure you want to proceed?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary modal-close-trigger" id="confirmCancelBtn">Cancel</button>
+                <button type="button" class="btn-danger" id="confirmOkBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast Container -->
+    <div id="toastContainer" class="toast-container" aria-live="polite"></div>
 
     <script src="script.js"></script>
 </body>
