@@ -1455,9 +1455,8 @@ class AppEngine {
 
     applyTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
-        const icon = this.dom.themeToggle?.querySelector('i');
-        if (icon) {
-            icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        if (this.dom.themeToggle) {
+            this.dom.themeToggle.innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
         }
     }
 
@@ -1505,7 +1504,7 @@ class AppEngine {
                 return;
             }
 
-            const icon = el.querySelector('i');
+            const icon = el.querySelector('i, svg, .svg-inline--fa');
             const kbd = el.querySelector('kbd');
             const badge = el.querySelector('.metric-badge');
             const shortcut = el.querySelector('.nav-shortcut');

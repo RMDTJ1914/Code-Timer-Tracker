@@ -37,6 +37,7 @@ New-Item -ItemType Directory -Path "$buildDir\res\mipmap-xhdpi" -Force | Out-Nul
 New-Item -ItemType Directory -Path "$buildDir\res\mipmap-xxhdpi" -Force | Out-Null
 New-Item -ItemType Directory -Path "$buildDir\res\mipmap-xxxhdpi" -Force | Out-Null
 New-Item -ItemType Directory -Path "$buildDir\res\mipmap-anydpi-v26" -Force | Out-Null
+New-Item -ItemType Directory -Path "$buildDir\assets\vendor\fontawesome\js" -Force | Out-Null
 New-Item -ItemType Directory -Path "$buildDir\assets\vendor\fontawesome\css" -Force | Out-Null
 New-Item -ItemType Directory -Path "$buildDir\assets\vendor\fontawesome\webfonts" -Force | Out-Null
 New-Item -ItemType Directory -Path "$buildDir\assets\icons" -Force | Out-Null
@@ -51,8 +52,8 @@ $manifestContent = @"
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.codetimer.app"
-    android:versionCode="20401"
-    android:versionName="2.4.1">
+    android:versionCode="20402"
+    android:versionName="2.4.2">
 
     <uses-sdk android:minSdkVersion="24" android:targetSdkVersion="34" />
 
@@ -146,6 +147,7 @@ Copy-Item "script.js" "$buildDir\assets\script.js"
 Copy-Item "manifest.json" "$buildDir\assets\manifest.json"
 Copy-Item "sw.js" "$buildDir\assets\sw.js"
 Copy-Item "vendor\chart.umd.min.js" "$buildDir\assets\vendor\chart.umd.min.js"
+Copy-Item "vendor\fontawesome\js\*" "$buildDir\assets\vendor\fontawesome\js\"
 Copy-Item "vendor\fontawesome\css\all.min.css" "$buildDir\assets\vendor\fontawesome\css\all.min.css"
 Copy-Item "vendor\fontawesome\webfonts\*" "$buildDir\assets\vendor\fontawesome\webfonts\"
 Copy-Item "icons\*" "$buildDir\assets\icons\"
@@ -249,7 +251,7 @@ if (-not (Test-Path $keystore)) {
 }
 
 Write-Host ">>> Signing APK with apksigner..." -ForegroundColor Cyan
-$finalApk = "$releaseDir\code-timer-tracker-v2.4.0.apk"
+$finalApk = "$releaseDir\code-timer-tracker-v2.4.2.apk"
 Copy-Item "$buildDir\aligned.apk" $finalApk -Force
 & $apksigner sign --ks $keystore --ks-pass "pass:codetimer123" --ks-key-alias "codetimer" --key-pass "pass:codetimer123" $finalApk
 

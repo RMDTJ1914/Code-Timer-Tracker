@@ -6,8 +6,8 @@
 
 **[ 🌐 English (Default) ](README.md) • [ 🌐 النسخة العربية (Arabic) ](README.ar.md)**
 
-[![Version](https://img.shields.io/badge/Version-v2.4.0-10b981?style=flat-square)](https://github.com/mokashreef/Code-Timer-Tracker)
-[![Android APK](https://img.shields.io/badge/Android%20APK-100%25%20Offline%20(430KB)-success?style=flat-square&logo=android)](release/code-timer-tracker.apk)
+[![Version](https://img.shields.io/badge/Version-v2.4.2-10b981?style=flat-square)](https://github.com/mokashreef/Code-Timer-Tracker)
+[![Android APK](https://img.shields.io/badge/Android%20APK-100%25%20Offline%20(1.7MB)-success?style=flat-square&logo=android)](release/code-timer-tracker.apk)
 [![PWA Ready](https://img.shields.io/badge/PWA-100%25%20Offline%20Cache-blueviolet?style=flat-square)](manifest.json)
 [![License](https://img.shields.io/badge/License-MIT-3b82f6?style=flat-square)](LICENSE)
 [![Tests](https://img.shields.io/badge/Tests-9%20Passing%20(100%25)-emerald?style=flat-square)](tests/test_engine.js)
@@ -63,9 +63,9 @@ Built with a **local-first client architecture**, all records remain completely 
 - **Smart Floating Timer**: Non-intrusive floating player that shows active tracking when browsing other pages, and automatically tucks away when inside the Timer Console.
 - **Mobile Card Feeds**: Touch-friendly card feeds for sessions and projects with dedicated action bars.
 
-### 4. Native Android App & 100% Offline Capability (v2.4.0)
-- **Standalone Signed Release APK**: Compiled natively using Android SDK build-tools (`code-timer-tracker.apk`, 430 KB).
-- **100% Offline**: Zero external network or CDN calls. Bundled local FontAwesome 6 icons and local Chart.js library.
+### 4. Native Android App & 100% Offline Capability (v2.4.2)
+- **Standalone Signed Release APK**: Compiled natively using Android SDK build-tools (`code-timer-tracker.apk`, 1.7 MB).
+- **100% Offline**: Zero external network or CDN calls. Bundled local FontAwesome 6 SVG vector engine (guaranteed display on all Android WebViews) and local Chart.js library.
 - **Native Hardware Back Button & Orientation Handling**: Native Android WebView wrapper with local storage persistence.
 - **Direct Download Links**:
   - [Download code-timer-tracker.apk (GitHub Direct)](https://github.com/mokashreef/Code-Timer-Tracker/raw/main/release/code-timer-tracker.apk)

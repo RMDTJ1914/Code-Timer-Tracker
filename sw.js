@@ -3,15 +3,16 @@
    Guarantees 100% Offline Capability & Instant Cache-First Response
    ===================================================================== */
 
-const CACHE_NAME = 'code-timer-tracker-v2.4.0';
+const CACHE_NAME = 'code-timer-tracker-v2.4.2';
 
 const PRECACHE_URLS = [
     './',
     './index.html',
-    './style.css?v=2.4.0',
-    './script.js?v=2.4.0',
+    './style.css?v=2.4.2',
+    './script.js?v=2.4.2',
     './manifest.json',
     './vendor/chart.umd.min.js',
+    './vendor/fontawesome/js/all.min.js',
     './vendor/fontawesome/css/all.min.css',
     './vendor/fontawesome/webfonts/fa-solid-900.woff2',
     './vendor/fontawesome/webfonts/fa-brands-400.woff2',

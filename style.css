@@ -620,7 +620,8 @@ body {
     background: var(--bg-card-hover);
 }
 
-.preset-btn i {
+.preset-btn i,
+.preset-btn svg {
     font-size: 18px;
     color: var(--accent-primary);
 }
@@ -658,7 +659,8 @@ body {
     font-size: 13px;
 }
 
-.chart-empty-msg i {
+.chart-empty-msg i,
+.chart-empty-msg svg {
     font-size: 28px;
     color: var(--border-hover);
 }
@@ -1822,7 +1824,8 @@ button:disabled {
     gap: 10px;
 }
 
-.cmd-item-left i {
+.cmd-item-left i,
+.cmd-item-left svg {
     width: 16px;
     text-align: center;
 }
@@ -2076,7 +2079,8 @@ button:disabled {
     position: relative;
 }
 
-.mobile-nav-btn i {
+.mobile-nav-btn i,
+.mobile-nav-btn svg {
     font-size: 18px;
     transition: transform 0.2s ease, color 0.2s ease;
 }
@@ -2085,7 +2089,8 @@ button:disabled {
     color: var(--accent-primary);
 }
 
-.mobile-nav-btn.active i {
+.mobile-nav-btn.active i,
+.mobile-nav-btn.active svg {
     transform: translateY(-2px);
     color: var(--accent-primary);
 }
@@ -2646,7 +2651,8 @@ button:disabled {
         -webkit-tap-highlight-color: transparent !important;
     }
 
-    .mobile-nav-btn i {
+    .mobile-nav-btn i,
+    .mobile-nav-btn svg {
         font-size: 17px !important;
     }
 
@@ -2664,7 +2670,8 @@ button:disabled {
         color: var(--accent-primary) !important;
     }
 
-    .mobile-nav-btn.active i {
+    .mobile-nav-btn.active i,
+    .mobile-nav-btn.active svg {
         transform: translateY(-2px);
         color: var(--accent-primary) !important;
     }
@@ -3491,15 +3498,25 @@ button:disabled {
 
 /* Icons inside buttons */
 [dir="rtl"] .btn-primary i,
+[dir="rtl"] .btn-primary svg,
 [dir="rtl"] .btn-secondary i,
+[dir="rtl"] .btn-secondary svg,
 [dir="rtl"] .btn-ghost i,
+[dir="rtl"] .btn-ghost svg,
 [dir="rtl"] .btn-danger i,
+[dir="rtl"] .btn-danger svg,
 [dir="rtl"] .btn-danger-outline i,
+[dir="rtl"] .btn-danger-outline svg,
 [dir="rtl"] .btn-giant i,
+[dir="rtl"] .btn-giant svg,
 [dir="rtl"] .nav-tab i,
+[dir="rtl"] .nav-tab svg,
 [dir="rtl"] .card-title i,
+[dir="rtl"] .card-title svg,
 [dir="rtl"] .card-header i,
-[dir="rtl"] .btn-text i {
+[dir="rtl"] .card-header svg,
+[dir="rtl"] .btn-text i,
+[dir="rtl"] .btn-text svg {
     margin-right: 0 !important;
     margin-left: 6px !important;
 }

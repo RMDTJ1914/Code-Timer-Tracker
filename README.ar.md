@@ -6,8 +6,8 @@
 
 **[ 🌐 English Version ](README.md) • [ 🌐 النسخة العربية ](README.ar.md)**
 
-[![الإصدار](https://img.shields.io/badge/الإصدار-v2.4.0-10b981?style=flat-square)](https://github.com/mokashreef/Code-Timer-Tracker)
-[![تطبيق أندرويد](https://img.shields.io/badge/تطبيق%20أندرويد%20APK-يعمل%20100%25%20بدون%20إنترنت-success?style=flat-square&logo=android)](release/code-timer-tracker.apk)
+[![الإصدار](https://img.shields.io/badge/الإصدار-v2.4.2-10b981?style=flat-square)](https://github.com/mokashreef/Code-Timer-Tracker)
+[![تطبيق أندرويد](https://img.shields.io/badge/تطبيق%20أندرويد%20APK-يعمل%20100%25%20بدون%20إنترنت%20(1.7MB)-success?style=flat-square&logo=android)](release/code-timer-tracker.apk)
 [![PWA جاهز](https://img.shields.io/badge/PWA-كاش%20كامل%20بدون%20نت-blueviolet?style=flat-square)](manifest.json)
 [![الترخيص](https://img.shields.io/badge/الترخيص-MIT-3b82f6?style=flat-square)](LICENSE)
 [![الاختبارات](https://img.shields.io/badge/الاختبارات-9%20ناجحة%20(100%25)-emerald?style=flat-square)](tests/test_engine.js)
@@ -57,9 +57,9 @@
 - **مشغل عائم ذكي للمؤقت:** شريط مصغر يظهر فقط عند وجود مؤقت نشط أثناء التصفح في بقية الصفحات، مع إخفائه بذكاء داخل صفحة المؤقت لمنع الازدحام.
 - **موجز الكروت المتتالي للجلسات (Cards Feed):** استبدال الجداول التقليدية بكروت تفاعلية أنيقة مصممة لتجربة اللمس على شاشات الهواتف.
 
-### 4. تطبيق أندرويد مستقل ويعمل 100% بدون إنترنت (v2.4.0)
-- **ملف تثبيت رسمي وموقع رقمياً (Signed Release APK):** تطبيق أندرويد أصيل وخفيف للغاية بحجم 430 كيلوبايت فقط (`code-timer-tracker.apk`).
-- **يعمل بالكامل دون أي اتصال بالإنترنت (Zero Internet Required):** لا يعتمد على أي سيرفرات أو شبكات CDN خارجية؛ تم تضمين حزمة خطوط FontAwesome 6 ومكتبة Chart.js التفاعلية محلياً بالكامل.
+### 4. تطبيق أندرويد مستقل ويعمل 100% بدون إنترنت (v2.4.2)
+- **ملف تثبيت رسمي وموقع رقمياً (Signed Release APK):** تطبيق أندرويد أصيل وخفيف للغاية بحجم 1.7 ميجابايت فقط (`code-timer-tracker.apk`).
+- **يعمل بالكامل دون أي اتصال بالإنترنت (Zero Internet Required):** لا يعتمد على أي سيرفرات أو شبكات CDN خارجية؛ تم تضمين محرك أيقونات FontAwesome 6 بتقنية SVG المتجهية الأصلية (المضمونة للظهور في كافة أجهزة الأندرويد وWebViews) ومكتبة Chart.js التفاعلية محلياً بالكامل.
 - **تخزين فوري وآمن محلياً:** يتم حفظ جميع الجلسات والمشاريع في ذاكرة الهاتف الداخلية مع إمكانية التصدير والنسخ الاحتياطي بأي وقت.
 - **روابط التحميل المباشرة:**
   - [📥 تحميل تطبيق الأندرويد code-timer-tracker.apk (رابط GitHub مباشر)](https://github.com/mokashreef/Code-Timer-Tracker/raw/main/release/code-timer-tracker.apk)
