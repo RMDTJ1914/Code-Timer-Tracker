@@ -613,11 +613,11 @@ class AppEngine {
         document.addEventListener('keydown', (e) => {
             // Modal escape handler
             if (e.key === 'Escape') {
-                if (!this.dom.commandPaletteModal.classList.contains('hidden')) {
+                if (this.dom.commandPaletteModal && !this.dom.commandPaletteModal.classList.contains('hidden')) {
                     this.closeCommandPalette();
                     return;
                 }
-                if (!this.dom.focusModeOverlay.classList.contains('hidden')) {
+                if (this.dom.focusModeOverlay && !this.dom.focusModeOverlay.classList.contains('hidden')) {
                     this.closeFocusMode();
                     return;
                 }
@@ -675,7 +675,7 @@ class AppEngine {
 
     applyTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
-        const icon = this.dom.themeToggle.querySelector('i');
+        const icon = this.dom.themeToggle?.querySelector('i');
         if (icon) {
             icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
         }
@@ -868,15 +868,15 @@ class AppEngine {
         const formatted = this.formatTimeDigital(elapsed);
 
         // Update displays
-        this.dom.dashTimerClock.textContent = formatted;
-        this.dom.consoleMainClock.textContent = formatted;
-        this.dom.pillTimerDisplay.textContent = formatted;
-        this.dom.focusClock.textContent = formatted;
+        if (this.dom.dashTimerClock) this.dom.dashTimerClock.textContent = formatted;
+        if (this.dom.consoleMainClock) this.dom.consoleMainClock.textContent = formatted;
+        if (this.dom.pillTimerDisplay) this.dom.pillTimerDisplay.textContent = formatted;
+        if (this.dom.focusClock) this.dom.focusClock.textContent = formatted;
 
         // Elapsed paused update
         const pausedMs = this.activeSession.pausedDuration +
             (this.activeSession.paused && this.activeSession.lastPauseTime ? (Date.now() - this.activeSession.lastPauseTime) : 0);
-        this.dom.consolePausedTimeText.textContent = `${Math.floor(pausedMs / 60000)}m`;
+        if (this.dom.consolePausedTimeText) this.dom.consolePausedTimeText.textContent = `${Math.floor(pausedMs / 60000)}m`;
     }
 
     restoreActiveSession() {
@@ -905,64 +905,78 @@ class AppEngine {
         const isPaused = isRunning && this.activeSession.paused;
 
         // Header Pill
-        this.dom.headerTimerPill.classList.toggle('hidden', !isRunning);
-        this.dom.headerTimerPill.classList.toggle('paused', isPaused);
+        this.dom.headerTimerPill?.classList.toggle('hidden', !isRunning);
+        this.dom.headerTimerPill?.classList.toggle('paused', isPaused);
         if (isRunning) {
             const project = this.state.projects.find(p => p.id === this.activeSession.projectId);
-            this.dom.pillProjectName.textContent = project ? project.name : (this.activeSession.taskTitle || 'Session');
-            this.dom.pillPauseBtn.innerHTML = isPaused ? '<i class="fas fa-play"></i>' : '<i class="fas fa-pause"></i>';
+            if (this.dom.pillProjectName) this.dom.pillProjectName.textContent = project ? project.name : (this.activeSession.taskTitle || 'Session');
+            if (this.dom.pillPauseBtn) this.dom.pillPauseBtn.innerHTML = isPaused ? '<i class="fas fa-play"></i>' : '<i class="fas fa-pause"></i>';
         }
 
         // Dashboard Card
-        this.dom.dashTimerToggleBtn.innerHTML = isRunning ?
-            (isPaused ? '<i class="fas fa-play"></i> Resume' : '<i class="fas fa-arrow-right"></i> In Progress') :
-            '<i class="fas fa-play"></i> Start Tracking';
-        this.dom.dashTimerToggleBtn.disabled = isRunning && !isPaused;
-        this.dom.dashTimerPauseBtn.disabled = !isRunning;
-        this.dom.dashTimerPauseBtn.innerHTML = isPaused ? '<i class="fas fa-play"></i> Resume' : '<i class="fas fa-pause"></i> Pause';
-        this.dom.dashTimerStopBtn.disabled = !isRunning;
+        if (this.dom.dashTimerToggleBtn) {
+            this.dom.dashTimerToggleBtn.innerHTML = isRunning ?
+                (isPaused ? '<i class="fas fa-play"></i> Resume' : '<i class="fas fa-arrow-right"></i> In Progress') :
+                '<i class="fas fa-play"></i> Start Tracking';
+            this.dom.dashTimerToggleBtn.disabled = isRunning && !isPaused;
+        }
+        if (this.dom.dashTimerPauseBtn) {
+            this.dom.dashTimerPauseBtn.disabled = !isRunning;
+            this.dom.dashTimerPauseBtn.innerHTML = isPaused ? '<i class="fas fa-play"></i> Resume' : '<i class="fas fa-pause"></i> Pause';
+        }
+        if (this.dom.dashTimerStopBtn) {
+            this.dom.dashTimerStopBtn.disabled = !isRunning;
+        }
 
-        this.dom.dashActiveSessionStatus.className = `status-badge ${isRunning ? (isPaused ? 'paused' : 'running') : 'idle'}`;
-        this.dom.dashActiveSessionStatus.textContent = isRunning ? (isPaused ? 'Paused' : 'Running') : 'Idle';
+        if (this.dom.dashActiveSessionStatus) {
+            this.dom.dashActiveSessionStatus.className = `status-badge ${isRunning ? (isPaused ? 'paused' : 'running') : 'idle'}`;
+            this.dom.dashActiveSessionStatus.textContent = isRunning ? (isPaused ? 'Paused' : 'Running') : 'Idle';
+        }
 
         if (isRunning) {
             const proj = this.state.projects.find(p => p.id === this.activeSession.projectId);
-            this.dom.dashMetaProject.textContent = proj ? proj.name : 'No project selected';
-            this.dom.dashMetaTask.textContent = this.activeSession.taskTitle || 'General development';
+            if (this.dom.dashMetaProject) this.dom.dashMetaProject.textContent = proj ? proj.name : 'No project selected';
+            if (this.dom.dashMetaTask) this.dom.dashMetaTask.textContent = this.activeSession.taskTitle || 'General development';
         } else {
-            this.dom.dashMetaProject.textContent = 'None selected';
-            this.dom.dashMetaTask.textContent = 'General development';
-            this.dom.dashTimerClock.textContent = '00:00:00';
-            this.dom.consoleMainClock.textContent = '00:00:00';
-            this.dom.pillTimerDisplay.textContent = '00:00:00';
+            if (this.dom.dashMetaProject) this.dom.dashMetaProject.textContent = 'None selected';
+            if (this.dom.dashMetaTask) this.dom.dashMetaTask.textContent = 'General development';
+            if (this.dom.dashTimerClock) this.dom.dashTimerClock.textContent = '00:00:00';
+            if (this.dom.consoleMainClock) this.dom.consoleMainClock.textContent = '00:00:00';
+            if (this.dom.pillTimerDisplay) this.dom.pillTimerDisplay.textContent = '00:00:00';
         }
 
         // Console Buttons
-        this.dom.consoleStartBtn.disabled = isRunning;
-        this.dom.consolePauseBtn.disabled = !isRunning;
-        this.dom.consolePauseBtn.innerHTML = isPaused ? '<i class="fas fa-play"></i> Resume' : '<i class="fas fa-pause"></i> Pause';
-        this.dom.consoleStopBtn.disabled = !isRunning;
+        if (this.dom.consoleStartBtn) this.dom.consoleStartBtn.disabled = isRunning;
+        if (this.dom.consolePauseBtn) {
+            this.dom.consolePauseBtn.disabled = !isRunning;
+            this.dom.consolePauseBtn.innerHTML = isPaused ? '<i class="fas fa-play"></i> Resume' : '<i class="fas fa-pause"></i> Pause';
+        }
+        if (this.dom.consoleStopBtn) this.dom.consoleStopBtn.disabled = !isRunning;
 
-        this.dom.consoleSessionStatusBadge.className = `status-badge ${isRunning ? (isPaused ? 'paused' : 'running') : 'idle'}`;
-        this.dom.consoleSessionStatusBadge.textContent = isRunning ? (isPaused ? 'Paused' : 'Active') : 'Ready';
+        if (this.dom.consoleSessionStatusBadge) {
+            this.dom.consoleSessionStatusBadge.className = `status-badge ${isRunning ? (isPaused ? 'paused' : 'running') : 'idle'}`;
+            this.dom.consoleSessionStatusBadge.textContent = isRunning ? (isPaused ? 'Paused' : 'Active') : 'Ready';
+        }
 
         if (isRunning) {
             const startTimeDate = new Date(this.activeSession.startTime);
-            this.dom.consoleStartTimeText.textContent = startTimeDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            this.dom.consoleBillableBadge.className = `badge-tag ${this.activeSession.billable ? 'billable' : ''}`;
-            this.dom.consoleBillableBadge.textContent = this.activeSession.billable ? 'Billable Work' : 'Non-Billable';
+            if (this.dom.consoleStartTimeText) this.dom.consoleStartTimeText.textContent = startTimeDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            if (this.dom.consoleBillableBadge) {
+                this.dom.consoleBillableBadge.className = `badge-tag ${this.activeSession.billable ? 'billable' : ''}`;
+                this.dom.consoleBillableBadge.textContent = this.activeSession.billable ? 'Billable Work' : 'Non-Billable';
+            }
 
             const proj = this.state.projects.find(p => p.id === this.activeSession.projectId);
-            this.dom.consoleCategoryBadge.textContent = proj ? proj.category : 'Development';
+            if (this.dom.consoleCategoryBadge) this.dom.consoleCategoryBadge.textContent = proj ? proj.category : 'Development';
 
             // Focus mode
-            this.dom.focusProjectPill.textContent = proj ? proj.name : 'General Work';
-            this.dom.focusTaskTitle.textContent = this.activeSession.taskTitle || 'Focused Coding';
-            this.dom.focusSubStatus.textContent = isPaused ? 'Session Paused' : 'Tracking in progress...';
-            this.dom.focusTogglePauseBtn.innerHTML = isPaused ? '<i class="fas fa-play"></i> Resume' : '<i class="fas fa-pause"></i> Pause';
+            if (this.dom.focusProjectPill) this.dom.focusProjectPill.textContent = proj ? proj.name : 'General Work';
+            if (this.dom.focusTaskTitle) this.dom.focusTaskTitle.textContent = this.activeSession.taskTitle || 'Focused Coding';
+            if (this.dom.focusSubStatus) this.dom.focusSubStatus.textContent = isPaused ? 'Session Paused' : 'Tracking in progress...';
+            if (this.dom.focusTogglePauseBtn) this.dom.focusTogglePauseBtn.innerHTML = isPaused ? '<i class="fas fa-play"></i> Resume' : '<i class="fas fa-pause"></i> Pause';
         } else {
-            this.dom.consoleStartTimeText.textContent = '--:--';
-            this.dom.consolePausedTimeText.textContent = '0m';
+            if (this.dom.consoleStartTimeText) this.dom.consoleStartTimeText.textContent = '--:--';
+            if (this.dom.consolePausedTimeText) this.dom.consolePausedTimeText.textContent = '0m';
         }
     }
 
@@ -1032,9 +1046,11 @@ class AppEngine {
     updatePomodoroDisplay() {
         const mins = Math.floor(this.pomodoro.timeLeft / 60);
         const secs = this.pomodoro.timeLeft % 60;
-        this.dom.pomoClock.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-        this.dom.pomoPhase.textContent = this.pomodoro.phase === 'work' ? 'Work Interval' : 'Rest Break';
-        this.dom.pomoPhase.style.color = this.pomodoro.phase === 'work' ? 'var(--accent-cyan)' : 'var(--accent-amber)';
+        if (this.dom.pomoClock) this.dom.pomoClock.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        if (this.dom.pomoPhase) {
+            this.dom.pomoPhase.textContent = this.pomodoro.phase === 'work' ? 'Work Interval' : 'Rest Break';
+            this.dom.pomoPhase.style.color = this.pomodoro.phase === 'work' ? 'var(--accent-cyan)' : 'var(--accent-amber)';
+        }
     }
 
     // Distraction-Free Focus Mode
@@ -1138,7 +1154,7 @@ class AppEngine {
                     <i class="fas fa-folder-open" style="font-size: 32px; color: var(--text-muted); margin-bottom: 12px;"></i>
                     <h3 style="font-size: 16px; margin-bottom: 6px;">No projects found</h3>
                     <p class="text-muted text-sm">Create your first repository or project to organize coding sessions.</p>
-                    <button class="btn-primary mt-3" onclick="window.appEngine.openProjectModal()">
+                    <button class="btn-primary mt-3" onclick="window.appEngine?.openProjectModal()">
                         <i class="fas fa-plus"></i> New Project
                     </button>
                 </div>
@@ -1161,10 +1177,10 @@ class AppEngine {
                     <div class="task-item-row">
                         <span class="task-priority-dot ${t.priority || 'medium'}" title="Priority: ${t.priority}"></span>
                         <span class="task-item-title ${t.status === 'done' ? 'done' : ''}">${this.escapeHtml(t.title)}</span>
-                        <button class="btn-ghost btn-sm" onclick="window.appEngine.trackTask('${proj.id}', '${this.escapeHtml(t.title)}')" title="Start timer on this task">
+                        <button class="btn-ghost btn-sm" onclick="window.appEngine?.trackTask('${proj.id}', '${this.escapeHtml(t.title)}')" title="Start timer on this task">
                             <i class="fas fa-play"></i>
                         </button>
-                        <button class="btn-icon-subtle" onclick="window.appEngine.toggleTaskDone('${t.id}')" title="Toggle status">
+                        <button class="btn-icon-subtle" onclick="window.appEngine?.toggleTaskDone('${t.id}')" title="Toggle status">
                             <i class="fas ${t.status === 'done' ? 'fa-check-circle text-primary' : 'fa-circle'}"></i>
                         </button>
                     </div>
@@ -1197,7 +1213,7 @@ class AppEngine {
                     <div class="project-tasks-section">
                         <div class="project-tasks-header">
                             <span>Tasks (${tasks.length})</span>
-                            <button class="btn-text btn-sm" onclick="window.appEngine.openTaskModal(null, '${proj.id}')">
+                            <button class="btn-text btn-sm" onclick="window.appEngine?.openTaskModal(null, '${proj.id}')">
                                 <i class="fas fa-plus"></i> Add Task
                             </button>
                         </div>
@@ -1205,16 +1221,16 @@ class AppEngine {
                     </div>
                     <div class="project-card-footer">
                         <div class="btn-group-row">
-                            <button class="btn-primary btn-sm" onclick="window.appEngine.trackProject('${proj.id}')">
+                            <button class="btn-primary btn-sm" onclick="window.appEngine?.trackProject('${proj.id}')">
                                 <i class="fas fa-play"></i> Track
                             </button>
-                            <button class="btn-ghost btn-sm" onclick="window.appEngine.openProjectModal('${proj.id}')">
+                            <button class="btn-ghost btn-sm" onclick="window.appEngine?.openProjectModal('${proj.id}')">
                                 <i class="fas fa-pencil"></i>
                             </button>
-                            <button class="btn-ghost btn-sm" onclick="window.appEngine.toggleArchiveProject('${proj.id}')" title="${proj.archived ? 'Unarchive' : 'Archive'}">
+                            <button class="btn-ghost btn-sm" onclick="window.appEngine?.toggleArchiveProject('${proj.id}')" title="${proj.archived ? 'Unarchive' : 'Archive'}">
                                 <i class="fas ${proj.archived ? 'fa-box-open' : 'fa-box-archive'}"></i>
                             </button>
-                            <button class="btn-danger-outline btn-sm" onclick="window.appEngine.deleteProject('${proj.id}')" title="Delete">
+                            <button class="btn-danger-outline btn-sm" onclick="window.appEngine?.deleteProject('${proj.id}')" title="Delete">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -1702,10 +1718,10 @@ class AppEngine {
                         </div>
                     </td>
                     <td class="text-right">
-                        <button class="btn-ghost btn-sm" onclick="window.appEngine.openEditSessionModal('${s.id}')" title="Edit">
+                        <button class="btn-ghost btn-sm" onclick="window.appEngine?.openEditSessionModal('${s.id}')" title="Edit">
                             <i class="fas fa-pencil"></i>
                         </button>
-                        <button class="btn-ghost btn-sm text-danger" onclick="window.appEngine.deleteSession('${s.id}')" title="Delete">
+                        <button class="btn-ghost btn-sm text-danger" onclick="window.appEngine?.deleteSession('${s.id}')" title="Delete">
                             <i class="fas fa-trash"></i>
                         </button>
                     </td>
@@ -1732,45 +1748,47 @@ class AppEngine {
         const todayPercent = Math.min(100, Math.round((todayDuration / dailyGoalMs) * 100));
         const weekPercent = Math.min(100, Math.round((weekDuration / weeklyGoalMs) * 100));
 
-        this.dom.dashTodayTime.textContent = this.formatDuration(todayDuration);
-        this.dom.todayProgressBadge.textContent = `${todayPercent}% Goal`;
-        this.dom.dailyGoalProgress.style.width = `${todayPercent}%`;
-        this.dom.dailyGoalText.textContent = `Goal: ${this.state.settings.dailyGoalHours}h 0m`;
+        if (this.dom.dashTodayTime) this.dom.dashTodayTime.textContent = this.formatDuration(todayDuration);
+        if (this.dom.todayProgressBadge) this.dom.todayProgressBadge.textContent = `${todayPercent}% Goal`;
+        if (this.dom.dailyGoalProgress) this.dom.dailyGoalProgress.style.width = `${todayPercent}%`;
+        if (this.dom.dailyGoalText) this.dom.dailyGoalText.textContent = `Goal: ${this.state.settings.dailyGoalHours}h 0m`;
 
-        this.dom.dashWeekTime.textContent = this.formatDuration(weekDuration);
-        this.dom.weekProgressBadge.textContent = `${weekPercent}% Goal`;
-        this.dom.weeklyGoalProgress.style.width = `${weekPercent}%`;
-        this.dom.weeklyGoalText.textContent = `Goal: ${this.state.settings.weeklyGoalHours}h 0m`;
+        if (this.dom.dashWeekTime) this.dom.dashWeekTime.textContent = this.formatDuration(weekDuration);
+        if (this.dom.weekProgressBadge) this.dom.weekProgressBadge.textContent = `${weekPercent}% Goal`;
+        if (this.dom.weeklyGoalProgress) this.dom.weeklyGoalProgress.style.width = `${weekPercent}%`;
+        if (this.dom.weeklyGoalText) this.dom.weeklyGoalText.textContent = `Goal: ${this.state.settings.weeklyGoalHours}h 0m`;
 
         // Billable Stats (All Time)
         const totalBillableDuration = this.state.sessions.filter(s => s.billable).reduce((sum, s) => sum + s.duration, 0);
         const totalBillableEarned = this.state.sessions.filter(s => s.billable).reduce((sum, s) => sum + (s.earned || 0), 0);
-        this.dom.dashBillableAmount.textContent = `$${totalBillableEarned.toFixed(2)}`;
-        this.dom.dashBillableTime.textContent = `${this.formatDuration(totalBillableDuration)} billable tracked`;
+        if (this.dom.dashBillableAmount) this.dom.dashBillableAmount.textContent = `$${totalBillableEarned.toFixed(2)}`;
+        if (this.dom.dashBillableTime) this.dom.dashBillableTime.textContent = `${this.formatDuration(totalBillableDuration)} billable tracked`;
 
         // Streak & Active Projects
         const streak = this.calcActiveDayStreak();
-        this.dom.dashActiveStreak.textContent = `${streak} ${streak === 1 ? 'Day' : 'Days'}`;
+        if (this.dom.dashActiveStreak) this.dom.dashActiveStreak.textContent = `${streak} ${streak === 1 ? 'Day' : 'Days'}`;
         const activeProjectsCount = this.state.projects.filter(p => !p.archived).length;
-        this.dom.dashActiveProjectsCount.textContent = `${activeProjectsCount} Active Projects`;
+        if (this.dom.dashActiveProjectsCount) this.dom.dashActiveProjectsCount.textContent = `${activeProjectsCount} Active Projects`;
 
         // Dashboard Recent Sessions (Last 5)
         const recents = this.state.sessions.slice(0, 5);
         if (recents.length === 0) {
-            this.dom.dashRecentSessionsList.innerHTML = '<div class="text-muted text-sm" style="text-align: center; padding: 20px;">No sessions logged yet.</div>';
+            if (this.dom.dashRecentSessionsList) this.dom.dashRecentSessionsList.innerHTML = '<div class="text-muted text-sm" style="text-align: center; padding: 20px;">No sessions logged yet.</div>';
         } else {
-            this.dom.dashRecentSessionsList.innerHTML = recents.map(s => {
-                const proj = this.state.projects.find(p => p.id === s.projectId);
-                return `
-                    <div class="recent-session-row">
-                        <div class="recent-session-info">
-                            <span class="recent-session-proj">${this.escapeHtml(proj ? proj.name : 'No Project')}</span>
-                            <span class="recent-session-task">${this.escapeHtml(s.taskTitle || 'Coding')}</span>
+            if (this.dom.dashRecentSessionsList) {
+                this.dom.dashRecentSessionsList.innerHTML = recents.map(s => {
+                    const proj = this.state.projects.find(p => p.id === s.projectId);
+                    return `
+                        <div class="recent-session-row">
+                            <div class="recent-session-info">
+                                <span class="recent-session-proj">${this.escapeHtml(proj ? proj.name : 'No Project')}</span>
+                                <span class="recent-session-task">${this.escapeHtml(s.taskTitle || 'Coding')}</span>
+                            </div>
+                            <span class="recent-session-duration">${this.formatDuration(s.duration)}</span>
                         </div>
-                        <span class="recent-session-duration">${this.formatDuration(s.duration)}</span>
-                    </div>
-                `;
-            }).join('');
+                    `;
+                }).join('');
+            }
         }
 
         // Dashboard Today's Projects Chart
@@ -1787,12 +1805,14 @@ class AppEngine {
         }
 
         if (todaySessions.length === 0) {
-            this.dom.dashProjectsEmpty.style.display = 'flex';
+            if (this.dom.dashProjectsEmpty) this.dom.dashProjectsEmpty.style.display = 'flex';
             ctx.style.display = 'none';
             return;
         }
 
-        this.dom.dashProjectsEmpty.style.display = 'none';
+        if (typeof Chart === 'undefined') return;
+
+        if (this.dom.dashProjectsEmpty) this.dom.dashProjectsEmpty.style.display = 'none';
         ctx.style.display = 'block';
 
         const projTimeMap = {};
@@ -1890,7 +1910,7 @@ class AppEngine {
 
     renderChartProjectsDistribution(sessions) {
         const ctx = document.getElementById('chartProjectsDistribution');
-        if (!ctx) return;
+        if (!ctx || typeof Chart === 'undefined') return;
         if (this.charts.projectsDistribution) this.charts.projectsDistribution.destroy();
 
         const map = {};
@@ -1929,7 +1949,7 @@ class AppEngine {
 
     renderChartDailyVolume(sessions, period) {
         const ctx = document.getElementById('chartDailyVolume');
-        if (!ctx) return;
+        if (!ctx || typeof Chart === 'undefined') return;
         if (this.charts.dailyVolume) this.charts.dailyVolume.destroy();
 
         // Group into days
@@ -1993,7 +2013,7 @@ class AppEngine {
 
     renderChartCumulativeTrend(sessions, period) {
         const ctx = document.getElementById('chartCumulativeTrend');
-        if (!ctx) return;
+        if (!ctx || typeof Chart === 'undefined') return;
         if (this.charts.cumulativeTrend) this.charts.cumulativeTrend.destroy();
 
         const sorted = [...sessions].sort((a, b) => new Date(a.startTime) - new Date(b.startTime));
@@ -2050,7 +2070,7 @@ class AppEngine {
 
     renderChartCategoryBreakdown(sessions) {
         const ctx = document.getElementById('chartCategoryBreakdown');
-        if (!ctx) return;
+        if (!ctx || typeof Chart === 'undefined') return;
         if (this.charts.categoryBreakdown) this.charts.categoryBreakdown.destroy();
 
         const catMap = {};
@@ -2101,15 +2121,15 @@ class AppEngine {
 
     // Settings View
     renderSettings() {
-        this.dom.settingDailyGoalHours.value = this.state.settings.dailyGoalHours || 4;
-        this.dom.settingWeeklyGoalHours.value = this.state.settings.weeklyGoalHours || 25;
-        this.dom.settingWeekStart.value = this.state.settings.weekStart || 'sunday';
-        this.dom.settingTimeFormat.value = this.state.settings.timeFormat || '24h';
-        this.dom.settingSoundToggle.checked = !!this.state.settings.soundEnabled;
-        this.dom.settingNotificationsToggle.checked = !!this.state.settings.notificationsEnabled;
+        if (this.dom.settingDailyGoalHours) this.dom.settingDailyGoalHours.value = this.state.settings.dailyGoalHours || 4;
+        if (this.dom.settingWeeklyGoalHours) this.dom.settingWeeklyGoalHours.value = this.state.settings.weeklyGoalHours || 25;
+        if (this.dom.settingWeekStart) this.dom.settingWeekStart.value = this.state.settings.weekStart || 'sunday';
+        if (this.dom.settingTimeFormat) this.dom.settingTimeFormat.value = this.state.settings.timeFormat || '24h';
+        if (this.dom.settingSoundToggle) this.dom.settingSoundToggle.checked = !!this.state.settings.soundEnabled;
+        if (this.dom.settingNotificationsToggle) this.dom.settingNotificationsToggle.checked = !!this.state.settings.notificationsEnabled;
 
-        this.dom.storageSessionsCount.textContent = `${this.state.sessions.length} sessions`;
-        this.dom.storageProjectsCount.textContent = `${this.state.projects.length} projects (${this.state.tasks.length} tasks)`;
+        if (this.dom.storageSessionsCount) this.dom.storageSessionsCount.textContent = `${this.state.sessions.length} sessions`;
+        if (this.dom.storageProjectsCount) this.dom.storageProjectsCount.textContent = `${this.state.projects.length} projects (${this.state.tasks.length} tasks)`;
     }
 
     // Export & Backup
@@ -2480,6 +2500,14 @@ class AppEngine {
 }
 
 // Bootstrap Application
-document.addEventListener('DOMContentLoaded', () => {
-    window.appEngine = new AppEngine();
-});
+function initCodeTimerTracker() {
+    if (!window.appEngine) {
+        window.appEngine = new AppEngine();
+    }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCodeTimerTracker);
+} else {
+    initCodeTimerTracker();
+}

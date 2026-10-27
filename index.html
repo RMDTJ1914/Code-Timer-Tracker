@@ -7,8 +7,11 @@
     <title>Code Timer Tracker — Developer Productivity &amp; Time Tracking</title>
     <meta name="description" content="Professional developer time tracking, session management, productivity analytics, and project activity tool.">
     <meta name="author" content="Mohammad Abu Khashreef">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=2.0.1">
+    <link rel="stylesheet" href="style.css?v=2.0.2">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
@@ -49,7 +52,7 @@
                     <i class="fas fa-expand"></i>
                     <span class="btn-label">Focus</span>
                 </button>
-                <button id="logManualBtn" class="btn-ghost" title="Log Past Session" onclick="window.appEngine.openManualSessionModal()">
+                <button id="logManualBtn" class="btn-ghost" title="Log Past Session" onclick="window.appEngine?.openManualSessionModal()">
                     <i class="fas fa-plus-circle"></i>
                     <span class="btn-label">Log Time</span>
                 </button>
@@ -112,7 +115,7 @@
                         <button id="dashStartTimerBtn" class="btn-primary">
                             <i class="fas fa-play"></i> Start Timer
                         </button>
-                        <button id="dashNewProjectBtn" class="btn-secondary" onclick="window.appEngine.openProjectModal()">
+                        <button id="dashNewProjectBtn" class="btn-secondary" onclick="window.appEngine?.openProjectModal()">
                             <i class="fas fa-plus"></i> New Project
                         </button>
                     </div>
@@ -413,7 +416,7 @@
                                 <option value="all">All Projects</option>
                             </select>
                         </div>
-                        <button id="createProjectBtn" class="btn-primary" onclick="window.appEngine.openProjectModal()">
+                        <button id="createProjectBtn" class="btn-primary" onclick="window.appEngine?.openProjectModal()">
                             <i class="fas fa-plus"></i> New Project
                         </button>
                     </div>
@@ -1164,7 +1167,7 @@
     <!-- Notification Toast Container -->
     <div id="toastContainer" class="toast-container" aria-live="polite"></div>
 
-    <script src="script.js?v=2.0.1"></script>
+    <script src="script.js?v=2.0.2"></script>
 </body>
 
 </html>
