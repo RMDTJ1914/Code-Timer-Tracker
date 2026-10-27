@@ -200,3 +200,35 @@ test('Backup validation with invalid payload handling', () => {
     assert.strictEqual(validateBackup({ projects: 'not array' }).valid, false);
     assert.strictEqual(validateBackup({ projects: [], sessions: [] }).valid, true);
 });
+
+test('Duration localized formatting in English and Arabic', () => {
+    function formatDuration(ms, lang = 'en') {
+        const isAr = lang === 'ar';
+        const hUnit = isAr ? ' س' : 'h';
+        const mUnit = isAr ? ' د' : 'm';
+        const sUnit = isAr ? ' ث' : 's';
+
+        if (!ms || ms < 0) return isAr ? `0${mUnit}` : '0m';
+        const totalSecs = Math.floor(ms / 1000);
+        const hours = Math.floor(totalSecs / 3600);
+        const minutes = Math.floor((totalSecs % 3600) / 60);
+        const seconds = totalSecs % 60;
+
+        if (hours > 0) return `${hours}${hUnit} ${minutes}${mUnit}`;
+        if (minutes > 0) return `${minutes}${mUnit} ${seconds}${sUnit}`;
+        return `${seconds}${sUnit}`;
+    }
+
+    // English
+    assert.strictEqual(formatDuration(0, 'en'), '0m');
+    assert.strictEqual(formatDuration(45000, 'en'), '45s');
+    assert.strictEqual(formatDuration(125000, 'en'), '2m 5s');
+    assert.strictEqual(formatDuration(3665000, 'en'), '1h 1m');
+
+    // Arabic
+    assert.strictEqual(formatDuration(0, 'ar'), '0 د');
+    assert.strictEqual(formatDuration(45000, 'ar'), '45 ث');
+    assert.strictEqual(formatDuration(125000, 'ar'), '2 د 5 ث');
+    assert.strictEqual(formatDuration(3665000, 'ar'), '1 س 1 د');
+});
+

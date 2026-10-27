@@ -4,6 +4,263 @@
  * Local-First Developer Productivity Engine
  */
 
+const I18N = {
+    en: {
+        app_title: "Code Timer Tracker",
+        app_sub: "by Mohammad Abu Khashreef",
+        search_actions: "Search / Actions",
+        focus: "Focus",
+        log_time: "Log Time",
+        toggle_theme: "Toggle Theme",
+        lang_btn: "AR",
+        lang_title: "تبديل إلى العربية",
+        nav_dashboard: "Dashboard",
+        nav_timer: "Timer Console",
+        nav_projects: "Projects & Tasks",
+        nav_sessions: "Session Logs",
+        nav_reports: "Analytics",
+        nav_settings: "Settings & Backup",
+        nav_about: "About",
+        no_project: "No Project",
+        dash_welcome_title: "Developer Overview",
+        dash_welcome_sub: "Tracked coding activity, active commitments, and focus consistency.",
+        start_timer: "Start Timer",
+        new_project: "New Project",
+        today_coding_time: "Today's Coding Time",
+        weekly_time: "This Week's Total",
+        billable_value: "Billable Earnings",
+        active_streak: "Focus Consistency",
+        active_session_card: "Active Session Control",
+        recent_sessions: "Recent Sessions",
+        view_all_sessions: "View All",
+        today_project_breakdown: "Time by Project (Today)",
+        no_sessions_today: "No sessions recorded today.",
+        quick_presets: "Quick Workflow Presets",
+        go_to_timer: "Open Console",
+        in_progress: "In Progress",
+        start_tracking: "Start Tracking",
+        pause: "Pause",
+        resume: "Resume",
+        stop: "Stop",
+        stop_and_save: "Stop & Save",
+        idle: "Idle",
+        running: "Running",
+        paused: "Paused",
+        ready: "Ready",
+        timer_console_title: "Session Control Console",
+        timer_console_sub: "Dedicated cockpit for precision interval measurement, billing attribution, and task notes.",
+        project_label: "Target Project / Repository",
+        task_label: "Active Task Title",
+        tags_label: "Tags / Workstream",
+        billable_checkbox: "Mark session as billable",
+        notes_label: "Session Notes & Work Summary",
+        notes_placeholder: "What are you building or solving? (e.g. fixed memory leak in auth worker)",
+        start_session_btn: "Start Session",
+        fullscreen_focus: "Fullscreen Focus",
+        project_snapshot_title: "Project Snapshot",
+        pomodoro_companion_title: "Pomodoro Companion",
+        work_interval: "Work Interval",
+        rest_break: "Rest Break",
+        projects_title: "Projects & Repositories",
+        projects_sub: "Organize client deliverables, internal codebases, and associate tasks.",
+        filter_active: "Active Projects",
+        filter_archived: "Archived Projects",
+        filter_all: "All Projects",
+        no_projects_found: "No projects found",
+        no_projects_hint: "Create your first repository or project to organize coding sessions.",
+        total_time: "Total Time",
+        billable: "Billable",
+        tasks_done: "Tasks Done",
+        add_task: "Add Task",
+        track: "Track",
+        archive: "Archive",
+        unarchive: "Unarchive",
+        delete: "Delete",
+        edit: "Edit",
+        sessions_title: "Recorded Session History",
+        sessions_sub: "Audit log of all tracked sessions with filtering, bulk exports, and editing.",
+        log_past_session: "Log Past Session",
+        export_csv: "Export CSV",
+        export_json: "Export JSON",
+        reset_filters: "Reset Filters",
+        no_sessions_match: "No recorded sessions matching your filter criteria.",
+        reports_title: "Productivity Intelligence",
+        reports_sub: "Deep-dive analysis into time allocation, cumulative coding output, and category trends.",
+        total_time_logged: "Total Time Logged",
+        avg_session_length: "Avg Session Length",
+        total_billable_value: "Total Billable Value",
+        primary_project: "Primary Project",
+        chart_proj_dist: "Project Allocation",
+        chart_daily_vol: "Daily Time Volume (Hours)",
+        chart_cumul: "Cumulative Coding Curve (Hours)",
+        chart_cat: "Category Breakdown",
+        settings_title: "Preferences & Targets",
+        settings_sub: "Customize productivity quotas, audio alerts, and portability.",
+        settings_daily_goal: "Daily Coding Target (Hours)",
+        settings_weekly_goal: "Weekly Coding Target (Hours)",
+        settings_week_start: "Week Starts On",
+        settings_time_format: "Time Display Format",
+        settings_language: "Interface Language / لغة الواجهة",
+        settings_sound: "Enable procedural synthesizer audio cues (Web Audio API)",
+        settings_notif: "Request browser desktop notifications for intervals",
+        settings_save_btn: "Save Preferences",
+        storage_title: "Storage & Data Portability",
+        storage_disclaimer: "All session records and project details are stored exclusively inside your browser's private local storage. No code, keystrokes, or telemetry are ever sent to remote servers. Make regular JSON backups to preserve your data across computers.",
+        backup_download: "Download JSON Backup",
+        backup_restore: "Restore from JSON",
+        reset_workspace: "Reset Workspace",
+        reset_workspace_hint: "Clear all locally recorded sessions, projects, and tasks after saving a backup.",
+        clear_data_btn: "Clear All Stored Data",
+        about_title: "Code Timer Tracker",
+        about_tagline: "High-Precision Time Tracking & Productivity Intelligence for Software Engineers",
+        about_architect: "Lead Architect & Developer",
+        about_org: "Parent Organization",
+        about_arch_type: "Software Architecture",
+        about_license: "Licensing",
+        about_eco_title: "Code Elta6ur Ecosystem",
+        about_eco_sub: "Verified platforms, engineering tools, and development properties.",
+        about_shortcuts_title: "Built-in Keyboard Shortcuts",
+        footer_repo: "Repository",
+        footer_shortcuts: "Shortcuts",
+        modal_new_project: "New Project",
+        modal_edit_project: "Edit Project",
+        btn_cancel: "Cancel",
+        btn_save_project: "Save Project",
+        modal_new_task: "New Task",
+        modal_edit_task: "Edit Task",
+        btn_save_task: "Save Task",
+        btn_record_session: "Record Session",
+        btn_update_session: "Update Session"
+    },
+    ar: {
+        app_title: "متتبع وقت البرمجة",
+        app_sub: "بواسطة محمد أبو خشريف",
+        search_actions: "البحث والإجراءات",
+        focus: "تركيز",
+        log_time: "تسجيل وقت",
+        toggle_theme: "تبديل المظهر",
+        lang_btn: "EN",
+        lang_title: "Switch to English",
+        nav_dashboard: "لوحة المؤشرات",
+        nav_timer: "منصة المؤقت",
+        nav_projects: "المشاريع والمهام",
+        nav_sessions: "سجل الجلسات",
+        nav_reports: "التحليلات",
+        nav_settings: "الإعدادات والحفظ",
+        nav_about: "عن الأداة",
+        no_project: "بدون مشروع",
+        dash_welcome_title: "نظرة عامة للمطور",
+        dash_welcome_sub: "تتبع فوري، استمرارية الأيام النشطة، ومقاييس الإنتاجية البرمجية.",
+        start_timer: "بدء المؤقت",
+        new_project: "مشروع جديد",
+        today_coding_time: "وقت البرمجة اليوم",
+        weekly_time: "إجمالي هذا الأسبوع",
+        billable_value: "المستحقات المدفوعة",
+        active_streak: "استمرارية التركيز",
+        active_session_card: "التحكم بالجلسة النشطة",
+        recent_sessions: "الجلسات الأخيرة",
+        view_all_sessions: "عرض الكل",
+        today_project_breakdown: "توزيع مشاريع اليوم",
+        no_sessions_today: "لم تسجل أي جلسة اليوم بعد.",
+        quick_presets: "قوالب العمل السريعة",
+        go_to_timer: "فتح المنصة",
+        in_progress: "قيد التنفيذ",
+        start_tracking: "بدء التتبع",
+        pause: "إيقاف مؤقت",
+        resume: "استئناف",
+        stop: "إنهاء",
+        stop_and_save: "إنهاء وحفظ",
+        idle: "في وضع الانتظار",
+        running: "قيد التشغيل",
+        paused: "متوقف مؤقتاً",
+        ready: "جاهز",
+        timer_console_title: "منصة التحكم بالمؤقت",
+        timer_console_sub: "مقصورة مخصصة للقياس الدقيق لفترات العمل، احتساب الفواتير، وتدوين الملاحظات البرمجية.",
+        project_label: "المشروع المستهدف / المستودع",
+        task_label: "عنوان المهمة النشطة",
+        tags_label: "الوسوم / مسار العمل",
+        billable_checkbox: "تحديد الجلسة كمدفوعة (قابلة للفوترة)",
+        notes_label: "ملاحظات الجلسة وملخص الإنجاز",
+        notes_placeholder: "ما الذي تقوم ببنائه أو حله؟ (مثال: إصلاح تسريب الذاكرة في خدمة المصادقة)",
+        start_session_btn: "بدء الجلسة",
+        fullscreen_focus: "ملء الشاشة والتركيز",
+        project_snapshot_title: "لمحة عن المشروع",
+        pomodoro_companion_title: "مساعد بومودورو",
+        work_interval: "فترة العمل",
+        rest_break: "استراحة قصيرة",
+        projects_title: "المشاريع والمستودعات",
+        projects_sub: "تنظيم تسليمات العملاء، المستودعات الداخلية، وربط المهام البرمجية بها.",
+        filter_active: "المشاريع النشطة",
+        filter_archived: "المشاريع المؤرشفة",
+        filter_all: "جميع المشاريع",
+        no_projects_found: "لم يتم العثور على مشاريع",
+        no_projects_hint: "أنشئ أول مستودع أو مشروع لتنظيم جلساتك البرمجية.",
+        total_time: "الوقت الإجمالي",
+        billable: "المدفوع",
+        tasks_done: "المهام المنجزة",
+        add_task: "إضافة مهمة",
+        track: "تتبع",
+        archive: "أرشفة",
+        unarchive: "استعادة",
+        delete: "حذف",
+        edit: "تعديل",
+        sessions_title: "سجل الجلسات المسجلة",
+        sessions_sub: "سجل كامل لجميع جلسات العمل مع إمكانيات الفلترة، التصدير، والتعديل.",
+        log_past_session: "تسجيل جلسة سابقة",
+        export_csv: "تصدير CSV",
+        export_json: "تصدير JSON",
+        reset_filters: "إعادة تعيين الفلاتر",
+        no_sessions_match: "لا توجد جلسات تطابق معايير البحث والفلترة.",
+        reports_title: "تحليلات الإنتاجية البرمجية",
+        reports_sub: "تحليل معمق لتوزيع الوقت، الإنتاج التراكمي، وتوجهات مجالات العمل.",
+        total_time_logged: "إجمالي الوقت المسجل",
+        avg_session_length: "متوسط مدة الجلسة",
+        total_billable_value: "إجمالي المستحقات",
+        primary_project: "المشروع الأكثر تركيزاً",
+        chart_proj_dist: "توزيع الوقت حسب المشروع",
+        chart_daily_vol: "حجم الوقت اليومي (ساعات)",
+        chart_cumul: "منحنى الساعات التراكمي",
+        chart_cat: "توزيع المجالات والتصنيفات",
+        settings_title: "التفضيلات والأهداف",
+        settings_sub: "تخصيص أهداف الإنتاجية، التنبيهات الصوتية، ونقل البيانات.",
+        settings_daily_goal: "الهدف اليومي للبرمجة (ساعات)",
+        settings_weekly_goal: "الهدف الأسبوعي للبرمجة (ساعات)",
+        settings_week_start: "بداية الأسبوع",
+        settings_time_format: "تنسيق عرض الوقت",
+        settings_language: "Interface Language / لغة الواجهة",
+        settings_sound: "تفعيل المؤثرات الصوتية الاصطناعية (Web Audio API)",
+        settings_notif: "طلب إشعارات المتصفح لانتهاء فترات العمل والاستراحة",
+        settings_save_btn: "حفظ التفضيلات",
+        storage_title: "التخزين والنسخ الاحتياطي",
+        storage_disclaimer: "تُحفظ كافة سجلات الجلسات وتفاصيل المشاريع حصرياً داخل التخزين المحلي لمتصفحك. لا يُرسل أي كود أو ضربات مفاتيح أو بيانات تتبع إلى خوادم بعيدة. احرص على أخذ نسخ احتياطية بانتظام.",
+        backup_download: "تنزيل نسخة احتياطية (JSON)",
+        backup_restore: "استعادة من ملف (JSON)",
+        reset_workspace: "إعادة ضبط مساحة العمل",
+        reset_workspace_hint: "حذف جميع الجلسات والمشاريع والمهام المحفوظة محلياً بعد التأكد من حفظ نسخة احتياطية.",
+        clear_data_btn: "مسح كافة البيانات المخزنة",
+        about_title: "متتبع وقت البرمجة (Code Timer Tracker)",
+        about_tagline: "أداة دقيقة لإدارة الوقت وتحليلات الإنتاجية مخصصة لمهندسي البرمجيات",
+        about_architect: "المصمم المعماري والمطور الرئيسي",
+        about_org: "المؤسسة الأم",
+        about_arch_type: "المعمارية البرمجية",
+        about_license: "الترخيص",
+        about_eco_title: "منظومة كود التطور (Code Elta6ur)",
+        about_eco_sub: "المنصات والأدوات الهندسية والمستودعات البرمجية المعتمدة.",
+        about_shortcuts_title: "اختصارات لوحة المفاتيح المدمجة",
+        footer_repo: "المستودع البرمجي",
+        footer_shortcuts: "الاختصارات",
+        modal_new_project: "مشروع جديد",
+        modal_edit_project: "تعديل المشروع",
+        btn_cancel: "إلغاء",
+        btn_save_project: "حفظ المشروع",
+        modal_new_task: "مهمة جديدة",
+        modal_edit_task: "تعديل المهمة",
+        btn_save_task: "حفظ المهمة",
+        btn_record_session: "تسجيل الجلسة",
+        btn_update_session: "تحديث السجل"
+    }
+};
+
 class StorageManager {
     static STORAGE_KEY = 'code_timer_v2_data';
     static ACTIVE_SESSION_KEY = 'code_timer_v2_active_session';
@@ -41,6 +298,7 @@ class StorageManager {
             sessions: [],
             settings: {
                 theme: 'dark',
+                language: 'en',
                 dailyGoalHours: 4,
                 weeklyGoalHours: 25,
                 weekStart: 'sunday',
@@ -255,6 +513,7 @@ class AppEngine {
         };
 
         this.initDOMReferences();
+        this.applyLanguage(this.state.settings.language || 'en');
         this.applyTheme(this.state.settings.theme);
         this.initEventListeners();
         this.initKeyboardShortcuts();
@@ -267,6 +526,9 @@ class AppEngine {
         this.dom = {
             app: document.getElementById('app'),
             themeToggle: document.getElementById('themeToggle'),
+            langToggleBtn: document.getElementById('langToggleBtn'),
+            langLabel: document.getElementById('langLabel'),
+            settingLanguage: document.getElementById('settingLanguage'),
             navTabs: document.querySelectorAll('.nav-tab'),
             pageViews: document.querySelectorAll('.page-view'),
 
@@ -415,6 +677,17 @@ class AppEngine {
             this.showToast(`Switched to ${nextTheme} mode`, 'info');
         });
 
+        // Language Switcher
+        this.dom.langToggleBtn?.addEventListener('click', () => {
+            const current = this.state.settings.language || 'en';
+            const next = current === 'en' ? 'ar' : 'en';
+            this.setLanguage(next);
+        });
+
+        this.dom.settingLanguage?.addEventListener('change', (e) => {
+            this.setLanguage(e.target.value);
+        });
+
         // Header Pill Controls
         this.dom.pillPauseBtn?.addEventListener('click', () => this.togglePauseSession());
         this.dom.pillStopBtn?.addEventListener('click', () => this.stopAndSaveSession());
@@ -553,6 +826,9 @@ class AppEngine {
             this.state.settings.weeklyGoalHours = parseFloat(this.dom.settingWeeklyGoalHours.value) || 25;
             this.state.settings.weekStart = this.dom.settingWeekStart.value;
             this.state.settings.timeFormat = this.dom.settingTimeFormat.value;
+            if (this.dom.settingLanguage) {
+                this.state.settings.language = this.dom.settingLanguage.value;
+            }
             this.state.settings.soundEnabled = this.dom.settingSoundToggle.checked;
             this.state.settings.notificationsEnabled = this.dom.settingNotificationsToggle.checked;
             this.synth.enabled = this.state.settings.soundEnabled;
@@ -679,6 +955,86 @@ class AppEngine {
         if (icon) {
             icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
         }
+    }
+
+    t(key) {
+        const lang = (this.state && this.state.settings && this.state.settings.language) ? this.state.settings.language : 'en';
+        if (I18N[lang] && I18N[lang][key] !== undefined) {
+            return I18N[lang][key];
+        }
+        if (I18N.en && I18N.en[key] !== undefined) {
+            return I18N.en[key];
+        }
+        return key;
+    }
+
+    applyLanguage(lang) {
+        if (!I18N[lang]) lang = 'en';
+        if (!this.state.settings) this.state.settings = {};
+        this.state.settings.language = lang;
+
+        const isRtl = lang === 'ar';
+        document.documentElement.setAttribute('lang', lang);
+        document.documentElement.setAttribute('dir', isRtl ? 'rtl' : 'ltr');
+
+        // Header Language Button
+        if (this.dom.langLabel) {
+            this.dom.langLabel.textContent = isRtl ? 'EN' : 'AR';
+        }
+        if (this.dom.langToggleBtn) {
+            this.dom.langToggleBtn.title = isRtl ? 'Switch to English' : 'تبديل إلى العربية';
+        }
+
+        // Settings language selector
+        if (this.dom.settingLanguage) {
+            this.dom.settingLanguage.value = lang;
+        }
+
+        // Translate static elements with data-i18n
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            const translation = this.t(key);
+            if (translation) {
+                if (el.children.length === 0) {
+                    el.textContent = translation;
+                } else {
+                    const textNode = Array.from(el.childNodes).find(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim().length > 0);
+                    if (textNode) {
+                        textNode.textContent = ` ${translation} `;
+                    } else {
+                        const span = el.querySelector('span:not(.nav-shortcut):not(.metric-badge)');
+                        if (span) span.textContent = translation;
+                    }
+                }
+            }
+        });
+
+        // Translate placeholders
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            const key = el.getAttribute('data-i18n-placeholder');
+            const translation = this.t(key);
+            if (translation) el.placeholder = translation;
+        });
+
+        // Translate titles
+        document.querySelectorAll('[data-i18n-title]').forEach(el => {
+            const key = el.getAttribute('data-i18n-title');
+            const translation = this.t(key);
+            if (translation) el.title = translation;
+        });
+
+        // Update active displays and dynamic tables
+        this.updateTimerUIState();
+        this.updatePomodoroDisplay();
+        this.populateProjectSelects();
+    }
+
+    setLanguage(lang) {
+        this.applyLanguage(lang);
+        this.saveState();
+        this.renderAll();
+        const toastMsg = lang === 'ar' ? 'تم تحويل لغة الواجهة إلى العربية' : 'Switched interface language to English';
+        this.showToast(toastMsg, 'info');
     }
 
     navigateTo(pageId) {
@@ -1144,6 +1500,7 @@ class AppEngine {
 
     renderProjects() {
         const filter = this.dom.projectFilterStatus.value;
+        const isAr = this.state.settings?.language === 'ar';
         let projects = this.state.projects;
         if (filter === 'active') projects = projects.filter(p => !p.archived);
         if (filter === 'archived') projects = projects.filter(p => p.archived);
@@ -1152,10 +1509,10 @@ class AppEngine {
             this.dom.projectsContainer.innerHTML = `
                 <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 40px 20px;">
                     <i class="fas fa-folder-open" style="font-size: 32px; color: var(--text-muted); margin-bottom: 12px;"></i>
-                    <h3 style="font-size: 16px; margin-bottom: 6px;">No projects found</h3>
-                    <p class="text-muted text-sm">Create your first repository or project to organize coding sessions.</p>
+                    <h3 style="font-size: 16px; margin-bottom: 6px;">${this.t('no_projects_found')}</h3>
+                    <p class="text-muted text-sm">${this.t('no_projects_hint')}</p>
                     <button class="btn-primary mt-3" onclick="window.appEngine?.openProjectModal()">
-                        <i class="fas fa-plus"></i> New Project
+                        <i class="fas fa-plus"></i> ${this.t('new_project')}
                     </button>
                 </div>
             `;
@@ -1172,7 +1529,7 @@ class AppEngine {
             const techChips = (proj.techStack || []).map(t => `<span class="tech-chip">${this.escapeHtml(t)}</span>`).join('');
 
             const tasksListHtml = tasks.length === 0 ?
-                '<div class="text-muted text-sm" style="padding: 6px 0;">No tasks yet</div>' :
+                `<div class="text-muted text-sm" style="padding: 6px 0;">${isAr ? 'لا توجد مهام بعد' : 'No tasks yet'}</div>` :
                 tasks.map(t => `
                     <div class="task-item-row">
                         <span class="task-priority-dot ${t.priority || 'medium'}" title="Priority: ${t.priority}"></span>
@@ -1188,33 +1545,33 @@ class AppEngine {
 
             return `
                 <div class="project-card-item">
-                    <div class="project-card-top" style="border-left-color: ${proj.color || '#10b981'}">
+                    <div class="project-card-top" style="border-left-color: ${proj.color || '#10b981'}; border-right-color: ${proj.color || '#10b981'}">
                         <div class="project-card-header">
                             <h3 class="project-card-title">${this.escapeHtml(proj.name)}</h3>
-                            <span class="project-card-category">${this.escapeHtml(proj.category || 'General')}</span>
+                            <span class="project-card-category">${this.escapeHtml(proj.category || (isAr ? 'عام' : 'General'))}</span>
                         </div>
-                        <p class="project-card-desc">${this.escapeHtml(proj.description || 'No description provided.')}</p>
+                        <p class="project-card-desc">${this.escapeHtml(proj.description || (isAr ? 'لا يوجد وصف للمشروع.' : 'No description provided.'))}</p>
                         <div class="tech-stack-row">${techChips}</div>
                         <div class="project-stats-bar">
                             <div class="pstat-item">
                                 <div class="pstat-val">${this.formatDuration(totalDuration)}</div>
-                                <div class="pstat-label">Total Time</div>
+                                <div class="pstat-label">${this.t('total_time')}</div>
                             </div>
                             <div class="pstat-item">
                                 <div class="pstat-val">${this.formatDuration(billableDuration)}</div>
-                                <div class="pstat-label">Billable</div>
+                                <div class="pstat-label">${this.t('billable')}</div>
                             </div>
                             <div class="pstat-item">
                                 <div class="pstat-val">${doneTasks.length}/${tasks.length}</div>
-                                <div class="pstat-label">Tasks Done</div>
+                                <div class="pstat-label">${this.t('tasks_done')}</div>
                             </div>
                         </div>
                     </div>
                     <div class="project-tasks-section">
                         <div class="project-tasks-header">
-                            <span>Tasks (${tasks.length})</span>
+                            <span>${isAr ? 'المهام' : 'Tasks'} (${tasks.length})</span>
                             <button class="btn-text btn-sm" onclick="window.appEngine?.openTaskModal(null, '${proj.id}')">
-                                <i class="fas fa-plus"></i> Add Task
+                                <i class="fas fa-plus"></i> ${this.t('add_task')}
                             </button>
                         </div>
                         <div class="tasks-list-mini">${tasksListHtml}</div>
@@ -1222,19 +1579,19 @@ class AppEngine {
                     <div class="project-card-footer">
                         <div class="btn-group-row">
                             <button class="btn-primary btn-sm" onclick="window.appEngine?.trackProject('${proj.id}')">
-                                <i class="fas fa-play"></i> Track
+                                <i class="fas fa-play"></i> ${this.t('track')}
                             </button>
                             <button class="btn-ghost btn-sm" onclick="window.appEngine?.openProjectModal('${proj.id}')">
                                 <i class="fas fa-pencil"></i>
                             </button>
-                            <button class="btn-ghost btn-sm" onclick="window.appEngine?.toggleArchiveProject('${proj.id}')" title="${proj.archived ? 'Unarchive' : 'Archive'}">
+                            <button class="btn-ghost btn-sm" onclick="window.appEngine?.toggleArchiveProject('${proj.id}')" title="${proj.archived ? this.t('unarchive') : this.t('archive')}">
                                 <i class="fas ${proj.archived ? 'fa-box-open' : 'fa-box-archive'}"></i>
                             </button>
-                            <button class="btn-danger-outline btn-sm" onclick="window.appEngine?.deleteProject('${proj.id}')" title="Delete">
+                            <button class="btn-danger-outline btn-sm" onclick="window.appEngine?.deleteProject('${proj.id}')" title="${this.t('delete')}">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
-                        <span class="text-muted text-sm font-mono">$${proj.hourlyRate || 0}/h</span>
+                        <span class="text-muted text-sm font-mono">$${proj.hourlyRate || 0}/${isAr ? 'س' : 'h'}</span>
                     </div>
                 </div>
             `;
@@ -1666,9 +2023,16 @@ class AppEngine {
         const maxPage = Math.ceil(total / perPage) || 1;
         const startIdx = (page - 1) * perPage;
         const pagedSessions = filtered.slice(startIdx, startIdx + perPage);
+        const isAr = this.state.settings?.language === 'ar';
 
-        this.dom.sessionTableCount.textContent = `Showing ${Math.min(startIdx + 1, total)}-${Math.min(startIdx + perPage, total)} of ${total} sessions`;
-        this.dom.sessionCurrentPageText.textContent = `Page ${page} of ${maxPage}`;
+        const startCount = total > 0 ? startIdx + 1 : 0;
+        const endCount = Math.min(startIdx + perPage, total);
+        this.dom.sessionTableCount.textContent = isAr ?
+            `عرض ${startCount}-${endCount} من أصل ${total} جلسة` :
+            `Showing ${startCount}-${endCount} of ${total} sessions`;
+        this.dom.sessionCurrentPageText.textContent = isAr ?
+            `الصفحة ${page} من ${maxPage}` :
+            `Page ${page} of ${maxPage}`;
         this.dom.sessionPrevPageBtn.disabled = page <= 1;
         this.dom.sessionNextPageBtn.disabled = page >= maxPage;
 
@@ -1677,7 +2041,7 @@ class AppEngine {
                 <tr>
                     <td colspan="8" style="text-align: center; padding: 40px; color: var(--text-muted);">
                         <i class="fas fa-list-check" style="font-size: 28px; margin-bottom: 8px; display: block;"></i>
-                        No recorded sessions matching your filter criteria.
+                        ${this.t('no_sessions_match')}
                     </td>
                 </tr>
             `;
@@ -1686,7 +2050,7 @@ class AppEngine {
 
         this.dom.sessionsTableBody.innerHTML = pagedSessions.map(s => {
             const project = this.state.projects.find(p => p.id === s.projectId);
-            const projectName = project ? project.name : '<span class="text-muted">No Project</span>';
+            const projectName = project ? project.name : `<span class="text-muted">${this.t('no_project')}</span>`;
             const projectColor = project ? project.color : '#64748b';
 
             const startObj = new Date(s.startTime);
@@ -1696,7 +2060,7 @@ class AppEngine {
             const tagsHtml = (s.tags || []).map(t => `<span class="tech-chip">${this.escapeHtml(t)}</span>`).join('');
             const billableBadge = s.billable ?
                 `<span class="badge-tag billable">$${(s.earned || 0).toFixed(2)}</span>` :
-                '<span class="badge-tag">No</span>';
+                `<span class="badge-tag">${isAr ? 'غير مدفوع' : 'No'}</span>`;
 
             return `
                 <tr>
@@ -1708,7 +2072,7 @@ class AppEngine {
                         <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: ${projectColor}; margin-right: 6px;"></span>
                         <strong>${projectName}</strong>
                     </td>
-                    <td>${this.escapeHtml(s.taskTitle || 'General Coding')}</td>
+                    <td>${this.escapeHtml(s.taskTitle || (isAr ? 'برمجة عامة' : 'General Coding'))}</td>
                     <td class="table-duration">${this.formatDuration(s.duration)}</td>
                     <td>${tagsHtml}</td>
                     <td>${billableBadge}</td>
@@ -1718,10 +2082,10 @@ class AppEngine {
                         </div>
                     </td>
                     <td class="text-right">
-                        <button class="btn-ghost btn-sm" onclick="window.appEngine?.openEditSessionModal('${s.id}')" title="Edit">
+                        <button class="btn-ghost btn-sm" onclick="window.appEngine?.openEditSessionModal('${s.id}')" title="${this.t('edit')}">
                             <i class="fas fa-pencil"></i>
                         </button>
-                        <button class="btn-ghost btn-sm text-danger" onclick="window.appEngine?.deleteSession('${s.id}')" title="Delete">
+                        <button class="btn-ghost btn-sm text-danger" onclick="window.appEngine?.deleteSession('${s.id}')" title="${this.t('delete')}">
                             <i class="fas fa-trash"></i>
                         </button>
                     </td>
@@ -2125,11 +2489,13 @@ class AppEngine {
         if (this.dom.settingWeeklyGoalHours) this.dom.settingWeeklyGoalHours.value = this.state.settings.weeklyGoalHours || 25;
         if (this.dom.settingWeekStart) this.dom.settingWeekStart.value = this.state.settings.weekStart || 'sunday';
         if (this.dom.settingTimeFormat) this.dom.settingTimeFormat.value = this.state.settings.timeFormat || '24h';
+        if (this.dom.settingLanguage) this.dom.settingLanguage.value = this.state.settings.language || 'en';
         if (this.dom.settingSoundToggle) this.dom.settingSoundToggle.checked = !!this.state.settings.soundEnabled;
         if (this.dom.settingNotificationsToggle) this.dom.settingNotificationsToggle.checked = !!this.state.settings.notificationsEnabled;
 
-        if (this.dom.storageSessionsCount) this.dom.storageSessionsCount.textContent = `${this.state.sessions.length} sessions`;
-        if (this.dom.storageProjectsCount) this.dom.storageProjectsCount.textContent = `${this.state.projects.length} projects (${this.state.tasks.length} tasks)`;
+        const isAr = this.state.settings?.language === 'ar';
+        if (this.dom.storageSessionsCount) this.dom.storageSessionsCount.textContent = isAr ? `${this.state.sessions.length} جلسة` : `${this.state.sessions.length} sessions`;
+        if (this.dom.storageProjectsCount) this.dom.storageProjectsCount.textContent = isAr ? `${this.state.projects.length} مشاريع (${this.state.tasks.length} مهام)` : `${this.state.projects.length} projects (${this.state.tasks.length} tasks)`;
     }
 
     // Export & Backup
@@ -2268,31 +2634,40 @@ class AppEngine {
 
     filterCommandPalette() {
         const query = this.dom.cmdPaletteInput.value.toLowerCase().trim();
+        const isAr = this.state.settings?.language === 'ar';
         const commands = [
+            // Language
+            {
+                group: isAr ? 'اللغة والتفضيلات' : 'Settings & Language',
+                icon: 'fa-globe',
+                label: isAr ? 'Switch to English (التحويل إلى الإنجليزية)' : 'تبديل إلى العربية (Switch to Arabic)',
+                action: () => this.setLanguage(isAr ? 'en' : 'ar')
+            },
+
             // Navigation
-            { group: 'Navigation', icon: 'fa-chart-line', label: 'Go to Developer Dashboard', action: () => this.navigateTo('dashboard') },
-            { group: 'Navigation', icon: 'fa-stopwatch', label: 'Go to Timer Console', action: () => this.navigateTo('timer') },
-            { group: 'Navigation', icon: 'fa-folder-tree', label: 'Go to Projects & Tasks', action: () => this.navigateTo('projects') },
-            { group: 'Navigation', icon: 'fa-list-check', label: 'Go to Session History Logs', action: () => this.navigateTo('sessions') },
-            { group: 'Navigation', icon: 'fa-chart-pie', label: 'Go to Productivity Analytics', action: () => this.navigateTo('reports') },
-            { group: 'Navigation', icon: 'fa-sliders', label: 'Go to Settings & Storage', action: () => this.navigateTo('settings') },
-            { group: 'Navigation', icon: 'fa-circle-info', label: 'About Code Timer Tracker & Ecosystem', action: () => this.navigateTo('about') },
+            { group: isAr ? 'التنقل' : 'Navigation', icon: 'fa-chart-line', label: isAr ? 'الانتقال إلى لوحة المؤشرات' : 'Go to Developer Dashboard', action: () => this.navigateTo('dashboard') },
+            { group: isAr ? 'التنقل' : 'Navigation', icon: 'fa-stopwatch', label: isAr ? 'الانتقال إلى منصة المؤقت' : 'Go to Timer Console', action: () => this.navigateTo('timer') },
+            { group: isAr ? 'التنقل' : 'Navigation', icon: 'fa-folder-tree', label: isAr ? 'الانتقال إلى المشاريع والمهام' : 'Go to Projects & Tasks', action: () => this.navigateTo('projects') },
+            { group: isAr ? 'التنقل' : 'Navigation', icon: 'fa-list-check', label: isAr ? 'الانتقال إلى سجل الجلسات' : 'Go to Session History Logs', action: () => this.navigateTo('sessions') },
+            { group: isAr ? 'التنقل' : 'Navigation', icon: 'fa-chart-pie', label: isAr ? 'الانتقال إلى التحليلات البرمجية' : 'Go to Productivity Analytics', action: () => this.navigateTo('reports') },
+            { group: isAr ? 'التنقل' : 'Navigation', icon: 'fa-sliders', label: isAr ? 'الانتقال إلى الإعدادات والحفظ' : 'Go to Settings & Storage', action: () => this.navigateTo('settings') },
+            { group: isAr ? 'التنقل' : 'Navigation', icon: 'fa-circle-info', label: isAr ? 'حول الأداة ومنظومة كود التطور' : 'About Code Timer Tracker & Ecosystem', action: () => this.navigateTo('about') },
 
             // Timer Actions
-            { group: 'Timer Actions', icon: 'fa-play', label: 'Start / Resume Active Timer', action: () => { if (!this.activeSession) this.startSession(); else if (this.activeSession.paused) this.togglePauseSession(); } },
-            { group: 'Timer Actions', icon: 'fa-pause', label: 'Pause Active Timer', action: () => { if (this.activeSession && !this.activeSession.paused) this.togglePauseSession(); } },
-            { group: 'Timer Actions', icon: 'fa-stop', label: 'Stop & Save Active Session', action: () => { if (this.activeSession) this.stopAndSaveSession(); } },
-            { group: 'Timer Actions', icon: 'fa-expand', label: 'Toggle Distraction-Free Focus Mode', action: () => this.toggleFocusMode() },
-            { group: 'Timer Actions', icon: 'fa-calendar-plus', label: 'Log Past Coding Session', action: () => this.openManualSessionModal() },
+            { group: isAr ? 'إجراءات المؤقت' : 'Timer Actions', icon: 'fa-play', label: isAr ? 'بدء أو استئناف المؤقت النشط' : 'Start / Resume Active Timer', action: () => { if (!this.activeSession) this.startSession(); else if (this.activeSession.paused) this.togglePauseSession(); } },
+            { group: isAr ? 'إجراءات المؤقت' : 'Timer Actions', icon: 'fa-pause', label: isAr ? 'إيقاف المؤقت مؤقتاً' : 'Pause Active Timer', action: () => { if (this.activeSession && !this.activeSession.paused) this.togglePauseSession(); } },
+            { group: isAr ? 'إجراءات المؤقت' : 'Timer Actions', icon: 'fa-stop', label: isAr ? 'إنهاء وحفظ الجلسة النشطة' : 'Stop & Save Active Session', action: () => { if (this.activeSession) this.stopAndSaveSession(); } },
+            { group: isAr ? 'إجراءات المؤقت' : 'Timer Actions', icon: 'fa-expand', label: isAr ? 'تبديل وضع التركيز الخالي من المشتتات' : 'Toggle Distraction-Free Focus Mode', action: () => this.toggleFocusMode() },
+            { group: isAr ? 'إجراءات المؤقت' : 'Timer Actions', icon: 'fa-calendar-plus', label: isAr ? 'تسجيل جلسة برمجة سابقة' : 'Log Past Coding Session', action: () => this.openManualSessionModal() },
 
             // Projects & Workflows
-            { group: 'Projects & Tasks', icon: 'fa-plus', label: 'Create New Project', action: () => this.openProjectModal() },
-            { group: 'Projects & Tasks', icon: 'fa-list-check', label: 'Create New Task', action: () => this.openTaskModal() },
+            { group: isAr ? 'المشاريع والمهام' : 'Projects & Tasks', icon: 'fa-plus', label: isAr ? 'إنشاء مشروع جديد' : 'Create New Project', action: () => this.openProjectModal() },
+            { group: isAr ? 'المشاريع والمهام' : 'Projects & Tasks', icon: 'fa-list-check', label: isAr ? 'إنشاء مهمة جديدة' : 'Create New Task', action: () => this.openTaskModal() },
 
             // Export & Data
-            { group: 'Data & Utilities', icon: 'fa-file-csv', label: 'Export Sessions to CSV', action: () => this.exportCsv() },
-            { group: 'Data & Utilities', icon: 'fa-file-code', label: 'Download JSON Full Backup', action: () => this.exportJsonBackup() },
-            { group: 'Data & Utilities', icon: 'fa-moon', label: 'Toggle Theme (Dark / Light)', action: () => {
+            { group: isAr ? 'البيانات والأدوات' : 'Data & Utilities', icon: 'fa-file-csv', label: isAr ? 'تصدير الجلسات إلى CSV' : 'Export Sessions to CSV', action: () => this.exportCsv() },
+            { group: isAr ? 'البيانات والأدوات' : 'Data & Utilities', icon: 'fa-file-code', label: isAr ? 'تنزيل نسخة احتياطية كاملة (JSON)' : 'Download JSON Full Backup', action: () => this.exportJsonBackup() },
+            { group: isAr ? 'البيانات والأدوات' : 'Data & Utilities', icon: 'fa-moon', label: isAr ? 'تبديل المظهر (داكن / فاتح)' : 'Toggle Theme (Dark / Light)', action: () => {
                 const next = this.state.settings.theme === 'dark' ? 'light' : 'dark';
                 this.state.settings.theme = next;
                 this.applyTheme(next);
@@ -2300,18 +2675,18 @@ class AppEngine {
             }},
 
             // External Links
-            { group: 'Code Elta6ur Ecosystem', icon: 'fa-graduation-cap', label: 'Code Elta6ur — Educational Platform', action: () => window.open('https://code-elta6ur.com/', '_blank') },
-            { group: 'Code Elta6ur Ecosystem', icon: 'fa-building', label: 'Code Elta6ur — Software Company', action: () => window.open('https://code-elta6ur.net/', '_blank') },
-            { group: 'Code Elta6ur Ecosystem', icon: 'fa-id-card', label: 'Code Elta6ur — Portfolio Builder', action: () => window.open('https://portfolio.code-elta6ur.net/', '_blank') },
-            { group: 'Code Elta6ur Ecosystem', icon: 'fa-user-tie', label: 'Mohammad Abu Khashreef — Portfolio', action: () => window.open('https://mohammad.code-elta6ur.com/', '_blank') }
+            { group: isAr ? 'منظومة كود التطور' : 'Code Elta6ur Ecosystem', icon: 'fa-graduation-cap', label: isAr ? 'منصة كود التطور التعليمية' : 'Code Elta6ur — Educational Platform', action: () => window.open('https://code-elta6ur.com/', '_blank') },
+            { group: isAr ? 'منظومة كود التطور' : 'Code Elta6ur Ecosystem', icon: 'fa-building', label: isAr ? 'شركة كود التطور للبرمجيات' : 'Code Elta6ur — Software Company', action: () => window.open('https://code-elta6ur.net/', '_blank') },
+            { group: isAr ? 'منظومة كود التطور' : 'Code Elta6ur Ecosystem', icon: 'fa-id-card', label: isAr ? 'منصة بناء البورتفوليو' : 'Code Elta6ur — Portfolio Builder', action: () => window.open('https://portfolio.code-elta6ur.net/', '_blank') },
+            { group: isAr ? 'منظومة كود التطور' : 'Code Elta6ur Ecosystem', icon: 'fa-user-tie', label: isAr ? 'معرض أعمال محمد أبو خشريف' : 'Mohammad Abu Khashreef — Portfolio', action: () => window.open('https://mohammad.code-elta6ur.com/', '_blank') }
         ];
 
         // Also dynamically add quick track commands for each project
         this.state.projects.filter(p => !p.archived).forEach(proj => {
             commands.push({
-                group: 'Quick Track Project',
+                group: isAr ? 'تتبع سريع للمشاريع' : 'Quick Track Project',
                 icon: 'fa-code-branch',
-                label: `Track Project: ${proj.name}`,
+                label: `${isAr ? 'تتبع مشروع:' : 'Track Project:'} ${proj.name}`,
                 action: () => this.trackProject(proj.id)
             });
         });
@@ -2319,7 +2694,7 @@ class AppEngine {
         const filtered = query ? commands.filter(c => c.label.toLowerCase().includes(query) || c.group.toLowerCase().includes(query)) : commands;
 
         if (filtered.length === 0) {
-            this.dom.cmdPaletteResults.innerHTML = '<div class="text-muted text-sm" style="padding: 16px; text-align: center;">No matching commands found.</div>';
+            this.dom.cmdPaletteResults.innerHTML = `<div class="text-muted text-sm" style="padding: 16px; text-align: center;">${isAr ? 'لم يتم العثور على أوامر مطابقة.' : 'No matching commands found.'}</div>`;
             return;
         }
 
@@ -2461,19 +2836,20 @@ class AppEngine {
     }
 
     formatDuration(ms) {
-        if (!ms || ms < 0) return '0m';
+        const isAr = this.state?.settings?.language === 'ar';
+        if (!ms || ms < 0) return isAr ? '0 د' : '0m';
         const totalSecs = Math.floor(ms / 1000);
         const hours = Math.floor(totalSecs / 3600);
         const minutes = Math.floor((totalSecs % 3600) / 60);
         const seconds = totalSecs % 60;
 
         if (hours > 0) {
-            return `${hours}h ${minutes}m`;
+            return isAr ? `${hours} س ${minutes} د` : `${hours}h ${minutes}m`;
         }
         if (minutes > 0) {
-            return `${minutes}m ${seconds}s`;
+            return isAr ? `${minutes} د ${seconds} ث` : `${minutes}m ${seconds}s`;
         }
-        return `${seconds}s`;
+        return isAr ? `${seconds} ث` : `${seconds}s`;
     }
 
     escapeHtml(str) {

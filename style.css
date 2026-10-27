@@ -2080,3 +2080,140 @@ button:disabled {
         font-size: 13px;
     }
 }
+
+/* =====================================================================
+   RTL (Right-to-Left) Arabic Support Styles
+   ===================================================================== */
+[dir="rtl"] {
+    --font-ui: "Cairo", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+    text-align: right;
+}
+
+[dir="rtl"] body {
+    font-family: var(--font-ui);
+}
+
+/* Ensure mono elements and code preserve LTR */
+[dir="rtl"] .font-mono,
+[dir="rtl"] .digital-clock,
+[dir="rtl"] .active-timer-display,
+[dir="rtl"] .pill-time,
+[dir="rtl"] .focus-clock,
+[dir="rtl"] .table-duration,
+[dir="rtl"] .nav-shortcut,
+[dir="rtl"] kbd,
+[dir="rtl"] .kbd-hint,
+[dir="rtl"] input[type="number"],
+[dir="rtl"] input[type="time"],
+[dir="rtl"] input[type="date"],
+[dir="rtl"] .clock-sub {
+    direction: ltr !important;
+    unicode-bidi: isolate;
+}
+
+/* Icons inside buttons */
+[dir="rtl"] .btn-primary i,
+[dir="rtl"] .btn-secondary i,
+[dir="rtl"] .btn-ghost i,
+[dir="rtl"] .btn-danger i,
+[dir="rtl"] .btn-danger-outline i,
+[dir="rtl"] .btn-giant i,
+[dir="rtl"] .nav-tab i,
+[dir="rtl"] .btn-text i {
+    margin-right: 0;
+    margin-left: 6px;
+}
+
+[dir="rtl"] .nav-shortcut {
+    margin-left: 0;
+    margin-right: 8px;
+}
+
+[dir="rtl"] .kbd-hint {
+    margin-left: 0;
+    margin-right: 6px;
+}
+
+/* Project card left colored border switches to right */
+[dir="rtl"] .project-card-top {
+    border-left: none !important;
+    border-right: 3px solid var(--accent-primary);
+}
+
+/* Modal close button switches from right to left */
+[dir="rtl"] .modal-close-trigger {
+    right: auto;
+    left: 16px;
+}
+
+/* Command palette ESC hint */
+[dir="rtl"] .cmd-esc-hint {
+    right: auto;
+    left: 18px;
+}
+
+[dir="rtl"] .cmd-palette-header input {
+    padding-left: 54px;
+    padding-right: 48px;
+}
+
+[dir="rtl"] .cmd-search-icon {
+    left: auto;
+    right: 18px;
+}
+
+/* Table text alignment */
+[dir="rtl"] th,
+[dir="rtl"] td {
+    text-align: right;
+}
+
+[dir="rtl"] th.text-right,
+[dir="rtl"] td.text-right {
+    text-align: left;
+}
+
+[dir="rtl"] .checkbox-container {
+    padding-left: 0;
+    padding-right: 26px;
+}
+
+[dir="rtl"] .checkbox-container .checkmark {
+    left: auto;
+    right: 0;
+}
+
+[dir="rtl"] .card-header-actions {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+[dir="rtl"] .header-actions {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+[dir="rtl"] .footer-right {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+[dir="rtl"] .task-priority-dot {
+    margin-right: 0;
+    margin-left: 8px;
+}
+
+[dir="rtl"] .shortcut-row kbd {
+    direction: ltr;
+}
+
+[dir="rtl"] .metric-change {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+#langToggleBtn {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+

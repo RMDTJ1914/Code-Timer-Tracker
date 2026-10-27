@@ -10,8 +10,11 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=2.0.2">
+    <link rel="stylesheet" href="style.css?v=2.0.3">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
@@ -23,8 +26,8 @@
                 <div class="brand">
                     <span class="brand-icon"><i class="fas fa-terminal"></i></span>
                     <div class="brand-text">
-                        <span class="brand-name">Code Timer Tracker</span>
-                        <span class="brand-sub">by Mohammad Abu Khashreef</span>
+                        <span class="brand-name" data-i18n="app_title">Code Timer Tracker</span>
+                        <span class="brand-sub" data-i18n="app_sub">by Mohammad Abu Khashreef</span>
                     </div>
                 </div>
 
@@ -43,18 +46,22 @@
             </div>
 
             <div class="header-actions">
+                <button id="langToggleBtn" class="btn-ghost" title="تبديل إلى العربية / Switch Language">
+                    <i class="fas fa-globe"></i>
+                    <span id="langLabel">AR</span>
+                </button>
                 <button id="cmdPaletteBtn" class="btn-ghost" title="Open Command Palette (Ctrl+K)">
                     <i class="fas fa-search"></i>
-                    <span class="btn-label">Search / Actions</span>
+                    <span class="btn-label" data-i18n="search_actions">Search / Actions</span>
                     <kbd class="kbd-hint">Ctrl+K</kbd>
                 </button>
                 <button id="focusModeBtn" class="btn-ghost" title="Distraction-Free Focus Mode (Ctrl+B)">
                     <i class="fas fa-expand"></i>
-                    <span class="btn-label">Focus</span>
+                    <span class="btn-label" data-i18n="focus">Focus</span>
                 </button>
                 <button id="logManualBtn" class="btn-ghost" title="Log Past Session" onclick="window.appEngine?.openManualSessionModal()">
                     <i class="fas fa-plus-circle"></i>
-                    <span class="btn-label">Log Time</span>
+                    <span class="btn-label" data-i18n="log_time">Log Time</span>
                 </button>
                 <button id="themeToggle" class="btn-icon" title="Toggle Theme (Dark / Light)">
                     <i class="fas fa-moon"></i>
@@ -67,36 +74,36 @@
             <div class="nav-container">
                 <button class="nav-tab active" data-page="dashboard" id="nav-dashboard">
                     <i class="fas fa-chart-line"></i>
-                    <span>Dashboard</span>
+                    <span data-i18n="nav_dashboard">Dashboard</span>
                     <span class="nav-shortcut">1</span>
                 </button>
                 <button class="nav-tab" data-page="timer" id="nav-timer">
                     <i class="fas fa-stopwatch"></i>
-                    <span>Timer Console</span>
+                    <span data-i18n="nav_timer">Timer Console</span>
                     <span class="nav-shortcut">2</span>
                 </button>
                 <button class="nav-tab" data-page="projects" id="nav-projects">
                     <i class="fas fa-folder-tree"></i>
-                    <span>Projects &amp; Tasks</span>
+                    <span data-i18n="nav_projects">Projects &amp; Tasks</span>
                     <span class="nav-shortcut">3</span>
                 </button>
                 <button class="nav-tab" data-page="sessions" id="nav-sessions">
                     <i class="fas fa-list-check"></i>
-                    <span>Session Logs</span>
+                    <span data-i18n="nav_sessions">Session Logs</span>
                     <span class="nav-shortcut">4</span>
                 </button>
                 <button class="nav-tab" data-page="reports" id="nav-reports">
                     <i class="fas fa-chart-pie"></i>
-                    <span>Analytics</span>
+                    <span data-i18n="nav_reports">Analytics</span>
                     <span class="nav-shortcut">5</span>
                 </button>
                 <button class="nav-tab" data-page="settings" id="nav-settings">
                     <i class="fas fa-sliders"></i>
-                    <span>Settings &amp; Backup</span>
+                    <span data-i18n="nav_settings">Settings &amp; Backup</span>
                 </button>
                 <button class="nav-tab" data-page="about" id="nav-about">
                     <i class="fas fa-circle-info"></i>
-                    <span>About</span>
+                    <span data-i18n="nav_about">About</span>
                 </button>
             </div>
         </nav>
@@ -639,10 +646,18 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="settingTimeFormat">Time Display Format</label>
+                                <label for="settingTimeFormat" data-i18n="settings_time_format">Time Display Format</label>
                                 <select id="settingTimeFormat" class="form-control">
                                     <option value="24h">24-Hour (14:30)</option>
                                     <option value="12h">12-Hour (2:30 PM)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="settingLanguage" data-i18n="settings_language">Interface Language / لغة الواجهة</label>
+                                <select id="settingLanguage" class="form-control">
+                                    <option value="en">English (EN)</option>
+                                    <option value="ar">العربية (AR)</option>
                                 </select>
                             </div>
 
@@ -1167,7 +1182,7 @@
     <!-- Notification Toast Container -->
     <div id="toastContainer" class="toast-container" aria-live="polite"></div>
 
-    <script src="script.js?v=2.0.2"></script>
+    <script src="script.js?v=2.0.3"></script>
 </body>
 
 </html>
