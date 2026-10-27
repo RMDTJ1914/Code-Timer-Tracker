@@ -21,6 +21,10 @@ const I18N = {
         nav_reports: "Analytics",
         nav_settings: "Settings & Backup",
         nav_about: "About",
+        mob_nav_dashboard: "Dashboard",
+        mob_nav_timer: "Timer",
+        mob_nav_projects: "Projects",
+        mob_nav_sessions: "Sessions",
         no_project: "No Project",
         dash_welcome_title: "Developer Overview",
         dash_welcome_sub: "Tracked coding activity, active commitments, and focus consistency.",
@@ -349,6 +353,10 @@ const I18N = {
         nav_reports: "التحليلات",
         nav_settings: "الإعدادات والحفظ",
         nav_about: "عن الأداة",
+        mob_nav_dashboard: "الرئيسية",
+        mob_nav_timer: "المؤقت",
+        mob_nav_projects: "المشاريع",
+        mob_nav_sessions: "الجلسات",
         no_project: "بدون مشروع",
         dash_welcome_title: "نظرة عامة للمطور",
         dash_welcome_sub: "تتبع فوري، استمرارية الأيام النشطة، ومقاييس الإنتاجية البرمجية.",
@@ -1568,6 +1576,14 @@ class AppEngine {
         if (pageId === 'sessions') this.applySessionFilters();
         if (pageId === 'reports') this.renderAnalytics('week');
         if (pageId === 'settings') this.renderSettings();
+
+        // Update mobile floating player visibility based on active page
+        if (this.dom.mobileFloatingTimer) {
+            const isRunning = !!this.activeSession;
+            const shouldShowFloating = isRunning && this.currentPage !== 'timer';
+            this.dom.mobileFloatingTimer.classList.toggle('hidden', !shouldShowFloating);
+        }
+        window.scrollTo({ top: 0, behavior: 'instant' });
     }
 
     // Time Tracking Engine Logic
@@ -1779,9 +1795,10 @@ class AppEngine {
         const isPaused = isRunning && this.activeSession.paused;
         const isAr = this.state.settings?.language === 'ar';
 
-                // Mobile Floating Player & Nav Indicator
+        // Mobile Floating Player & Nav Indicator
         if (this.dom.mobileFloatingTimer) {
-            this.dom.mobileFloatingTimer.classList.toggle('hidden', !isRunning);
+            const shouldShowFloating = isRunning && this.currentPage !== 'timer';
+            this.dom.mobileFloatingTimer.classList.toggle('hidden', !shouldShowFloating);
             if (isRunning) {
                 const proj = this.state.projects.find(p => p.id === this.activeSession.projectId);
                 if (this.dom.mobTimerProject) this.dom.mobTimerProject.textContent = proj ? proj.name : this.t('general_work');
