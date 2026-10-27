@@ -226,6 +226,7 @@ class SoundSynthesizer {
 
 class AppEngine {
     constructor() {
+        window.appEngine = this;
         this.state = StorageManager.load();
         this.synth = new SoundSynthesizer(this.state.settings.soundEnabled);
         this.activeSession = null;
@@ -277,6 +278,8 @@ class AppEngine {
             pillStopBtn: document.getElementById('pillStopBtn'),
 
             // Dashboard
+            dashStartTimerBtn: document.getElementById('dashStartTimerBtn'),
+            dashNewProjectBtn: document.getElementById('dashNewProjectBtn'),
             dashTodayTime: document.getElementById('dashTodayTime'),
             dashWeekTime: document.getElementById('dashWeekTime'),
             dashBillableAmount: document.getElementById('dashBillableAmount'),
@@ -396,7 +399,7 @@ class AppEngine {
 
     initEventListeners() {
         // Navigation Tabs
-        this.dom.navTabs.forEach(tab => {
+        this.dom.navTabs?.forEach(tab => {
             tab.addEventListener('click', () => {
                 const page = tab.getAttribute('data-page');
                 this.navigateTo(page);
@@ -404,7 +407,7 @@ class AppEngine {
         });
 
         // Theme Toggle
-        this.dom.themeToggle.addEventListener('click', () => {
+        this.dom.themeToggle?.addEventListener('click', () => {
             const nextTheme = this.state.settings.theme === 'dark' ? 'light' : 'dark';
             this.state.settings.theme = nextTheme;
             this.applyTheme(nextTheme);
@@ -413,25 +416,25 @@ class AppEngine {
         });
 
         // Header Pill Controls
-        this.dom.pillPauseBtn.addEventListener('click', () => this.togglePauseSession());
-        this.dom.pillStopBtn.addEventListener('click', () => this.stopAndSaveSession());
+        this.dom.pillPauseBtn?.addEventListener('click', () => this.togglePauseSession());
+        this.dom.pillStopBtn?.addEventListener('click', () => this.stopAndSaveSession());
 
         // Dashboard Controls
-        this.dom.dashStartTimerBtn.addEventListener('click', () => {
+        this.dom.dashStartTimerBtn?.addEventListener('click', () => {
             this.navigateTo('timer');
         });
-        this.dom.dashNewProjectBtn.addEventListener('click', () => this.openProjectModal());
-        this.dom.dashTimerToggleBtn.addEventListener('click', () => {
+        this.dom.dashNewProjectBtn?.addEventListener('click', () => this.openProjectModal());
+        this.dom.dashTimerToggleBtn?.addEventListener('click', () => {
             if (!this.activeSession) {
                 this.startSession();
             } else {
                 this.navigateTo('timer');
             }
         });
-        this.dom.dashTimerPauseBtn.addEventListener('click', () => this.togglePauseSession());
-        this.dom.dashTimerStopBtn.addEventListener('click', () => this.stopAndSaveSession());
-        document.getElementById('dashGoToTimerBtn').addEventListener('click', () => this.navigateTo('timer'));
-        document.getElementById('viewAllSessionsBtn').addEventListener('click', () => this.navigateTo('sessions'));
+        this.dom.dashTimerPauseBtn?.addEventListener('click', () => this.togglePauseSession());
+        this.dom.dashTimerStopBtn?.addEventListener('click', () => this.stopAndSaveSession());
+        document.getElementById('dashGoToTimerBtn')?.addEventListener('click', () => this.navigateTo('timer'));
+        document.getElementById('viewAllSessionsBtn')?.addEventListener('click', () => this.navigateTo('sessions'));
 
         // Preset buttons on dashboard
         document.querySelectorAll('.preset-btn').forEach(btn => {
@@ -443,53 +446,53 @@ class AppEngine {
         });
 
         // Timer Console Controls
-        this.dom.consoleStartBtn.addEventListener('click', () => this.startSession());
-        this.dom.consolePauseBtn.addEventListener('click', () => this.togglePauseSession());
-        this.dom.consoleStopBtn.addEventListener('click', () => this.stopAndSaveSession());
+        this.dom.consoleStartBtn?.addEventListener('click', () => this.startSession());
+        this.dom.consolePauseBtn?.addEventListener('click', () => this.togglePauseSession());
+        this.dom.consoleStopBtn?.addEventListener('click', () => this.stopAndSaveSession());
 
-        this.dom.timerProjectSelect.addEventListener('change', () => {
+        this.dom.timerProjectSelect?.addEventListener('change', () => {
             this.updateTaskSelectOptions();
             this.updateProjectSnapshot();
             this.syncConsoleMetadataToActiveSession();
         });
 
-        this.dom.timerTaskSelect.addEventListener('change', () => {
+        this.dom.timerTaskSelect?.addEventListener('change', () => {
             this.syncConsoleMetadataToActiveSession();
         });
-        this.dom.timerTagsInput.addEventListener('input', () => {
+        this.dom.timerTagsInput?.addEventListener('input', () => {
             this.syncConsoleMetadataToActiveSession();
         });
-        this.dom.timerBillableCheck.addEventListener('change', () => {
+        this.dom.timerBillableCheck?.addEventListener('change', () => {
             this.syncConsoleMetadataToActiveSession();
         });
-        this.dom.timerNotesInput.addEventListener('input', () => {
+        this.dom.timerNotesInput?.addEventListener('input', () => {
             this.syncConsoleMetadataToActiveSession();
         });
 
-        document.getElementById('quickAddProjectBtn').addEventListener('click', () => this.openProjectModal());
-        document.getElementById('quickAddTaskBtn').addEventListener('click', () => {
-            const currentProjId = this.dom.timerProjectSelect.value;
+        document.getElementById('quickAddProjectBtn')?.addEventListener('click', () => this.openProjectModal());
+        document.getElementById('quickAddTaskBtn')?.addEventListener('click', () => {
+            const currentProjId = this.dom.timerProjectSelect ? this.dom.timerProjectSelect.value : '';
             this.openTaskModal(null, currentProjId);
         });
 
         // Fullscreen & Focus Mode
-        document.getElementById('focusModeBtn').addEventListener('click', () => this.openFocusMode());
-        document.getElementById('consoleFullscreenBtn').addEventListener('click', () => this.openFocusMode());
-        this.dom.focusExitBtn.addEventListener('click', () => this.closeFocusMode());
-        this.dom.focusTogglePauseBtn.addEventListener('click', () => this.togglePauseSession());
-        this.dom.focusStopBtn.addEventListener('click', () => this.stopAndSaveSession());
+        document.getElementById('focusModeBtn')?.addEventListener('click', () => this.openFocusMode());
+        document.getElementById('consoleFullscreenBtn')?.addEventListener('click', () => this.openFocusMode());
+        this.dom.focusExitBtn?.addEventListener('click', () => this.closeFocusMode());
+        this.dom.focusTogglePauseBtn?.addEventListener('click', () => this.togglePauseSession());
+        this.dom.focusStopBtn?.addEventListener('click', () => this.stopAndSaveSession());
 
         // Companion Pomodoro
-        this.dom.pomoToggleBtn.addEventListener('click', () => this.togglePomodoro());
-        this.dom.pomoResetBtn.addEventListener('click', () => this.resetPomodoro());
-        this.dom.pomoWorkDuration.addEventListener('change', () => {
+        this.dom.pomoToggleBtn?.addEventListener('click', () => this.togglePomodoro());
+        this.dom.pomoResetBtn?.addEventListener('click', () => this.resetPomodoro());
+        this.dom.pomoWorkDuration?.addEventListener('change', () => {
             this.state.settings.pomoWorkMinutes = parseInt(this.dom.pomoWorkDuration.value) || 25;
             this.saveState();
             if (!this.pomodoro.running && this.pomodoro.phase === 'work') {
                 this.resetPomodoro();
             }
         });
-        this.dom.pomoBreakDuration.addEventListener('change', () => {
+        this.dom.pomoBreakDuration?.addEventListener('change', () => {
             this.state.settings.pomoBreakMinutes = parseInt(this.dom.pomoBreakDuration.value) || 5;
             this.saveState();
             if (!this.pomodoro.running && this.pomodoro.phase === 'break') {
@@ -498,34 +501,34 @@ class AppEngine {
         });
 
         // Project Filter & Add
-        this.dom.createProjectBtn.addEventListener('click', () => this.openProjectModal());
-        this.dom.projectFilterStatus.addEventListener('change', () => this.renderProjects());
+        this.dom.createProjectBtn?.addEventListener('click', () => this.openProjectModal());
+        this.dom.projectFilterStatus?.addEventListener('change', () => this.renderProjects());
 
         // Sessions View
-        document.getElementById('openManualSessionModalBtn').addEventListener('click', () => this.openManualSessionModal());
-        document.getElementById('logManualBtn').addEventListener('click', () => this.openManualSessionModal());
-        document.getElementById('exportCsvBtn').addEventListener('click', () => this.exportCsv());
-        document.getElementById('exportJsonBtn').addEventListener('click', () => this.exportJsonBackup());
+        document.getElementById('openManualSessionModalBtn')?.addEventListener('click', () => this.openManualSessionModal());
+        document.getElementById('logManualBtn')?.addEventListener('click', () => this.openManualSessionModal());
+        document.getElementById('exportCsvBtn')?.addEventListener('click', () => this.exportCsv());
+        document.getElementById('exportJsonBtn')?.addEventListener('click', () => this.exportJsonBackup());
 
-        this.dom.sessionSearchInput.addEventListener('input', () => this.applySessionFilters());
-        this.dom.sessionFilterProject.addEventListener('change', () => this.applySessionFilters());
-        this.dom.sessionFilterPeriod.addEventListener('change', () => this.applySessionFilters());
-        this.dom.sessionFilterBillable.addEventListener('change', () => this.applySessionFilters());
-        this.dom.resetSessionFiltersBtn.addEventListener('click', () => {
-            this.dom.sessionSearchInput.value = '';
-            this.dom.sessionFilterProject.value = 'all';
-            this.dom.sessionFilterPeriod.value = 'all';
-            this.dom.sessionFilterBillable.value = 'all';
+        this.dom.sessionSearchInput?.addEventListener('input', () => this.applySessionFilters());
+        this.dom.sessionFilterProject?.addEventListener('change', () => this.applySessionFilters());
+        this.dom.sessionFilterPeriod?.addEventListener('change', () => this.applySessionFilters());
+        this.dom.sessionFilterBillable?.addEventListener('change', () => this.applySessionFilters());
+        this.dom.resetSessionFiltersBtn?.addEventListener('click', () => {
+            if (this.dom.sessionSearchInput) this.dom.sessionSearchInput.value = '';
+            if (this.dom.sessionFilterProject) this.dom.sessionFilterProject.value = 'all';
+            if (this.dom.sessionFilterPeriod) this.dom.sessionFilterPeriod.value = 'all';
+            if (this.dom.sessionFilterBillable) this.dom.sessionFilterBillable.value = 'all';
             this.applySessionFilters();
         });
 
-        this.dom.sessionPrevPageBtn.addEventListener('click', () => {
+        this.dom.sessionPrevPageBtn?.addEventListener('click', () => {
             if (this.sessionsPagination.page > 1) {
                 this.sessionsPagination.page--;
                 this.renderSessionsTable();
             }
         });
-        this.dom.sessionNextPageBtn.addEventListener('click', () => {
+        this.dom.sessionNextPageBtn?.addEventListener('click', () => {
             const maxPage = Math.ceil(this.sessionsPagination.filtered.length / this.sessionsPagination.perPage) || 1;
             if (this.sessionsPagination.page < maxPage) {
                 this.sessionsPagination.page++;
@@ -534,7 +537,7 @@ class AppEngine {
         });
 
         // Analytics Period Buttons
-        this.dom.periodButtons.forEach(btn => {
+        this.dom.periodButtons?.forEach(btn => {
             btn.addEventListener('click', () => {
                 this.dom.periodButtons.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
@@ -544,7 +547,7 @@ class AppEngine {
         });
 
         // Settings Form
-        this.dom.settingsForm.addEventListener('submit', (e) => {
+        this.dom.settingsForm?.addEventListener('submit', (e) => {
             e.preventDefault();
             this.state.settings.dailyGoalHours = parseFloat(this.dom.settingDailyGoalHours.value) || 4;
             this.state.settings.weeklyGoalHours = parseFloat(this.dom.settingWeeklyGoalHours.value) || 25;
@@ -563,9 +566,9 @@ class AppEngine {
             this.showToast('Productivity targets and preferences saved.', 'success');
         });
 
-        this.dom.btnDownloadBackup.addEventListener('click', () => this.exportJsonBackup());
-        this.dom.importBackupInput.addEventListener('change', (e) => this.handleBackupImport(e));
-        this.dom.btnResetAllData.addEventListener('click', () => {
+        this.dom.btnDownloadBackup?.addEventListener('click', () => this.exportJsonBackup());
+        this.dom.importBackupInput?.addEventListener('change', (e) => this.handleBackupImport(e));
+        this.dom.btnResetAllData?.addEventListener('click', () => {
             this.openConfirmDialog(
                 'Reset All Data',
                 'Are you sure you want to delete all locally stored sessions, projects, and tasks? This cannot be undone.',
@@ -584,9 +587,9 @@ class AppEngine {
         });
 
         // Command Palette Trigger
-        document.getElementById('cmdPaletteBtn').addEventListener('click', () => this.openCommandPalette());
-        this.dom.cmdPaletteInput.addEventListener('input', () => this.filterCommandPalette());
-        this.dom.commandPaletteModal.addEventListener('click', (e) => {
+        document.getElementById('cmdPaletteBtn')?.addEventListener('click', () => this.openCommandPalette());
+        this.dom.cmdPaletteInput?.addEventListener('input', () => this.filterCommandPalette());
+        this.dom.commandPaletteModal?.addEventListener('click', (e) => {
             if (e.target === this.dom.commandPaletteModal) this.closeCommandPalette();
         });
 
@@ -596,12 +599,12 @@ class AppEngine {
         });
 
         // Form Submissions
-        this.dom.projectForm.addEventListener('submit', (e) => this.handleProjectFormSubmit(e));
-        this.dom.taskForm.addEventListener('submit', (e) => this.handleTaskFormSubmit(e));
-        this.dom.manualSessionForm.addEventListener('submit', (e) => this.handleManualSessionSubmit(e));
-        this.dom.editSessionForm.addEventListener('submit', (e) => this.handleEditSessionSubmit(e));
+        this.dom.projectForm?.addEventListener('submit', (e) => this.handleProjectFormSubmit(e));
+        this.dom.taskForm?.addEventListener('submit', (e) => this.handleTaskFormSubmit(e));
+        this.dom.manualSessionForm?.addEventListener('submit', (e) => this.handleManualSessionSubmit(e));
+        this.dom.editSessionForm?.addEventListener('submit', (e) => this.handleEditSessionSubmit(e));
 
-        document.getElementById('footerShortcutsBtn').addEventListener('click', () => {
+        document.getElementById('footerShortcutsBtn')?.addEventListener('click', () => {
             this.navigateTo('about');
         });
     }
