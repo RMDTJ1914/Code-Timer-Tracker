@@ -1,8 +1,27 @@
 # Code Timer Tracker — Developer Productivity & Session Engine
 
-> **High-Precision Time Tracking, Session Management, and Productivity Analytics Built Specifically for Software Engineers.**
+<div align="center">
 
-Developed by **Mohammad Abu Khashreef** • Part of **Code Elta6ur**
+### High-Precision Time Tracking, Session Management, and Productivity Analytics Built Specifically for Software Engineers.
+
+**[ 🌐 English (Default) ](README.md) • [ 🌐 النسخة العربية (Arabic) ](README.ar.md)**
+
+[![Version](https://img.shields.io/badge/Version-v2.3.0-10b981?style=flat-square)](https://github.com/mokashreef/Code-Timer-Tracker)
+[![License](https://img.shields.io/badge/License-MIT-3b82f6?style=flat-square)](LICENSE)
+[![Tests](https://img.shields.io/badge/Tests-9%20Passing%20(100%25)-emerald?style=flat-square)](tests/test_engine.js)
+[![Privacy](https://img.shields.io/badge/Data-100%25%20Local%20(No%20Telemetry)-06b6d4?style=flat-square)](#)
+
+**Developed by [Mohammad Abu Khashreef](https://mohammad.code-elta6ur.com/) • Part of [Code Elta6ur](https://code-elta6ur.net/)**
+
+[🚀 Launch Live Web App](https://mokashreef.github.io/Code-Timer-Tracker/)
+
+</div>
+
+---
+
+> **Language Selection / اختيار اللغة:**
+> - 🇬🇧 **English**: Default view below.
+> - 🇸🇦 **العربية**: [اضغط هنا لفتح الدليل باللغة العربية (README.ar.md)](README.ar.md) أو تصفح القسم العربي أسفل هذه الصفحة.
 
 ---
 
@@ -36,7 +55,13 @@ Built with a **local-first client architecture**, all records remain completely 
 - **1-Click Launch**: Launch a live tracking session directly from any project card or task row.
 - **Archive System**: Cleanly archive completed repositories while preserving historical session logs.
 
-### 3. Genuine Productivity Analytics & Visualizations
+### 3. Dedicated Mobile App Experience (v2.3.0)
+- **Zero Horizontal Scroll Lock**: Strictly bounded viewport architecture eliminating lateral wobbles and rubber-band bouncing on screens down to 320px.
+- **Mobile Bottom Cockpit**: Ergonomic 5-tab bottom navigation with generous touch targets (Dashboard, Timer, Projects, Sessions, More).
+- **Smart Floating Timer**: Non-intrusive floating player that shows active tracking when browsing other pages, and automatically tucks away when inside the Timer Console.
+- **Mobile Card Feeds**: Touch-friendly card feeds for sessions and projects with dedicated action bars.
+
+### 4. Genuine Productivity Analytics & Visualizations
 Derived 100% from actual recorded sessions (zero fake metrics or hardcoded graphs):
 - **Dynamic Period Selector**: Filter by *This Week*, *This Month*, *Last 30 Days*, or *All Time*.
 - **Time Distribution by Project**: Doughnut chart showing real project hour breakdown.
@@ -45,12 +70,13 @@ Derived 100% from actual recorded sessions (zero fake metrics or hardcoded graph
 - **Category & Tech Breakdown**: Horizontal chart visualizing time investment across domains.
 - **Productivity Metrics**: Total hours, average session duration, total session count, billable value, and top active repository.
 
-### 4. Developer Workflows & UX
+### 5. Developer Workflows & UX
 - **Command Palette (`Ctrl+K` / `Cmd+K`)**: Instant search and trigger for all navigation, timer controls, project launchers, export actions, and ecosystem links.
 - **Distraction-Free Focus Mode (`Ctrl+B`)**: Fullscreen, zero-clutter digital timer display showing current task, project, and discreet pause/stop controls.
 - **Focus Interval Companion (Pomodoro)**: Non-blocking work and break timer with Web Audio synthesized cues that do not halt active session tracking.
 - **RFC 4180 CSV Export**: Standard-compliant CSV export with UTF-8 BOM encoding for seamless display in Microsoft Excel, Google Sheets, or Apple Numbers.
 - **JSON Backup & Safe Restore**: Full workspace export and schema-validated JSON import with replace/merge protection.
+- **100% Bilingual Arabic & English**: Comprehensive dual-language support with automatic RTL layout and Cairo typography.
 - **Dual Technical Theme**: Polished dark mode by default with slate/emerald aesthetics; toggleable high-contrast light mode.
 
 ---
@@ -100,7 +126,7 @@ The application is completely client-side and requires no build step, backend se
 ### Running Automated Tests:
 Run the unit test suite verifying time engine math, CSV RFC 4180 formatting, streak calculation, and backup schema validation:
 ```bash
-node --test tests/test_engine.js
+npm test
 ```
 
 ---
@@ -125,3 +151,48 @@ Code Timer Tracker is an official project within the **Code Elta6ur** ecosystem:
 - **Developer**: [Mohammad Abu Khashreef](https://mohammad.code-elta6ur.com/)
 - **Organization**: [Code Elta6ur](https://code-elta6ur.net/)
 - **License**: Released under the [MIT License](LICENSE). Copyright (c) 2026 Mohammad Abu Khashreef / Code Elta6ur.
+
+---
+
+<details>
+<summary><b>🇸🇦 اضغط هنا لقراءة الدليل كاملاً باللغة العربية (Click to expand Arabic Documentation)</b></summary>
+
+<br>
+
+<div dir="rtl">
+
+# متتبع وقت البرمجة — Code Timer Tracker
+
+### أداة هندسية متطورة لإدارة جلسات العمل البرمجي، تتبع دقة الوقت، وتحليلات الإنتاجية للمطورين
+
+**[ 🌐 English Version ](README.md) • [ 🌐 ملف الدليل العربي المستقل (README.ar.md) ](README.ar.md)**
+
+---
+
+### 🌟 نظرة عامة ورؤية المنتج
+
+تم بناء **Code Timer Tracker** ليكون أداة إنتاجية حقيقية ورفيقاً يومياً للمهندسين البرمجيين لتسجيل فترات التركيز، توزيع ساعات العمل على المستودعات البرمجية، وقياس الإنتاجية بدقة متناهية مع الحفاظ المطلق على خصوصية البيانات دون أي تتبع خارجي.
+
+### ✨ أبرز المميزات:
+1. **محرك توقيت عالي الدقة:** حساب عبر الفروق الزمنية المباشرة (Epoch Timestamps) مع الحفظ التلقائي والتعافي الفوري بعد إغلاق المتصفح.
+2. **إدارة المشاريع والمهام:** تصنيف المشاريع وربطها بحزمة التقنيات والأجر بالساعة مع تتبع المهام بحسب الأولوية والحالة.
+3. **تصميم مخصص للهواتف المحمولة (v2.3.0):** قفل التمرير الأفقي تماماً (Zero Horizontal Scroll)، قمرة قيادة سفلية مريحة، ومشغل عائم ذكي.
+4. **تحليلات حقيقية ورسوم بيانية دقيقة:** 4 رسوم بيانية تفاعلية لحجم البرمجة اليومي، توزيع الوقت على المشاريع، وتصنيف التقنيات.
+5. **لوحة أوامر سريعة (`Ctrl+K`) ووضع تركيز متكامل (`Ctrl+B`):** سهولة التنقل وتنفيذ الإجراءات بأقصى سرعة.
+6. **تصدير محاسبي CSV ونسخ احتياطي JSON:** تقارير متوافقة مع معيار RFC 4180 بترميز UTF-8 مع تضمين BOM للعرض باللغة العربية داخل Excel.
+7. **واجهة ثنائية اللغة (عربي / إنجليزي):** دعم كامل لاتجاه RTL والخطوط العربية الحديثة.
+
+### ⌨️ أهم الاختصارات:
+- `مسافة (Space)`: بدء / إيقاف مؤقت / استئناف التوقيت.
+- `Ctrl + Shift + S`: إنهاء وحفظ الجلسة في السجل.
+- `Ctrl + K`: فتح لوحة الأوامر السريعة.
+- `Ctrl + B`: تفعيل وضع التركيز الكامل.
+- `Ctrl + 1-5`: التنقل الفوري بين الشاشات الرئيسية.
+
+### 🌐 منظومة كود التطور:
+الأداة تابعة رسمياً لـ **كود التطور (Code Elta6ur)** بقيادة المهندس **محمد أبو خشريف**.
+- [منصة كود التطور](https://code-elta6ur.com/) • [شركة كود التطور للبرمجيات](https://code-elta6ur.net/) • [معرض أعمال محمد أبو خشريف](https://mohammad.code-elta6ur.com/)
+
+</div>
+
+</details>
