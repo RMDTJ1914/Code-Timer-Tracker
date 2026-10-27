@@ -100,7 +100,11 @@
 }
 
 html, body {
+    width: 100%;
+    max-width: 100vw;
     height: 100%;
+    overflow-x: hidden;
+    position: relative;
 }
 
 body {
@@ -111,12 +115,17 @@ body {
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    width: 100%;
 }
 
 .app-layout {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
 }
 
 /* App Header */
@@ -2502,7 +2511,10 @@ button:disabled {
     }
 
     .btn-label,
-    .kbd-hint {
+    .kbd-hint,
+    #cmdPaletteBtn,
+    #focusModeBtn,
+    #logManualBtn {
         display: none !important;
     }
 
@@ -2660,6 +2672,15 @@ button:disabled {
     }
 
     /* Timer Console Page */
+    .timer-console-grid,
+    .console-main,
+    .console-side {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+    }
+
     .digital-clock {
         font-size: 46px !important;
         letter-spacing: 2px;
@@ -2688,6 +2709,44 @@ button:disabled {
 
     .pomodoro-clock {
         font-size: 40px !important;
+    }
+
+    .pomo-controls {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 8px !important;
+    }
+
+    .pomo-controls button {
+        width: 100% !important;
+        height: 44px !important;
+        justify-content: center !important;
+    }
+
+    .pomo-settings-row {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        width: 100% !important;
+        gap: 8px !important;
+        box-sizing: border-box !important;
+    }
+
+    .pomo-input-grp {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .pomo-input-grp input {
+        width: 100% !important;
+        text-align: center;
+        box-sizing: border-box !important;
+    }
+
+    .snapshot-detail-row {
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        min-width: 0 !important;
     }
 
     /* Sessions Logs Page */
@@ -2721,8 +2780,10 @@ button:disabled {
         width: 100% !important;
     }
 
-    /* Hide desktop table on mobile, show feed */
-    .table-responsive {
+    /* Hide desktop table and footer on mobile, show dedicated card feed */
+    .sessions-desktop-card,
+    .table-responsive,
+    .table-footer {
         display: none !important;
     }
 
@@ -2730,7 +2791,159 @@ button:disabled {
         display: flex !important;
         flex-direction: column !important;
         gap: 12px !important;
-        margin-top: 12px;
+        margin-top: 14px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .mob-session-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+
+    /* Analytics / Reports Page */
+    .period-selector-grp {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        gap: 4px !important;
+        box-sizing: border-box !important;
+    }
+
+    .period-btn {
+        width: 100% !important;
+        padding: 6px 2px !important;
+        text-align: center !important;
+        justify-content: center !important;
+        white-space: normal !important;
+        line-height: 1.2 !important;
+        font-size: 11px !important;
+    }
+
+    #reportsPage,
+    #reportsPage * {
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .reports-charts-grid {
+        grid-template-columns: 1fr !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .chart-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
+    }
+
+    .chart-canvas-wrap {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+        position: relative !important;
+        box-sizing: border-box !important;
+    }
+
+    .chart-canvas-wrap canvas {
+        width: 100% !important;
+        max-width: 100% !important;
+        display: block !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Settings & Backup Page */
+    .settings-grid {
+        grid-template-columns: 1fr !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .backup-actions .btn-group-row {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 8px !important;
+    }
+
+    .backup-actions .btn-group-row button,
+    .backup-actions .btn-group-row label {
+        width: 100% !important;
+        justify-content: center !important;
+        height: 44px !important;
+        box-sizing: border-box !important;
+    }
+
+    .storage-info-box {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+
+    .storage-status-row {
+        flex-wrap: wrap !important;
+        gap: 4px !important;
+        word-break: break-all !important;
+    }
+
+    /* Strict Horizontal Containment */
+    .app-content,
+    .page-view,
+    .card,
+    .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+
+    .card-header {
+        min-width: 0 !important;
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+    }
+
+    .card-title {
+        min-width: 0 !important;
+        flex-wrap: wrap !important;
+        word-break: break-word !important;
+    }
+
+    input, select, textarea {
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Mobile Toast Notifications Container */
+    .toast-container {
+        left: 14px !important;
+        right: 14px !important;
+        bottom: 80px !important;
+        width: auto !important;
+        max-width: calc(100vw - 28px) !important;
+        align-items: center !important;
+    }
+
+    .toast {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        animation: toastSlideMobile 0.22s ease-out !important;
+    }
+
+    @keyframes toastSlideMobile {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
     }
 
     /* Projects Page */
@@ -2860,9 +3073,11 @@ button:disabled {
 [dir="rtl"] .btn-danger-outline i,
 [dir="rtl"] .btn-giant i,
 [dir="rtl"] .nav-tab i,
+[dir="rtl"] .card-title i,
+[dir="rtl"] .card-header i,
 [dir="rtl"] .btn-text i {
-    margin-right: 0;
-    margin-left: 6px;
+    margin-right: 0 !important;
+    margin-left: 6px !important;
 }
 
 [dir="rtl"] .nav-shortcut {
