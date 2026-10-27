@@ -1750,7 +1750,6 @@ class AppEngine {
             if (this.dom.consolePausedTimeText) this.dom.consolePausedTimeText.textContent = this.formatDuration(0);
         }
     }
-    }
 
     syncConsoleMetadataToActiveSession() {
         if (!this.activeSession) return;
