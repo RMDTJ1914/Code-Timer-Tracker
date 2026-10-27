@@ -31,7 +31,12 @@ Write-Host ">>> Cleaning build directories..." -ForegroundColor Cyan
 if (Test-Path $buildDir) { Remove-Item -Path $buildDir -Recurse -Force }
 New-Item -ItemType Directory -Path "$buildDir\src\com\codetimer\app" -Force | Out-Null
 New-Item -ItemType Directory -Path "$buildDir\res\values" -Force | Out-Null
+New-Item -ItemType Directory -Path "$buildDir\res\mipmap-mdpi" -Force | Out-Null
+New-Item -ItemType Directory -Path "$buildDir\res\mipmap-hdpi" -Force | Out-Null
+New-Item -ItemType Directory -Path "$buildDir\res\mipmap-xhdpi" -Force | Out-Null
 New-Item -ItemType Directory -Path "$buildDir\res\mipmap-xxhdpi" -Force | Out-Null
+New-Item -ItemType Directory -Path "$buildDir\res\mipmap-xxxhdpi" -Force | Out-Null
+New-Item -ItemType Directory -Path "$buildDir\res\mipmap-anydpi-v26" -Force | Out-Null
 New-Item -ItemType Directory -Path "$buildDir\assets\vendor\fontawesome\css" -Force | Out-Null
 New-Item -ItemType Directory -Path "$buildDir\assets\vendor\fontawesome\webfonts" -Force | Out-Null
 New-Item -ItemType Directory -Path "$buildDir\assets\icons" -Force | Out-Null
@@ -46,14 +51,15 @@ $manifestContent = @"
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.codetimer.app"
-    android:versionCode="20400"
-    android:versionName="2.4.0">
+    android:versionCode="20401"
+    android:versionName="2.4.1">
 
     <uses-sdk android:minSdkVersion="24" android:targetSdkVersion="34" />
 
     <application
         android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme"
         android:hardwareAccelerated="true"
         android:allowBackup="true"
@@ -82,7 +88,16 @@ $stringsContent = @"
 "@
 [System.IO.File]::WriteAllText("$buildDir\res\values\strings.xml", $stringsContent, $utf8NoBom)
 
-# 3. styles.xml
+# 3. colors.xml
+$colorsContent = @"
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ic_launcher_background">#090D16</color>
+</resources>
+"@
+[System.IO.File]::WriteAllText("$buildDir\res\values\colors.xml", $colorsContent, $utf8NoBom)
+
+# 4. styles.xml
 $stylesContent = @"
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
@@ -95,20 +110,47 @@ $stylesContent = @"
 "@
 [System.IO.File]::WriteAllText("$buildDir\res\values\styles.xml", $stylesContent, $utf8NoBom)
 
-# 4. Launcher icon
-Copy-Item "icons\icon-192.png" "$buildDir\res\mipmap-xxhdpi\ic_launcher.png"
+# 5. Adaptive Icons for Android 8.0+ (API 26+)
+$adaptiveIconXml = @"
+<?xml version="1.0" encoding="utf-8"?>
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/ic_launcher_background" />
+    <foreground android:drawable="@mipmap/ic_launcher_foreground" />
+</adaptive-icon>
+"@
+[System.IO.File]::WriteAllText("$buildDir\res\mipmap-anydpi-v26\ic_launcher.xml", $adaptiveIconXml, $utf8NoBom)
+[System.IO.File]::WriteAllText("$buildDir\res\mipmap-anydpi-v26\ic_launcher_round.xml", $adaptiveIconXml, $utf8NoBom)
 
-# 5. Copy Web Assets into assets/
+# 6. Copy Launcher Icons across all densities
+$densities = @{
+    "mdpi"    = @{ "size" = 48;  "fg" = "mdpi" }
+    "hdpi"    = @{ "size" = 72;  "fg" = "hdpi" }
+    "xhdpi"   = @{ "size" = 96;  "fg" = "xhdpi" }
+    "xxhdpi"  = @{ "size" = 144; "fg" = "xxhdpi" }
+    "xxxhdpi" = @{ "size" = 192; "fg" = "xxxhdpi" }
+}
+
+foreach ($d in $densities.Keys) {
+    $info = $densities[$d]
+    $sz = $info.size
+    $fg = $info.fg
+    Copy-Item "icons\icon-$sz.png" "$buildDir\res\mipmap-$d\ic_launcher.png" -Force
+    Copy-Item "icons\icon-round-$sz.png" "$buildDir\res\mipmap-$d\ic_launcher_round.png" -Force
+    Copy-Item "icons\icon-fg-$fg.png" "$buildDir\res\mipmap-$d\ic_launcher_foreground.png" -Force
+}
+
+# 7. Copy Web Assets into assets/
 Copy-Item "index.html" "$buildDir\assets\index.html"
 Copy-Item "style.css" "$buildDir\assets\style.css"
 Copy-Item "script.js" "$buildDir\assets\script.js"
 Copy-Item "manifest.json" "$buildDir\assets\manifest.json"
+Copy-Item "sw.js" "$buildDir\assets\sw.js"
 Copy-Item "vendor\chart.umd.min.js" "$buildDir\assets\vendor\chart.umd.min.js"
 Copy-Item "vendor\fontawesome\css\all.min.css" "$buildDir\assets\vendor\fontawesome\css\all.min.css"
 Copy-Item "vendor\fontawesome\webfonts\*" "$buildDir\assets\vendor\fontawesome\webfonts\"
 Copy-Item "icons\*" "$buildDir\assets\icons\"
 
-# 6. MainActivity.java
+# 8. MainActivity.java with Universal File Access
 $javaContent = @"
 package com.codetimer.app;
 
@@ -143,6 +185,8 @@ public class MainActivity extends Activity {
         settings.setDatabaseEnabled(true);
         settings.setAllowFileAccess(true);
         settings.setAllowContentAccess(true);
+        settings.setAllowFileAccessFromFileURLs(true);
+        settings.setAllowUniversalAccessFromFileURLs(true);
         settings.setCacheMode(WebSettings.LOAD_DEFAULT);
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
@@ -168,6 +212,7 @@ public class MainActivity extends Activity {
 "@
 [System.IO.File]::WriteAllText("$buildDir\src\com\codetimer\app\MainActivity.java", $javaContent, $utf8NoBom)
 
+
 Write-Host ">>> Compiling resources with AAPT2..." -ForegroundColor Cyan
 & $aapt2 compile --dir "$buildDir\res" -o "$buildDir\compiled_res.zip"
 
@@ -184,6 +229,10 @@ $javaFiles = @(
 Write-Host ">>> Compiling Dalvik bytecode with D8..." -ForegroundColor Cyan
 $classFiles = (Get-ChildItem -Path "$buildDir\bin" -Filter "*.class" -Recurse | Select-Object -ExpandProperty FullName)
 & $d8 --output "$buildDir" --min-api 24 $classFiles
+
+if (-not (Test-Path "$buildDir\classes.dex")) {
+    throw "ERROR: classes.dex was NOT generated by D8!"
+}
 
 Write-Host ">>> Adding classes.dex to APK..." -ForegroundColor Cyan
 Push-Location $buildDir
