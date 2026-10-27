@@ -6,14 +6,16 @@
 
 **[ 🌐 English (Default) ](README.md) • [ 🌐 النسخة العربية (Arabic) ](README.ar.md)**
 
-[![Version](https://img.shields.io/badge/Version-v2.3.0-10b981?style=flat-square)](https://github.com/mokashreef/Code-Timer-Tracker)
+[![Version](https://img.shields.io/badge/Version-v2.4.0-10b981?style=flat-square)](https://github.com/mokashreef/Code-Timer-Tracker)
+[![Android APK](https://img.shields.io/badge/Android%20APK-100%25%20Offline%20(430KB)-success?style=flat-square&logo=android)](release/code-timer-tracker.apk)
+[![PWA Ready](https://img.shields.io/badge/PWA-100%25%20Offline%20Cache-blueviolet?style=flat-square)](manifest.json)
 [![License](https://img.shields.io/badge/License-MIT-3b82f6?style=flat-square)](LICENSE)
 [![Tests](https://img.shields.io/badge/Tests-9%20Passing%20(100%25)-emerald?style=flat-square)](tests/test_engine.js)
 [![Privacy](https://img.shields.io/badge/Data-100%25%20Local%20(No%20Telemetry)-06b6d4?style=flat-square)](#)
 
 **Developed by [Mohammad Abu Khashreef](https://mohammad.code-elta6ur.com/) • Part of [Code Elta6ur](https://code-elta6ur.net/)**
 
-[🚀 Launch Live Web App](https://mokashreef.github.io/Code-Timer-Tracker/)
+**[🚀 Launch Live Web App](https://mokashreef.github.io/Code-Timer-Tracker/) • [📱 Download Android APK (Direct Mirror)](https://github.com/mokashreef/Code-Timer-Tracker/raw/main/release/code-timer-tracker.apk) • [📥 Local GitHub Pages APK](https://mokashreef.github.io/Code-Timer-Tracker/release/code-timer-tracker.apk)**
 
 </div>
 
@@ -55,13 +57,22 @@ Built with a **local-first client architecture**, all records remain completely 
 - **1-Click Launch**: Launch a live tracking session directly from any project card or task row.
 - **Archive System**: Cleanly archive completed repositories while preserving historical session logs.
 
-### 3. Dedicated Mobile App Experience (v2.3.0)
+### 3. Dedicated Mobile App Experience
 - **Zero Horizontal Scroll Lock**: Strictly bounded viewport architecture eliminating lateral wobbles and rubber-band bouncing on screens down to 320px.
 - **Mobile Bottom Cockpit**: Ergonomic 5-tab bottom navigation with generous touch targets (Dashboard, Timer, Projects, Sessions, More).
 - **Smart Floating Timer**: Non-intrusive floating player that shows active tracking when browsing other pages, and automatically tucks away when inside the Timer Console.
 - **Mobile Card Feeds**: Touch-friendly card feeds for sessions and projects with dedicated action bars.
 
-### 4. Genuine Productivity Analytics & Visualizations
+### 4. Native Android App & 100% Offline Capability (v2.4.0)
+- **Standalone Signed Release APK**: Compiled natively using Android SDK build-tools (`code-timer-tracker.apk`, 430 KB).
+- **100% Offline**: Zero external network or CDN calls. Bundled local FontAwesome 6 icons and local Chart.js library.
+- **Native Hardware Back Button & Orientation Handling**: Native Android WebView wrapper with local storage persistence.
+- **Direct Download Links**:
+  - [Download code-timer-tracker.apk (GitHub Direct)](https://github.com/mokashreef/Code-Timer-Tracker/raw/main/release/code-timer-tracker.apk)
+  - [Download from GitHub Pages Mirror](https://mokashreef.github.io/Code-Timer-Tracker/release/code-timer-tracker.apk)
+- **PWA Offline Support**: Standard Progressive Web App manifest (`manifest.json`) and Service Worker (`sw.js`) enabling installability directly from mobile Chrome/Edge with offline caching.
+
+### 5. Genuine Productivity Analytics & Visualizations
 Derived 100% from actual recorded sessions (zero fake metrics or hardcoded graphs):
 - **Dynamic Period Selector**: Filter by *This Week*, *This Month*, *Last 30 Days*, or *All Time*.
 - **Time Distribution by Project**: Doughnut chart showing real project hour breakdown.
@@ -70,7 +81,7 @@ Derived 100% from actual recorded sessions (zero fake metrics or hardcoded graph
 - **Category & Tech Breakdown**: Horizontal chart visualizing time investment across domains.
 - **Productivity Metrics**: Total hours, average session duration, total session count, billable value, and top active repository.
 
-### 5. Developer Workflows & UX
+### 6. Developer Workflows & UX
 - **Command Palette (`Ctrl+K` / `Cmd+K`)**: Instant search and trigger for all navigation, timer controls, project launchers, export actions, and ecosystem links.
 - **Distraction-Free Focus Mode (`Ctrl+B`)**: Fullscreen, zero-clutter digital timer display showing current task, project, and discreet pause/stop controls.
 - **Focus Interval Companion (Pomodoro)**: Non-blocking work and break timer with Web Audio synthesized cues that do not halt active session tracking.

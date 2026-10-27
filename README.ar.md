@@ -6,14 +6,16 @@
 
 **[ 🌐 English Version ](README.md) • [ 🌐 النسخة العربية ](README.ar.md)**
 
-[![الإصدار](https://img.shields.io/badge/الإصدار-v2.3.0-10b981?style=flat-square)](https://github.com/mokashreef/Code-Timer-Tracker)
+[![الإصدار](https://img.shields.io/badge/الإصدار-v2.4.0-10b981?style=flat-square)](https://github.com/mokashreef/Code-Timer-Tracker)
+[![تطبيق أندرويد](https://img.shields.io/badge/تطبيق%20أندرويد%20APK-يعمل%20100%25%20بدون%20إنترنت-success?style=flat-square&logo=android)](release/code-timer-tracker.apk)
+[![PWA جاهز](https://img.shields.io/badge/PWA-كاش%20كامل%20بدون%20نت-blueviolet?style=flat-square)](manifest.json)
 [![الترخيص](https://img.shields.io/badge/الترخيص-MIT-3b82f6?style=flat-square)](LICENSE)
 [![الاختبارات](https://img.shields.io/badge/الاختبارات-9%20ناجحة%20(100%25)-emerald?style=flat-square)](tests/test_engine.js)
 [![الخصوصية](https://img.shields.io/badge/البيانات-محلية%20100%25%20(بدون%20تتبع)-06b6d4?style=flat-square)](#)
 
 **تطوير: [محمد أبو خشريف](https://mohammad.code-elta6ur.com/) • جزء من منظومة [كود التطور (Code Elta6ur)](https://code-elta6ur.net/)**
 
-[🚀 فتح التطبيق المباشر (Live Demo)](https://mokashreef.github.io/Code-Timer-Tracker/)
+**[🚀 فتح التطبيق المباشر (Live Demo)](https://mokashreef.github.io/Code-Timer-Tracker/) • [📱 تحميل تطبيق أندرويد APK (مباشر)](https://github.com/mokashreef/Code-Timer-Tracker/raw/main/release/code-timer-tracker.apk) • [📥 رابط تنزيل GitHub Pages](https://mokashreef.github.io/Code-Timer-Tracker/release/code-timer-tracker.apk)**
 
 </div>
 
@@ -55,7 +57,16 @@
 - **مشغل عائم ذكي للمؤقت:** شريط مصغر يظهر فقط عند وجود مؤقت نشط أثناء التصفح في بقية الصفحات، مع إخفائه بذكاء داخل صفحة المؤقت لمنع الازدحام.
 - **موجز الكروت المتتالي للجلسات (Cards Feed):** استبدال الجداول التقليدية بكروت تفاعلية أنيقة مصممة لتجربة اللمس على شاشات الهواتف.
 
-### 4. تحليلات ورسوم بيانية حقيقية 100% (Genuine Analytics)
+### 4. تطبيق أندرويد مستقل ويعمل 100% بدون إنترنت (v2.4.0)
+- **ملف تثبيت رسمي وموقع رقمياً (Signed Release APK):** تطبيق أندرويد أصيل وخفيف للغاية بحجم 430 كيلوبايت فقط (`code-timer-tracker.apk`).
+- **يعمل بالكامل دون أي اتصال بالإنترنت (Zero Internet Required):** لا يعتمد على أي سيرفرات أو شبكات CDN خارجية؛ تم تضمين حزمة خطوط FontAwesome 6 ومكتبة Chart.js التفاعلية محلياً بالكامل.
+- **تخزين فوري وآمن محلياً:** يتم حفظ جميع الجلسات والمشاريع في ذاكرة الهاتف الداخلية مع إمكانية التصدير والنسخ الاحتياطي بأي وقت.
+- **روابط التحميل المباشرة:**
+  - [📥 تحميل تطبيق الأندرويد code-timer-tracker.apk (رابط GitHub مباشر)](https://github.com/mokashreef/Code-Timer-Tracker/raw/main/release/code-timer-tracker.apk)
+  - [📥 رابط بديل للتنزيل من GitHub Pages Mirror](https://mokashreef.github.io/Code-Timer-Tracker/release/code-timer-tracker.apk)
+- **دعم تطبيق الويب التقدمي (PWA):** إمكانية التثبيت السريع من متصفح كروم أو إيدج على الهاتف بنقرة واحدة ("إضافة إلى الشاشة الرئيسية") مع ملف `manifest.json` و`sw.js` الذي يعمل في وضع عدم الاتصال.
+
+### 5. تحليلات ورسوم بيانية حقيقية 100% (Genuine Analytics)
 محسوبة بالكامل من جلساتك الفعلية المسجلة (خالية تماماً من البيانات الوهمية):
 - **محدد الفترات التفاعلي:** تصنيف الإحصائيات بحسب: *هذا الأسبوع*، *هذا الشهر*، *آخر 30 يوماً*، أو *كامل الوقت*.
 - **توزيع الوقت حسب المشروع:** رسم بياني دائري يوضح ساعات العمل الموزعة على المستودعات.
@@ -64,7 +75,7 @@
 - **تحليل مجالات العمل والتقنيات:** توزيع زمني مرئي لمهارات الواجهة الأمامية، الخلفية، والعمليات وغيرها.
 - **مقاييس الإنتاجية الرئيسية:** إجمالي ساعات العمل، متوسط مدة الجلسة، عدد الجلسات، المستحقات المدفوعة، والمشروع الأكثر نشاطاً.
 
-### 5. أدوات وسير عمل المطورين (Developer Workflows)
+### 6. أدوات وسير عمل المطورين (Developer Workflows)
 - **لوحة الأوامر السريعة (`Ctrl+K` / `Cmd+K`):** بحث وتنفيذ فوري لجميع عمليات التنقل، بدء المؤقت، تصدير البيانات، وتغيير الإعدادات.
 - **وضع التركيز الكامل الخالي من المشتتات (`Ctrl+B`):** شاشة كاملة بمؤقت رقمي كبير مع تفاصيل المهمة دون أي عناصر جانبية مشتتة.
 - **مساعد فترات التركيز (بومودورو):** مؤقت عمل واستراحات خفيف مدمج مع نغمات صوتية مركبة برمجياً تعمل دون إيقاف جلسة التتبع الرئيسية.

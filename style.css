@@ -3597,3 +3597,73 @@ button:disabled {
     letter-spacing: 0.5px;
 }
 
+/* Android APK Showcase & Download Styles */
+.sheet-menu-link {
+    text-decoration: none;
+    color: var(--text-main);
+}
+
+.sheet-menu-link:hover,
+.sheet-menu-link:focus {
+    text-decoration: none;
+    color: var(--text-main);
+}
+
+.about-apk-card {
+    border-color: rgba(16, 185, 129, 0.3);
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(15, 23, 42, 0.5) 100%);
+}
+
+.badge-emerald {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--accent-primary);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.apk-download-box {
+    padding-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.apk-desc {
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.apk-download-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.apk-download-actions .btn-primary,
+.apk-download-actions .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .apk-download-actions {
+        flex-direction: column;
+    }
+    .apk-download-actions .btn-primary,
+    .apk-download-actions .btn-secondary {
+        width: 100%;
+        justify-content: center;
+    }
+}
+

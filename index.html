@@ -7,15 +7,21 @@
     <title>Code Timer Tracker — Developer Productivity &amp; Time Tracking</title>
     <meta name="description" content="Professional developer time tracking, session management, productivity analytics, and project activity tool.">
     <meta name="author" content="Mohammad Abu Khashreef">
+    <meta name="theme-color" content="#090d16">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=2.3.0">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=2.4.0">
+    <script src="vendor/chart.umd.min.js"></script>
 </head>
 
 <body>
@@ -766,6 +772,30 @@
                         </div>
                     </div>
 
+                    <!-- Android Native App Showcase & 100% Offline Download -->
+                    <div class="card mt-4 about-apk-card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title"><i class="fab fa-android text-emerald"></i> <span data-i18n="about_apk_title">Android Offline Application</span></h2>
+                                <p class="card-hint" data-i18n="about_apk_sub">Standalone native APK with zero internet requirement.</p>
+                            </div>
+                            <span class="badge-emerald" data-i18n="about_apk_badge">v2.4.0 • 100% Offline</span>
+                        </div>
+                        <div class="apk-download-box">
+                            <p class="apk-desc" data-i18n="about_apk_desc">
+                                Standalone native Android application with zero internet required. Bundles full timer console, projects, sessions history, audio synthesizers, and charts inside a lightweight 430 KB package.
+                            </p>
+                            <div class="apk-download-actions">
+                                <a href="release/code-timer-tracker.apk" download="code-timer-tracker.apk" class="btn-primary">
+                                    <i class="fas fa-download"></i> <span data-i18n="btn_download_apk">Download Android APK (430 KB)</span>
+                                </a>
+                                <a href="https://github.com/mokashreef/Code-Timer-Tracker/raw/main/release/code-timer-tracker.apk" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+                                    <i class="fab fa-github"></i> <span data-i18n="btn_github_mirror">GitHub Direct Mirror</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Code Elta6ur Verified Ecosystem -->
                     <div class="card mt-4">
                         <div class="card-header">
@@ -1282,6 +1312,14 @@
                     </div>
                     <i class="fas fa-chevron-right sheet-arrow"></i>
                 </button>
+                <a href="release/code-timer-tracker.apk" download="code-timer-tracker.apk" class="sheet-menu-item sheet-menu-link">
+                    <div class="sheet-item-icon bg-emerald"><i class="fab fa-android"></i></div>
+                    <div class="sheet-item-text">
+                        <span class="sheet-item-title" data-i18n="download_apk_title">Download Android APK</span>
+                        <span class="sheet-item-sub" data-i18n="download_apk_sub">100% Offline Standalone App (430KB)</span>
+                    </div>
+                    <i class="fas fa-download sheet-arrow"></i>
+                </a>
             </div>
         </div>
     </div>
@@ -1289,7 +1327,7 @@
     <!-- Notification Toast Container -->
     <div id="toastContainer" class="toast-container" aria-live="polite"></div>
 
-    <script src="script.js?v=2.3.0"></script>
+    <script src="script.js?v=2.4.0"></script>
 </body>
 
 </html>
