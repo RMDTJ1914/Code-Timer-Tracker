@@ -337,12 +337,12 @@ const I18N = {
         mobile_sheet_focus_sub: "Distraction-free timer",
         mobile_sheet_manual_sub: "Add offline work interval",
         download_apk_title: "Download Android APK",
-        download_apk_sub: "100% Offline Standalone App (430KB)",
+        download_apk_sub: "100% Offline Standalone App (1.7MB)",
         about_apk_title: "Android Offline Application",
         about_apk_sub: "Standalone native APK with zero internet requirement.",
-        about_apk_badge: "v2.4.0 • 100% Offline",
-        about_apk_desc: "Standalone native Android application with zero internet required. Bundles full timer console, projects, sessions history, audio synthesizers, and charts inside a lightweight 430 KB package.",
-        btn_download_apk: "Download Android APK (430 KB)",
+        about_apk_badge: "v2.4.3 • 100% Offline",
+        about_apk_desc: "Standalone native Android application with zero internet required. Bundles full timer console, projects, sessions history, audio synthesizers, offline SVG icons, and charts inside a lightweight 1.7 MB package.",
+        btn_download_apk: "Download Android APK (1.7 MB)",
         btn_github_mirror: "GitHub Direct Mirror",
     },
     ar: {
@@ -677,12 +677,12 @@ const I18N = {
         mobile_sheet_focus_sub: "مؤقت كامل بدون مشتتات",
         mobile_sheet_manual_sub: "إضافة فترة عمل يدوياً",
         download_apk_title: "تحميل تطبيق أندرويد (APK)",
-        download_apk_sub: "تطبيق أصيل 100% بدون إنترنت (430 ك.ب)",
+        download_apk_sub: "تطبيق أصيل 100% بدون إنترنت (1.7 م.ب)",
         about_apk_title: "تطبيق الأندرويد المستقل (بدون إنترنت)",
         about_apk_sub: "تطبيق أندرويد أصيل ومستقل لا يحتاج لأي اتصال بالإنترنت.",
-        about_apk_badge: "v2.4.0 • يعمل 100% بدون إنترنت",
-        about_apk_desc: "تطبيق أندرويد كامل ومستقل لا يحتاج إلى أي اتصال بالإنترنت. يحتوي على منصة المؤقت، المشاريع، سجل الجلسات، الرسوم البيانية، والنغمات الصوتية بحجم فائق الخفة 430 كيلوبايت فقط.",
-        btn_download_apk: "تحميل تطبيق أندرويد APK (430 ك.ب)",
+        about_apk_badge: "v2.4.3 • يعمل 100% بدون إنترنت",
+        about_apk_desc: "تطبيق أندرويد كامل ومستقل لا يحتاج إلى أي اتصال بالإنترنت. يحتوي على منصة المؤقت، المشاريع، سجل الجلسات، الرسوم البيانية، ومحرك المتجهات بحجم خفيف 1.7 ميجابايت فقط.",
+        btn_download_apk: "تحميل تطبيق أندرويد APK (1.7 م.ب)",
         btn_github_mirror: "رابط تحميل مباشر من GitHub",
     }
 };
@@ -3507,6 +3507,21 @@ function initCodeTimerTracker() {
     if (!window.appEngine) {
         window.appEngine = new AppEngine();
     }
+
+    // Automatic Mobile & Standalone App Environment Marker
+    function applyMobileEnvironment() {
+        const isApp = navigator.userAgent.includes('CodeTimerApp') || window.location.protocol === 'file:';
+        const isMobileScreen = window.innerWidth <= 900 || (window.matchMedia && window.matchMedia('(max-width: 900px)').matches);
+        const isTouch = (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+        if (isApp || isMobileScreen || isTouch) {
+            document.documentElement.classList.add('is-mobile-device');
+        } else {
+            document.documentElement.classList.remove('is-mobile-device');
+        }
+    }
+    applyMobileEnvironment();
+    window.addEventListener('resize', applyMobileEnvironment);
 
     // Register Service Worker for 100% Offline PWA functionality
     if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost')) {

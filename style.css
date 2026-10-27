@@ -181,6 +181,18 @@ body {
     font-size: 15px;
 }
 
+.brand-logo-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    object-fit: contain;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    border: 1.5px solid rgba(16, 185, 129, 0.45);
+    background: #090d16;
+    display: block;
+}
+
 .brand-text {
     display: flex;
     flex-direction: column;
@@ -1293,6 +1305,18 @@ body {
     font-size: 24px;
 }
 
+.about-logo-img {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    object-fit: contain;
+    flex-shrink: 0;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+    border: 2px solid rgba(16, 185, 129, 0.5);
+    background: #090d16;
+    display: block;
+}
+
 .about-title {
     font-size: 24px;
     font-weight: 700;
@@ -2059,6 +2083,23 @@ button:disabled {
     box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.35);
 }
 
+html.is-mobile-device .app-nav {
+    display: none !important;
+}
+
+html.is-mobile-device .mobile-bottom-nav {
+    display: flex !important;
+}
+
+html.is-mobile-device .sessions-desktop-card {
+    display: none !important;
+}
+
+html.is-mobile-device .mobile-sessions-feed {
+    display: flex !important;
+}
+
+
 .mobile-nav-btn {
     flex: 1;
     display: flex;
@@ -2483,9 +2524,9 @@ button:disabled {
 }
 
 /* =====================================================================
-   RESPONSIVE BREAKPOINT OVERRIDES FOR MOBILE (< 768px)
+   RESPONSIVE BREAKPOINT OVERRIDES FOR MOBILE (< 900px, touch & standalone app)
    ===================================================================== */
-@media (max-width: 768px) {
+@media (max-width: 900px), (max-device-width: 900px), (pointer: coarse) and (max-width: 1024px) {
     /* Strict Viewport & Root Lock */
     html, body {
         width: 100% !important;
@@ -2565,6 +2606,13 @@ button:disabled {
         width: 30px !important;
         height: 30px !important;
         font-size: 14px !important;
+        flex-shrink: 0 !important;
+    }
+
+    .brand-logo-img {
+        width: 28px !important;
+        height: 28px !important;
+        border-radius: 7px !important;
         flex-shrink: 0 !important;
     }
 
@@ -3322,6 +3370,12 @@ button:disabled {
         word-break: break-all !important;
     }
 
+    .danger-zone button {
+        width: 100% !important;
+        height: 42px !important;
+        justify-content: center !important;
+    }
+
     /* =================================================================
        7. ABOUT PAGE
        ================================================================= */
@@ -3331,6 +3385,22 @@ button:disabled {
         gap: 10px !important;
         width: 100% !important;
         box-sizing: border-box !important;
+    }
+
+    @media (max-width: 480px) {
+        .about-meta-grid {
+            grid-template-columns: 1fr !important;
+        }
+        .about-hero-header {
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+            gap: 12px !important;
+        }
+        .about-logo-img {
+            width: 56px !important;
+            height: 56px !important;
+        }
     }
 
     .ecosystem-links-grid {

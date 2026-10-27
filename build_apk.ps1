@@ -52,8 +52,8 @@ $manifestContent = @"
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.codetimer.app"
-    android:versionCode="20402"
-    android:versionName="2.4.2">
+    android:versionCode="20403"
+    android:versionName="2.4.3">
 
     <uses-sdk android:minSdkVersion="24" android:targetSdkVersion="34" />
 
@@ -190,11 +190,20 @@ public class MainActivity extends Activity {
         settings.setAllowFileAccessFromFileURLs(true);
         settings.setAllowUniversalAccessFromFileURLs(true);
         settings.setCacheMode(WebSettings.LOAD_DEFAULT);
-        settings.setUseWideViewPort(true);
-        settings.setLoadWithOverviewMode(true);
+        settings.setUseWideViewPort(false);
+        settings.setLoadWithOverviewMode(false);
+        settings.setSupportZoom(false);
+        settings.setBuiltInZoomControls(false);
+        settings.setDisplayZoomControls(false);
+        settings.setTextZoom(100);
         settings.setMediaPlaybackRequiresUserGesture(false);
+        String defaultUa = settings.getUserAgentString();
+        settings.setUserAgentString(defaultUa + " CodeTimerApp/2.4.3 MobileApp");
 
         webView.setBackgroundColor(0xFF090D16);
+        webView.setOverScrollMode(WebView.OVER_SCROLL_NEVER);
+        webView.setVerticalScrollBarEnabled(false);
+        webView.setHorizontalScrollBarEnabled(false);
         webView.setWebViewClient(new WebViewClient());
         webView.setWebChromeClient(new WebChromeClient());
 
@@ -251,7 +260,7 @@ if (-not (Test-Path $keystore)) {
 }
 
 Write-Host ">>> Signing APK with apksigner..." -ForegroundColor Cyan
-$finalApk = "$releaseDir\code-timer-tracker-v2.4.2.apk"
+$finalApk = "$releaseDir\code-timer-tracker-v2.4.3.apk"
 Copy-Item "$buildDir\aligned.apk" $finalApk -Force
 & $apksigner sign --ks $keystore --ks-pass "pass:codetimer123" --ks-key-alias "codetimer" --key-pass "pass:codetimer123" $finalApk
 
