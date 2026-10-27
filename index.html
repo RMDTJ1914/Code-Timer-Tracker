@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=2.0.5">
+    <link rel="stylesheet" href="style.css?v=2.1.0">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
@@ -519,7 +519,11 @@
                             <span id="sessionCurrentPageText" class="page-indicator">Page 1 of 1</span>
                             <button id="sessionNextPageBtn" class="btn-ghost btn-sm" disabled><span data-i18n="btn_next">Next</span> <i class="fas fa-chevron-right"></i></button>
                         </div>
-                    </div>
+                    
+                    <!-- Dedicated Mobile Sessions Feed (Cards Feed instead of Table on Mobile) -->
+                    <div class="mobile-sessions-feed" id="mobileSessionsFeed">
+                        <!-- Populated dynamically -->
+                    </div></div>
                 </div>
             </section>
 
@@ -876,6 +880,54 @@
             </section>
         </main>
 
+        
+        <!-- Floating Mobile Active Session Player (Visible on mobile when session is running/paused) -->
+        <div id="mobileFloatingTimer" class="mobile-floating-timer hidden">
+            <div class="mob-timer-info" onclick="window.appEngine?.navigateTo('timer')">
+                <span class="mob-timer-dot pulse"></span>
+                <div class="mob-timer-meta">
+                    <span id="mobTimerProject" class="mob-timer-proj">Code Timer Tracker</span>
+                    <span id="mobTimerTask" class="mob-timer-task">Focused Coding</span>
+                </div>
+                <span id="mobTimerClock" class="mob-timer-clock font-mono">00:00:00</span>
+            </div>
+            <div class="mob-timer-actions">
+                <button id="mobTimerPauseBtn" class="mob-action-btn" data-i18n-title="pause" title="Pause / Resume">
+                    <i class="fas fa-pause"></i>
+                </button>
+                <button id="mobTimerStopBtn" class="mob-action-btn btn-danger-action" data-i18n-title="stop_and_save" title="Stop & Save">
+                    <i class="fas fa-stop"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Dedicated Mobile Bottom Navigation Bar -->
+        <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
+            <button class="mobile-nav-btn active" data-page="dashboard" id="mob-nav-dashboard">
+                <i class="fas fa-chart-line"></i>
+                <span data-i18n="nav_dashboard">Dashboard</span>
+            </button>
+            <button class="mobile-nav-btn" data-page="timer" id="mob-nav-timer">
+                <div class="mob-icon-wrap">
+                    <i class="fas fa-stopwatch"></i>
+                    <span class="mob-active-dot hidden" id="mobTimerActiveDot"></span>
+                </div>
+                <span data-i18n="nav_timer">Timer</span>
+            </button>
+            <button class="mobile-nav-btn" data-page="projects" id="mob-nav-projects">
+                <i class="fas fa-folder-tree"></i>
+                <span data-i18n="nav_projects">Projects</span>
+            </button>
+            <button class="mobile-nav-btn" data-page="sessions" id="mob-nav-sessions">
+                <i class="fas fa-list-check"></i>
+                <span data-i18n="nav_sessions">Sessions</span>
+            </button>
+            <button class="mobile-nav-btn" id="mobNavMoreBtn" aria-label="More Options">
+                <i class="fas fa-ellipsis"></i>
+                <span data-i18n="mobile_nav_more">More</span>
+            </button>
+        </nav>
+        
         <!-- App Footer -->
         <footer class="app-footer">
             <div class="footer-left">
@@ -883,7 +935,7 @@
                 <span class="footer-sep">•</span>
                 <span><span data-i18n="footer_part_of">Part of</span> <strong>Code Elta6ur</strong></span>
                 <span class="footer-sep">•</span>
-                <span>Code Timer Tracker v2.0.4</span>
+                <span>Code Timer Tracker v2.1.0</span>
             </div>
             <div class="footer-right">
                 <a href="https://github.com/mokashreef/Code-Timer-Tracker" target="_blank" rel="noopener noreferrer" class="footer-link">
@@ -1179,10 +1231,64 @@
         </div>
     </div>
 
+    
+    <!-- MOBILE MORE SHEET MODAL -->
+    <div id="mobileMoreSheet" class="mobile-sheet-backdrop hidden" role="dialog" aria-modal="true">
+        <div class="mobile-sheet-dialog">
+            <div class="mobile-sheet-grabber"></div>
+            <div class="mobile-sheet-header">
+                <h3 class="mobile-sheet-title" data-i18n="mobile_more_title">Explore &amp; Tools</h3>
+                <button class="btn-close mobile-sheet-close" aria-label="Close dialog">&times;</button>
+            </div>
+            <div class="mobile-sheet-list">
+                <button class="sheet-menu-item" data-page="reports">
+                    <div class="sheet-item-icon bg-cyan"><i class="fas fa-chart-pie"></i></div>
+                    <div class="sheet-item-text">
+                        <span class="sheet-item-title" data-i18n="nav_reports">Analytics</span>
+                        <span class="sheet-item-sub" data-i18n="mobile_sheet_analytics_sub">Charts, focus trends &amp; rates</span>
+                    </div>
+                    <i class="fas fa-chevron-right sheet-arrow"></i>
+                </button>
+                <button class="sheet-menu-item" data-page="settings">
+                    <div class="sheet-item-icon bg-purple"><i class="fas fa-sliders"></i></div>
+                    <div class="sheet-item-text">
+                        <span class="sheet-item-title" data-i18n="nav_settings">Settings &amp; Backup</span>
+                        <span class="sheet-item-sub" data-i18n="mobile_sheet_settings_sub">Goals, sound &amp; data exports</span>
+                    </div>
+                    <i class="fas fa-chevron-right sheet-arrow"></i>
+                </button>
+                <button class="sheet-menu-item" data-page="about">
+                    <div class="sheet-item-icon bg-emerald"><i class="fas fa-circle-info"></i></div>
+                    <div class="sheet-item-text">
+                        <span class="sheet-item-title" data-i18n="nav_about">About</span>
+                        <span class="sheet-item-sub" data-i18n="mobile_sheet_about_sub">Architecture &amp; Code Elta6ur</span>
+                    </div>
+                    <i class="fas fa-chevron-right sheet-arrow"></i>
+                </button>
+                <button class="sheet-menu-item" id="mobSheetFocusBtn">
+                    <div class="sheet-item-icon bg-amber"><i class="fas fa-expand"></i></div>
+                    <div class="sheet-item-text">
+                        <span class="sheet-item-title" data-i18n="focus">Focus Mode</span>
+                        <span class="sheet-item-sub" data-i18n="mobile_sheet_focus_sub">Distraction-free timer</span>
+                    </div>
+                    <i class="fas fa-chevron-right sheet-arrow"></i>
+                </button>
+                <button class="sheet-menu-item" id="mobSheetManualBtn">
+                    <div class="sheet-item-icon bg-blue"><i class="fas fa-calendar-plus"></i></div>
+                    <div class="sheet-item-text">
+                        <span class="sheet-item-title" data-i18n="log_past_session">Log Past Session</span>
+                        <span class="sheet-item-sub" data-i18n="mobile_sheet_manual_sub">Add offline work interval</span>
+                    </div>
+                    <i class="fas fa-chevron-right sheet-arrow"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Notification Toast Container -->
     <div id="toastContainer" class="toast-container" aria-live="polite"></div>
 
-    <script src="script.js?v=2.0.5"></script>
+    <script src="script.js?v=2.1.0"></script>
 </body>
 
 </html>

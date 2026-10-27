@@ -324,7 +324,14 @@ const I18N = {
         confirm_delete_session_title: "Delete Session",
         confirm_delete_session_msg: "Are you sure you want to delete this session record? This cannot be undone.",
         confirm_reset_title: "Reset All Data",
-        confirm_reset_msg: "Are you sure you want to delete all stored projects and sessions? Make sure you have exported a backup."
+        confirm_reset_msg: "Are you sure you want to delete all stored projects and sessions? Make sure you have exported a backup.",
+        mobile_nav_more: "More",
+        mobile_more_title: "Explore & Tools",
+        mobile_sheet_analytics_sub: "Charts, focus trends & rates",
+        mobile_sheet_settings_sub: "Goals, sound & data exports",
+        mobile_sheet_about_sub: "Architecture & Code Elta6ur",
+        mobile_sheet_focus_sub: "Distraction-free timer",
+        mobile_sheet_manual_sub: "Add offline work interval",
     },
     ar: {
         app_title: "متتبع وقت البرمجة",
@@ -645,7 +652,14 @@ const I18N = {
         confirm_delete_session_title: "حذف الجلسة",
         confirm_delete_session_msg: "هل أنت متأكد من حذف سجل هذه الجلسة؟ لا يمكن التراجع عن هذا الإجراء.",
         confirm_reset_title: "إعادة تعيين كافة البيانات",
-        confirm_reset_msg: "هل أنت متأكد من حذف كافة المشاريع والجلسات المخزنة؟ تأكد من تصدير نسخة احتياطية أولاً."
+        confirm_reset_msg: "هل أنت متأكد من حذف كافة المشاريع والجلسات المخزنة؟ تأكد من تصدير نسخة احتياطية أولاً.",
+        mobile_nav_more: "المزيد",
+        mobile_more_title: "الأدوات والمزيد",
+        mobile_sheet_analytics_sub: "المخططات، معدلات التركيز والإنتاجية",
+        mobile_sheet_settings_sub: "الأهداف، الأصوات والنسخ الاحتياطي",
+        mobile_sheet_about_sub: "المعمارية ومنظومة كود التطور",
+        mobile_sheet_focus_sub: "مؤقت كامل بدون مشتتات",
+        mobile_sheet_manual_sub: "إضافة فترة عمل يدوياً",
     }
 };
 
@@ -912,6 +926,19 @@ class AppEngine {
 
     initDOMReferences() {
         this.dom = {
+            // Mobile Navigation & Floating Player
+            mobileNavBtns: document.querySelectorAll('.mobile-nav-btn'),
+            mobNavMoreBtn: document.getElementById('mobNavMoreBtn'),
+            mobileMoreSheet: document.getElementById('mobileMoreSheet'),
+            mobileFloatingTimer: document.getElementById('mobileFloatingTimer'),
+            mobTimerProject: document.getElementById('mobTimerProject'),
+            mobTimerTask: document.getElementById('mobTimerTask'),
+            mobTimerClock: document.getElementById('mobTimerClock'),
+            mobTimerPauseBtn: document.getElementById('mobTimerPauseBtn'),
+            mobTimerStopBtn: document.getElementById('mobTimerStopBtn'),
+            mobTimerActiveDot: document.getElementById('mobTimerActiveDot'),
+            mobileSessionsFeed: document.getElementById('mobileSessionsFeed'),
+
             app: document.getElementById('app'),
             themeToggle: document.getElementById('themeToggle'),
             langToggleBtn: document.getElementById('langToggleBtn'),
@@ -1043,7 +1070,22 @@ class AppEngine {
             focusExitBtn: document.getElementById('focusExitBtn'),
 
             // Toast
-            toastContainer: document.getElementById('toastContainer')
+            toastContainer: document.getElementById('toastContainer'),
+
+            // Dedicated Mobile Cockpit Elements
+            mobileBottomNav: document.querySelector('.mobile-bottom-nav'),
+            mobileNavBtns: document.querySelectorAll('.mobile-nav-btn'),
+            mobileFloatingTimer: document.getElementById('mobileFloatingTimer'),
+            mobTimerClock: document.getElementById('mobTimerClock'),
+            mobTimerProject: document.getElementById('mobTimerProject'),
+            mobTimerTask: document.getElementById('mobTimerTask'),
+            mobTimerPauseBtn: document.getElementById('mobTimerPauseBtn'),
+            mobTimerStopBtn: document.getElementById('mobTimerStopBtn'),
+            mobTimerActiveDot: document.getElementById('mobTimerActiveDot'),
+            mobNavMoreBtn: document.getElementById('mobNavMoreBtn'),
+            mobileMoreSheet: document.getElementById('mobileMoreSheet'),
+            mobileMoreCloseBtn: document.querySelector('.mobile-sheet-close'),
+            mobileSessionsFeed: document.getElementById('mobileSessionsFeed')
         };
     }
 
@@ -1335,6 +1377,56 @@ class AppEngine {
                 }
             }
         });
+
+        // Dedicated Mobile Bottom Navigation Tabs
+        this.dom.mobileNavBtns?.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const page = btn.getAttribute('data-page');
+                if (btn.id === 'mobNavMoreBtn') {
+                    this.toggleMobileMoreSheet();
+                } else if (page) {
+                    this.navigateTo(page);
+                }
+            });
+        });
+
+        // Dedicated Mobile Bottom Sheet Actions
+        document.querySelectorAll('.sheet-menu-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const page = item.getAttribute('data-page');
+                const action = item.getAttribute('data-action');
+                this.closeMobileMoreSheet();
+                if (item.id === 'mobSheetManualBtn' || action === 'manual') {
+                    this.openManualSessionModal();
+                } else if (item.id === 'mobSheetFocusBtn' || action === 'focus') {
+                    this.openFocusMode();
+                } else if (page) {
+                    this.navigateTo(page);
+                }
+            });
+        });
+
+        // Mobile Sheet Close Button & Backdrop Click
+        this.dom.mobileMoreCloseBtn?.addEventListener('click', () => this.closeMobileMoreSheet());
+        this.dom.mobileMoreSheet?.addEventListener('click', (e) => {
+            if (e.target === this.dom.mobileMoreSheet) {
+                this.closeMobileMoreSheet();
+            }
+        });
+
+        // Dedicated Mobile Floating Timer Controls
+        this.dom.mobTimerPauseBtn?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.togglePauseSession();
+        });
+        this.dom.mobTimerStopBtn?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.stopAndSaveSession();
+        });
+        this.dom.mobileFloatingTimer?.addEventListener('click', (e) => {
+            if (e.target.closest('button')) return;
+            this.navigateTo('timer');
+        });
     }
 
     applyTheme(theme) {
@@ -1443,7 +1535,21 @@ class AppEngine {
         this.showToast(toastMsg, 'info');
     }
 
-    navigateTo(pageId) {
+        openMobileMoreSheet() {
+        this.dom.mobileMoreSheet?.classList.remove('hidden');
+    }
+
+    closeMobileMoreSheet() {
+        this.dom.mobileMoreSheet?.classList.add('hidden');
+    }
+
+    toggleMobileMoreSheet() {
+        this.dom.mobileMoreSheet?.classList.toggle('hidden');
+    }
+
+    navigateTo(rawPageId) {
+        this.closeMobileMoreSheet();
+        const pageId = (rawPageId || 'dashboard').replace(/Page$/, '');
         this.currentPage = pageId;
         this.dom.pageViews.forEach(view => {
             view.classList.toggle('active', view.id === `${pageId}Page`);
@@ -1451,6 +1557,11 @@ class AppEngine {
         this.dom.navTabs.forEach(tab => {
             tab.classList.toggle('active', tab.getAttribute('data-page') === pageId);
         });
+        if (this.dom.mobileNavBtns) {
+            this.dom.mobileNavBtns.forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-page') === pageId);
+            });
+        }
 
         if (pageId === 'dashboard') this.renderDashboard();
         if (pageId === 'projects') this.renderProjects();
@@ -1634,6 +1745,7 @@ class AppEngine {
         if (this.dom.consoleMainClock) this.dom.consoleMainClock.textContent = formatted;
         if (this.dom.pillTimerDisplay) this.dom.pillTimerDisplay.textContent = formatted;
         if (this.dom.focusClock) this.dom.focusClock.textContent = formatted;
+        if (this.dom.mobTimerClock) this.dom.mobTimerClock.textContent = formatted;
 
         // Elapsed paused update
         const pausedMs = this.activeSession.pausedDuration +
@@ -1666,6 +1778,22 @@ class AppEngine {
         const isRunning = !!this.activeSession;
         const isPaused = isRunning && this.activeSession.paused;
         const isAr = this.state.settings?.language === 'ar';
+
+                // Mobile Floating Player & Nav Indicator
+        if (this.dom.mobileFloatingTimer) {
+            this.dom.mobileFloatingTimer.classList.toggle('hidden', !isRunning);
+            if (isRunning) {
+                const proj = this.state.projects.find(p => p.id === this.activeSession.projectId);
+                if (this.dom.mobTimerProject) this.dom.mobTimerProject.textContent = proj ? proj.name : this.t('general_work');
+                if (this.dom.mobTimerTask) this.dom.mobTimerTask.textContent = this.activeSession.taskTitle || this.t('general_coding');
+                if (this.dom.mobTimerPauseBtn) {
+                    this.dom.mobTimerPauseBtn.innerHTML = isPaused ? '<i class="fas fa-play"></i>' : '<i class="fas fa-pause"></i>';
+                }
+            }
+        }
+        if (this.dom.mobTimerActiveDot) {
+            this.dom.mobTimerActiveDot.classList.toggle('hidden', !isRunning);
+        }
 
         // Header Pill
         this.dom.headerTimerPill?.classList.toggle('hidden', !isRunning);
@@ -2461,6 +2589,14 @@ class AppEngine {
                     </td>
                 </tr>
             `;
+            if (this.dom.mobileSessionsFeed) {
+                this.dom.mobileSessionsFeed.innerHTML = `
+                    <div class="card" style="text-align: center; padding: 32px 16px; color: var(--text-muted);">
+                        <i class="fas fa-list-check" style="font-size: 28px; margin-bottom: 8px; display: block;"></i>
+                        ${this.t('no_sessions_match')}
+                    </div>
+                `;
+            }
             return;
         }
 
@@ -2508,6 +2644,49 @@ class AppEngine {
                 </tr>
             `;
         }).join('');
+
+        // Render Dedicated Mobile Sessions Feed (Cards Feed instead of Table on Mobile)
+        if (this.dom.mobileSessionsFeed) {
+            this.dom.mobileSessionsFeed.innerHTML = pagedSessions.map(s => {
+                const project = this.state.projects.find(p => p.id === s.projectId);
+                const projectName = project ? project.name : this.t('no_project');
+                const projectColor = project ? project.color : '#64748b';
+                const startObj = new Date(s.startTime);
+                const dateStr = startObj.toLocaleDateString();
+                const timeStr = startObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const tagsHtml = (s.tags || []).map(t => `<span class="tech-chip">${this.escapeHtml(t)}</span>`).join('');
+                const billableBadge = s.billable ?
+                    `<span class="badge-tag billable">$${(s.earned || 0).toFixed(2)}</span>` :
+                    `<span class="badge-tag">${isAr ? 'غير مدفوع' : 'Non-Billable'}</span>`;
+
+                return `
+                    <div class="mob-session-card">
+                        <div class="mob-card-header">
+                            <div class="mob-card-proj">
+                                <span class="mob-proj-dot" style="background: ${projectColor}"></span>
+                                <span>${this.escapeHtml(projectName)}</span>
+                            </div>
+                            <div class="mob-card-badges">${billableBadge}</div>
+                        </div>
+                        <div class="mob-card-task">${this.escapeHtml(s.taskTitle || this.t('general_coding'))}</div>
+                        <div class="mob-card-meta">
+                            <span class="mob-duration-pill font-mono">${this.formatDuration(s.duration)}</span>
+                            <span class="mob-datetime-sub">${dateStr} • ${timeStr}</span>
+                        </div>
+                        ${tagsHtml ? `<div class="mob-card-tags">${tagsHtml}</div>` : ''}
+                        ${s.notes ? `<div class="mob-card-notes">${this.escapeHtml(s.notes)}</div>` : ''}
+                        <div class="mob-card-footer">
+                            <button class="mob-icon-action" onclick="window.appEngine?.openEditSessionModal('${s.id}')">
+                                <i class="fas fa-pencil"></i> ${this.t('edit')}
+                            </button>
+                            <button class="mob-icon-action text-danger" onclick="window.appEngine?.deleteSession('${s.id}')">
+                                <i class="fas fa-trash"></i> ${this.t('delete')}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
     }
 
     // Dashboard Overview Rendering
